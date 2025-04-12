@@ -1,0 +1,487 @@
+#supplies_content {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+#layoutSidenav_content {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  width: auto !important;
+  height: auto !important;
+}
+
+/* Insert */
+.superadmin_search {
+  margin-left: 650px;
+}
+
+.card {
+  width: 1200px;
+  margin-left: 50px;
+}
+.card-header {
+  background-color: #e0f7fa;
+  color: #063e4f;
+}
+.text {
+  margin-left: 400px;
+  font-size: 40px;
+}
+#medicine_table,
+#equip_table {
+  width: 1150px;
+  margin-left: 20px;
+  font: 25px;
+  overflow-y: auto;
+  margin-top: 20px;
+}
+.medtext,
+.equiptext {
+  font-size: 25px;
+  margin-left: 490px;
+  color: #003356;
+}
+#searchInput {
+  width: 300px !important;
+  height: 40px !important;
+  margin-right: 8px !important;
+}
+.timestamp {
+  color: #063e4f;
+  margin-left: 53px !important;
+}
+
+th {
+  vertical-align: middle;
+  text-align: center;
+}
+
+.sort-button {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.sort-button i {
+  margin: 0 5px;
+}
+.fa-solid {
+  font-size: 5px;
+  color: #063e4f;
+  transition: color 0.3s ease-in-out;
+}
+
+.fa-solid:hover {
+  color: #e0f7fa;
+}
+
+.sort-button i {
+  margin: 0 5px;
+  font-size: 20px;
+}
+
+.active-sort i {
+  color: #063e4f;
+}
+.btn_add,
+.btn_view,
+.btn_update {
+  background-color: #063e4f;
+  color: #e0f7fa;
+  width: 100px;
+  height: 40px;
+  border-radius: 10px;
+}
+.edit-btn,
+.update-btn {
+  background-color: #063e4f;
+  color: #e0f7fa;
+  width: 65px;
+  height: 40px;
+  border-radius: 10px;
+}
+.edit-btn:hover,
+.update-btn:hover {
+  background-color: #e0f7fa;
+  color: #063e4f;
+  width: 65px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid #063e4f;
+}
+.btn_add:hover,
+.btn_view:hover,
+.btn_update:hover {
+  background-color: #063e4f;
+  color: #e0f7fa;
+  width: 100px;
+  height: 40px;
+  border-radius: 10px;
+}
+.btn_save {
+  background-color: #063e4f;
+  color: #e0f7fa;
+  width: 100px;
+  height: 40px;
+  border-radius: 10px;
+}
+
+.btn_save:hover {
+  background-color: #e0f7fa;
+  color: #063e4f;
+  width: 100px;
+  height: 40px;
+  border-radius: 10px;
+}
+#modal_close,
+#update_modal_close {
+  background-color: #e0f7fa;
+  color: #063e4f;
+  width: 100px;
+  height: 40px;
+  border-radius: 10px;
+}
+#modal_close:hover,
+#update_modal_close:hover {
+  background-color: #063e4f;
+  color: #e0f7fa;
+  width: 100px;
+  height: 40px;
+  border-radius: 10px;
+}
+.modal-header {
+  background-color: #063e4f;
+  color: #e0f7fa;
+  height: 80px;
+}
+
+.modal-dialog {
+  max-width: 480px;
+  width: 100%;
+}
+
+.form-floating {
+  width: 450px;
+}
+table tr {
+  border: none;
+}
+table td,
+table th {
+  border: none;
+}
+.show {
+  opacity: 1;
+  display: block;
+}
+#medicine_table thead th {
+  position: sticky;
+  top: 0;
+  background-color: #f8f9fa;
+  z-index: 1;
+}
+.admin {
+  width: 1250px;
+}
+#mytable {
+  border: 1px solid black;
+  border-collapse: collapse;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  overflow-x: hidden;
+}
+#stakeTable {
+  margin-left: 60px;
+  border: 1px solid #dee2e6;
+  border-collapse: collapse;
+  margin-bottom: 10px;
+  width: 1180px;
+}
+#myTable th,
+#myTable td,
+#stakeTable th,
+#stakeTable td {
+  border: 1px solid #dee2e6;
+}
+
+.approve-btn,
+.decline-btn {
+  background-color: #063e4f;
+  color: #e0f7fa;
+  width: 100px;
+  height: 35px;
+  border-radius: 10px;
+  margin-left: 25px;
+  margin-right: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.approve-btn:hover,
+.decline-btn:hover {
+  background-color: #e0f7fa;
+  color: #063e4f;
+  width: 100px;
+  height: 35px;
+  border-radius: 10px;
+}
+.table {
+  border: 2px solid black; /* Table border */
+}
+
+.table th,
+.table td {
+  border: 1px solid black; /* Cell borders */
+}
+#users_table {
+  width: 1150px;
+  margin-left: 30px;
+  margin-top: 20px;
+}
+.styled-table {
+  margin-left: 10px;
+  border: 1px solid black;
+  border-collapse: collapse;
+  margin-bottom: 10px;
+  width: 1180px;
+}
+
+.styled-table th,
+.styled-table td {
+  border: 1px solid black;
+  padding: 8px;
+  text-align: center;
+}
+
+/* Header styling */
+.styled-table th {
+  color: black;
+  padding: 10px;
+  border: 1px solid black;
+}
+
+/* Hover effect */
+.styled-table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+/* Table Header Styling */
+#users_table th {
+  background-color: #063e4f;
+  color: #e0f7fa;
+  text-align: center; /* Center the header text */
+  font-weight: bold; /* Make header text bold */
+  padding: 12px 10px; /* Add padding for better spacing */
+}
+
+/* Table Cell Styling */
+#users_table td {
+  text-align: center; /* Center the text in the table cells */
+  vertical-align: middle; /* Center the content vertically */
+  padding: 10px; /* Add padding for better spacing */
+}
+
+/* Dropdown Button Styling */
+#users_table .dropdown-toggle {
+  background-color: #063e4f;
+  color: #e0f7fa;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* Dropdown Filter Styling */
+#users_table .dropdown-filter {
+  display: none;
+  background-color: #e0f7fa;
+  color: #063e4f;
+  border-radius: 10px;
+  width: 150px;
+  padding: 5px;
+  margin-left: 70px;
+}
+
+/* Table Row Hover Effect */
+#users_table tr:hover {
+  background-color: #f1f1f1; /* Highlight row on hover */
+}
+
+/* Sortable Column Styling */
+#users_table .sortable {
+  cursor: pointer;
+}
+
+#users_table .sort-icon {
+  margin-left: 5px;
+  font-size: 12px;
+}
+
+#users_table .sortable.active-sort .sort-icon {
+  color: #063e4f;
+}
+
+/* Table Responsive for Smaller Screens */
+@media (max-width: 768px) {
+  #users_table {
+    font-size: 12px; /* Adjust font size for mobile */
+  }
+
+  #users_table th,
+  #users_table td {
+    padding: 8px; /* Reduce padding on mobile */
+  }
+}
+/* Modal styles */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding-top: 0;
+  display: flex;
+
+  justify-content: center; /* Horizontally center the modal */
+  align-items: center; /* Vertically center the modal */
+}
+
+/* Modal content styling */
+.modal-content {
+  margin-top: 200px;
+  background-color: #fefefe;
+  padding: 20px;
+  border: 1px solid #888;
+  border-radius: 10px;
+  width: 60%; /* Adjust to fit your design */
+  max-width: 800px; /* Set a max-width */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a soft shadow */
+  animation: fadeIn 0.3s ease-in-out; /* Optional: animation for smooth opening */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Modal header */
+.modal-header {
+  background-color: #063e4f;
+  color: #e0f7fa;
+  padding: 15px;
+  border-radius: 10px 10px 0 0; /* Rounded corners for header */
+  font-size: 20px;
+  text-align: center;
+}
+
+/* Close button styling */
+.close {
+  color: #aaa;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+}
+
+/* Modal footer button styling */
+.modal-footer .btn {
+  background-color: #063e4f;
+  color: #e0f7fa;
+  width: 120px;
+  border-radius: 10px;
+}
+
+.modal-footer .btn:hover {
+  background-color: #e0f7fa;
+  color: #063e4f;
+}
+
+/* Modal base styles */
+.modal {
+  display: none; /* Modal is hidden by default */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1050 !important; /* Ensure the modal is on top */
+  background-color: rgba(0, 0, 0, 0.5); /* Optional: background dimming */
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto; /* Allows vertical scrolling if modal content is tall */
+}
+
+/* Modal content */
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  width: 80%;
+  max-width: 500px;
+  margin: 0 auto;
+  z-index: 1051; /* Ensure modal content is above backdrop */
+}
+
+/* Close button within modal */
+.modal .btn-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+  color: #aaa;
+  cursor: pointer;
+}
+
+.modal .btn-close:hover {
+  color: black;
+}
+
+/* Remove backdrop for modal */
+.modal-backdrop {
+  z-index: 1040 !important; /* Ensures the backdrop stays behind the modal */
+  display: none !important; /* Ensure backdrop is hidden when modal is not shown */
+}
+
+/* Modal Dialog */
+.modal-dialog {
+  max-width: 800px; /* Adjust the max width as needed */
+}
+
+/* Form controls inside the modal */
+#form_update_medicine .form-control {
+  width: 100%; /* Ensure form fields take full available width */
+}
+
+/* Ensure modal fields stretch to fill */
+#update_quantity,
+#update_date_acquired {
+  max-width: 100%;
+}
+
+/* Optional: For mobile devices */
+@media (max-width: 767px) {
+  .modal-dialog {
+    width: 100%;
+    margin-top: 5vh;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

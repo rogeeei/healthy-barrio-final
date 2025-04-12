@@ -1,0 +1,314 @@
+/* 🌟 General Styles */
+body {
+  font-family: "Helvetica", sans-serif;
+  background-color: #ffffff;
+  color: #063e4f;
+}
+
+/* ✅ Sidebar */
+.dash_card {
+  background-color: white;
+  color: #063e4f;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 280px;
+  padding: 20px 15px;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+}
+
+/* ✅ Navigation Links */
+.sb-sidenav .nav-link {
+  color: #063e4f;
+  font-weight: 500;
+  padding: 10px 15px;
+  border-radius: 6px;
+}
+
+.sb-sidenav .nav-link:hover,
+.sb-sidenav .nav-link.active {
+  background: #063e4f;
+  color: white;
+}
+
+/* ✅ Dashboard Content */
+#dashboard_content {
+  margin-left: 230px;
+  padding: 20px;
+}
+
+/* ✅ Timestamp */
+.timestamp {
+  font-size: 14px;
+  color: #063e4f;
+}
+
+/* ✅ Cards Styling */
+.pop_card,
+.male_card,
+.female_card,
+.card {
+  background: linear-gradient(145deg, #fdfdfd, #ffffff);
+  border: 2px solid #063e4f;
+  border-radius: 15px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2),
+    -5px -5px 15px rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.25),
+    -8px -8px 20px rgba(255, 255, 255, 0.15);
+}
+
+.pop_card:hover,
+.male_card:hover,
+.female_card:hover,
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
+}
+.card {
+  gap: 500pxpx;
+}
+
+/* ✅ Fix Extra Space Below `.pop_card` */
+.pop_card {
+  margin-bottom: 0 !important;
+  padding-bottom: 10px !important;
+}
+
+/* ✅ Chart Styling */
+.chart-container {
+  height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  box-shadow: inset 3px 3px 10px rgba(0, 0, 0, 0.2),
+    inset -3px -3px 10px rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  background: #f0f0f0;
+}
+
+/* ✅ Button Styling */
+.btn-add {
+  background-color: #063e4f;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-add:hover {
+  background-color: #e0f7fa;
+  color: #063e4f;
+}
+
+/* ✅ Modal Styling */
+.modal-header {
+  background: #063e4f;
+  color: white;
+  border-bottom: none;
+}
+
+.modal-service-card {
+  background: white;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.modal-service-card:hover {
+  transform: scale(1.05);
+}
+
+/* ✅ Service Card Styling */
+.service-card {
+  position: relative;
+  background-color: #e0f7fa;
+  color: #063e4f;
+  width: 15rem;
+  height: 13rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid #063e4f;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.service-card h5 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #343a40;
+}
+
+.service-card p {
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin-top: 8px;
+}
+
+/* ✅ Modal Service Card Styles */
+.modal-service-card {
+  background-color: #fff;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+/* ✅ Hover Effect */
+.modal-service-card:hover {
+  background-color: #f8f9fa;
+  transform: scale(1.05);
+}
+
+/* ✅ Selected Service Highlight */
+.modal-service-card.selected {
+  border-color: #063e4f !important;
+  background-color: rgba(0, 123, 255, 0.1);
+}
+.card.services-card {
+  width: 1160px;
+}
+/* ✅ Fix Row Layout for 3 Cards Per Row */
+.service-card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+}
+
+.service-card-container .col-md-4 {
+  max-width: 33.3333%;
+  padding: 10px;
+}
+
+/* ✅ Make Cards Fill Full Column Width */
+.modal-service-card {
+  flex: 1;
+  min-width: 100%;
+}
+
+/* ✅ Icon Picker */
+.icon-picker-popup {
+  position: absolute;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  width: 350px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  display: none;
+  z-index: 100;
+}
+
+.icon-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+}
+
+.icon-option {
+  font-size: 1.5rem;
+  cursor: pointer;
+  text-align: center;
+  padding: 8px;
+  transition: transform 0.2s ease;
+}
+
+.icon-option:hover {
+  transform: scale(1.2);
+  background: #f8f9fa;
+  border-radius: 5px;
+}
+
+.row {
+  --bs-gutter-y: 0;
+}
+.plus_btn {
+  background-color: #063e4f;
+  color: #e0f7fa;
+  width: 100px;
+  height: 40px;
+  border-radius: 10px;
+  font-size: 25px;
+}
+/* ✅ Style the Services Container */
+#servicesContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Center the cards */
+  gap: 20px; /* Space between cards */
+  padding: 20px;
+}
+
+/* ✅ Service Card Styling */
+.service-card {
+  width: 15rem; /* Keep uniform size */
+  height: 15rem; /* Increase card height */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between; /* Push text to bottom */
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease-in-out;
+}
+
+/* ✅ Hover Effect */
+.service-card:hover {
+  transform: scale(1.05);
+}
+
+/* ✅ Make the Icon Bigger */
+.service-card i {
+  font-size: 8rem; /* Increase icon size */
+  flex-grow: 1; /* Allow icon to take up more space */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+}
+
+/* ✅ Style the Service Title */
+.service-card h5 {
+  margin-top: auto; /* Push text to bottom */
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 10px 0;
+  width: 100%;
+  background: rgba(
+    255,
+    255,
+    255,
+    0.8
+  ); /* Light background for better contrast */
+}

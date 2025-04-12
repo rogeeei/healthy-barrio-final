@@ -1,0 +1,131 @@
+/* Dashboard Styling */
+#layoutSidenav {
+  background-color: #ebeff3;
+}
+
+.dash_card {
+  background-color: #063e4f;
+  color: #e0f7fa;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 300px;
+  z-index: 1000;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  margin-left: 0;
+  padding-left: 0;
+}
+.dash_btn {
+  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+  background: white;
+  border-radius: 10px;
+  text-decoration: none;
+  color: inherit;
+  width: 200px;
+  margin-left: 50px;
+}
+#dashboard_content {
+  margin-left: 250px;
+  font-size: 30px;
+}
+.card.services-card {
+  background-color: white;
+  color: #063e4f;
+  width: 1200px;
+  box-shadow: #e0f7fa;
+}
+h5.card-title.service {
+  margin-left: 450px;
+  margin-top: 30px;
+  font-size: 30px;
+  width: 300px;
+}
+
+.timestamp {
+  color: #063e4f;
+}
+
+.service-card {
+  position: relative;
+  margin-left: 20px;
+  background-color: #e0f7fa;
+  color: #063e4f;
+  width: 15rem;
+  height: 13rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid #063e4f;
+}
+
+.service-card::before {
+  content: "\f5a0"; /* f3c5 */
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  font-size: 120px; /* Adjust size */
+  color: #063e4f;
+  margin-top: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.timestamp {
+  margin-top: 25px;
+  font-size: 14px;
+  color: #063e4f;
+  width: 250px;
+  margin-right: 500px;
+}
+#searchInput {
+  width: 300px;
+  height: 40px;
+  margin-right: 500px;
+  margin-top: 10px;
+  padding-top: 10px;
+  margin-left: 15px;
+}
+/* ✅ Province Card Styling */
+.services-card {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  padding: 20px;
+}
+
+/* ✅ Individual Province Cards */
+.province-card {
+  background: #f8f9fa; /* Light gray background */
+  border: 2px solid #063e4f; /* Blue border */
+  border-radius: 12px;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  padding: 15px;
+  width: 200px;
+}
+
+.province-card:hover {
+  background: #063e4f;
+  color: white;
+  transform: scale(1.05);
+}
+
+.province-card h6 {
+  font-weight: bold;
+  font-size: 18px;
+  margin: 0;
+}
+
+/* ✅ Ensure Equal Spacing Between Cards */
+#servicesContainer .col-md-4 {
+  padding: 10px;
+}

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Healthy Barrio | View Users</title>
+    <link rel="icon" type="image/x-icon" href="/assets/img/logo.png" />
+    <link href="css/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/custom.css" />
+    <script type="module" src="js/system/view_users.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css"
+      rel="stylesheet"
+    />
+    <script
+      src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
+      crossorigin="anonymous"
+    ></script>
+    <script type="module" src="js/system/admin_view_users.js"></script>
+  </head>
+  <body>
+    <div id="layoutSidenav">
+      <!-- Notification -->
+      <div id="successNotification" class="notification"></div>
+      <div id="errorNotification" class="notification"></div>
+
+      <div>
+        <main>
+          <!-- Vertical Card with Side Navigation -->
+          <div class="dash_card vertical-card side-nav-card">
+            <div class="card-body">
+              <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav ms-2" id="sidenavAccordion">
+                  <div id="barangay-container">
+                    <span class="bold-text"></span>
+                    <span id="barangay-name"></span>
+                    <!-- This will be updated dynamically -->
+                  </div>
+                  <div>
+                    <img
+                      src="assets/img/user1.png"
+                      height="100px"
+                      width="100px"
+                      alt=""
+                    />
+                    <div
+                      class="fw-bold ps-2 pt-2 fs-6 pb-3"
+                      id="user_logged"
+                    ></div>
+                    <span></span>
+                  </div>
+                  <div class="sb-sidenav-menu">
+                    <div class="nav">
+                      <a class="nav-link" href="dashboard.html">
+                        <div class="sb-nav-link-icon">
+                          <i class="fa-solid fa-table-columns"></i>
+                        </div>
+                        Dashboard
+                      </a>
+                      <div id="nav_admin_pages"></div>
+                      <a class="nav-link" href="citizen.html">
+                        <div class="sb-nav-link-icon">
+                          <i class="fa-solid fa-person"></i>
+                        </div>
+                        Citizens
+                      </a>
+                      <a class="nav-link" href="supplies.html">
+                        <div class="sb-nav-link-icon">
+                          <i class="fa-solid fa-suitcase-medical"></i>
+                        </div>
+                        Supplies
+                      </a>
+                      <!-- Logout link -->
+                      <div class="nav-item mt-auto">
+                        <button id="btn_logout" class="nav-link">
+                          <div class="sb-nav-link-icon ms-2 ps-1">
+                            <i class="fa-solid fa-sign-out-alt"></i>
+                          </div>
+                          Logout
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </nav>
+              </div>
+            </div>
+          </div>
+          <!-- End of Vertical Card with Side Navigation -->
+          <!-- Content -->
+          <div class="custom-container p-0">
+            <div class="row ms-5 ps-2 mb-4">
+              <div class="col-12 sticky-container">
+                <!-- Buttons and Search Bar (all in one row) -->
+                <div
+                  class="d-flex justify-content-start align-items-center mb-1 custom-right-align"
+                >
+                  <!-- Button Group (Admin, Users, Staakeholder) -->
+                  <div class="position-relative">
+                    <a href="dashboard.html" class="back">
+                      <img
+                        src="assets/img/back.png"
+                        height="30px"
+                        width="30px"
+                        alt="Back"
+                        class="mt-2 me-"
+                      />
+                    </a>
+                  </div>
+
+                  <div class="btn-group text-start ms-2">
+                    <button
+                      id="user_tab_button"
+                      class="equip_btn me-2 mt-3"
+                      type="button"
+                      onclick="showTable('users')"
+                    >
+                      Users
+                    </button>
+                    <button
+                      id="stakeholder_tab_button"
+                      class="equip_btn me-2 mt-3"
+                      type="button"
+                      onclick="showTable('stakeholders')"
+                    >
+                      Stakeholders
+                    </button>
+                  </div>
+
+                  <!-- Search Bar and Search Button aligned to the right -->
+                  <div class="d-flex align-items-center ms-auto me-5 pe-5">
+                    <input
+                      class="form-control ms-2"
+                      id="searchInput"
+                      placeholder="Search"
+                      aria-label="Search Supplies"
+                    />
+                    <button
+                      type="button"
+                      class="search_btn btn-sm ms-2"
+                      id="searchButton"
+                    >
+                      Search
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Table Section (Different row) -->
+              <div class="row mt-3 user_table">
+                <div class="col-12 mt-2 pt-2">
+                  <!-- Card for Medicine and Equipment Tables -->
+                  <div class="card user_card">
+                    <div class="card-header">
+                      <h5>Users Management</h5>
+                    </div>
+                    <div class="card-body">
+                      <!-- Users Table -->
+                      <div
+                        id="users_table"
+                        class="table-responsive d-none mt-0 mb-2"
+                        style="width: 100%"
+                      >
+                        <h3>Users</h3>
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th scope="col">ID</th>
+                              <th scope="col">First Name</th>
+                              <th scope="col">Last Name</th>
+                              <th scope="col">Middle Name</th>
+                              <th scope="col">Email</th>
+                              <th scope="col">Contact No.</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <!-- Add rows here -->
+                          </tbody>
+                        </table>
+                      </div>
+                      <!-- Stakeholders Table -->
+                      <div
+                        id="stakeholders_table"
+                        class="table-responsive d-none mt-0 mb-2"
+                        style="width: 100%"
+                      >
+                        <h3>Stakeholders</h3>
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th scope="col">Agency</th>
+                              <th scope="col">Purok</th>
+                              <th scope="col">Barangay</th>
+                              <th scope="col">Municipality</th>
+                              <th scope="col">Province</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <!-- Add rows here -->
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+    <script>
+      // Ensure that this function is defined before it is called in HTML elements
+      function showTable(type) {
+        if (type === "users") {
+          document.getElementById("admin_table").classList.add("d-none");
+          document.getElementById("users_table").classList.remove("d-none");
+          document.getElementById("stakeholders_table").classList.add("d-none");
+        } else if (type === "stakeholders") {
+          document.getElementById("admin_table").classList.add("d-none");
+          document.getElementById("users_table").classList.add("d-none");
+          document
+            .getElementById("stakeholders_table")
+            .classList.remove("d-none");
+        }
+      }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,440 @@
+.card {
+  color: #063e4f;
+  overflow: hidden;
+  margin-left: 200px;
+  gap: 15px;
+}
+.text {
+  margin-left: 500px;
+}
+.defo {
+  margin-top: 20px;
+  color: #063e4f;
+}
+.defo,
+.prof,
+.serv {
+  color: #063e4f;
+  margin-left: 200px;
+  gap: 15px;
+}
+.report {
+  font-weight: bolder;
+  margin-left: 540px;
+  font-size: 30px;
+}
+.serv {
+  width: 200px;
+}
+.profile_content {
+  background-color: #e0f7fa;
+  color: #063e4f;
+  height: 280px;
+  border-radius: 10px;
+  margin-left: 200px;
+}
+.detail-row {
+  margin-left: 10px;
+  font-weight: bold;
+  gap: 50px;
+  margin-bottom: 10px;
+}
+.prof {
+  color: #063e4f;
+  margin-left: 700px;
+  margin-top: 10px;
+}
+#transactionHistory {
+  margin-top: 50px;
+  margin-left: 200px;
+}
+.citizen-details {
+  margin-bottom: 80px;
+}
+#monthDropdown {
+  background-color: #063e4f;
+  color: #e0f7fa;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+#service-summary-header {
+  margin-left: 650px;
+}
+.services-summary-table {
+  margin-left: 6px;
+  margin-right: 70px;
+  width: 760px;
+}
+.card.description-card {
+  width: 450px;
+  margin-left: 10px;
+  height: auto;
+}
+table,
+thead {
+  background-color: #e0f7fa;
+  color: #063e4f;
+}
+.view {
+  color: #063e4f;
+  margin-left: 700px;
+  margin-top: 25px;
+}
+#barangay-name {
+  margin-bottom: 10px;
+  margin-top: 10px;
+  justify-content: center;
+  margin-left: 50px;
+}
+.detail-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 5px;
+  min-width: 250px;
+  margin-right: 150px;
+}
+.value-box {
+  background-color: #063e4f;
+  color: #e0f7fa;
+  height: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  text-align: center;
+  margin-bottom: 5px;
+  width: auto;
+  min-width: 150px;
+  padding: 0 10px;
+  word-wrap: break-word;
+  white-space: normal;
+}
+.citizen-details {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-right: 150px;
+}
+.col-md-4 {
+  display: flex;
+  flex-direction: column;
+}
+.label {
+  font-weight: bold;
+  flex: 1;
+  text-align: left;
+}
+.second,
+.third {
+  margin-left: -3px;
+}
+.card-gender .card-body p {
+  margin: 5px 0;
+  font-size: 1.2rem;
+}
+.card-age .card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  height: 100%;
+}
+.card-age .card-body .age-group {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.card-age .card-body .age-group span {
+  font-size: 1.2rem;
+}
+.chart-container {
+  width: 100%;
+  max-width: 300px;
+  height: 250px;
+  margin: 0 auto;
+}
+.card-custom .card {
+  width: 300px;
+  padding: 10px;
+  font-size: 0.85rem;
+  border-radius: 8px;
+  height: 450px;
+}
+#serviceCards {
+  width: 1000px;
+  min-height: 450px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-bottom: 50px;
+}
+#medicineSummary {
+  margin-top: 10px;
+  width: 1000px;
+}
+.med {
+  margin-bottom: 20px;
+}
+#agePieChart,
+#myChart,
+.medicineChart,
+#ageDistributionChart {
+  width: 100%;
+  max-height: 400px;
+  height: auto;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+#service-summary-header {
+  font-size: 30px;
+  margin-left: 50px;
+}
+.description-card {
+  font-size: 20px;
+}
+body {
+  font-family: Helvetica, sans-serif;
+}
+.pagination {
+  margin-left: 850px;
+}
+.icon {
+  font-size: 20px;
+  transition: none;
+}
+
+.icon:hover,
+.icon:active,
+.icon:focus {
+  font-size: 20px;
+}
+.pagination .btn {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none;
+  background: transparent;
+}
+
+.pagination .btn:focus,
+.pagination .btn:active {
+  outline: none !important;
+  box-shadow: none !important;
+}
+.scrollable-dropdown {
+  max-height: 200px;
+  overflow-y: auto;
+}
+.timestamp {
+  margin-top: 25px;
+  font-size: 14px;
+  color: #063e4f;
+  width: 250px;
+  margin-right: 500px;
+}
+/* ===== BMI Classification Cards ===== */
+.bmi-classification {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.bmi-card {
+  padding: 10px;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(128, 128, 128, 0.2); /* Gray shadow */
+  font-size: 0.9rem;
+  transition: transform 0.3s ease-in-out;
+}
+
+.bmi-card h6 {
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+}
+
+.bmi-card h3 {
+  font-weight: bold;
+  margin: 0;
+}
+
+/* Hover Effect */
+.bmi-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 10px rgba(128, 128, 128, 0.3);
+}
+
+/* Color Variations for BMI Categories */
+.bmi-card.underweight {
+  background-color: #f9ebea;
+  color: #c0392b;
+}
+
+.bmi-card.normal {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.bmi-card.overweight {
+  background-color: #fff3cd;
+  color: #ff9800;
+}
+
+.bmi-card.obese {
+  background-color: #fde2e2;
+  color: #d32f2f;
+}
+
+/* === Move Only the Left Column Closer to the Middle === */
+@media (min-width: 992px) {
+  /* Apply only on larger screens */
+  .left-column {
+    margin-left: auto; /* Pushes it closer to the right */
+    margin-right: -20px; /* Moves it towards the middle */
+  }
+}
+.age-group-list {
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  align-items: flex-start; /* Align text to the left */
+  gap: 5px; /* Space between items */
+  padding-left: 10px; /* Optional: Adjust left spacing */
+}
+
+.age-group-item {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: bold;
+
+  width: 100%; /* Ensures full width alignment */
+  text-align: left; /* Ensures text starts from the left */
+}
+.timestamp {
+  font-size: 18px;
+  color: #063e4f;
+  margin-left: 200px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+.card.bmi-summary {
+  margin-bottom: 20px;
+}
+.row {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.col-md-6 {
+  padding: 5px !important;
+}
+.card {
+  margin-bottom: 5px !important;
+  padding: 10px !important;
+}
+.pop_card,
+.male_card,
+.female_card {
+  padding: 10px !important;
+  margin-bottom: 5px !important;
+}
+.province {
+  font-size: 15px;
+}
+#municipality-name {
+  font-size: 25px;
+} /* ✅ General Card Styling */
+.pop_card,
+.male_card,
+.female_card,
+.card {
+  background: linear-gradient(145deg, #fdfdfd, #ffffff);
+  border: 2px solid #063e4f;
+  border-radius: 15px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2),
+    -5px -5px 15px rgba(255, 255, 255, 0.1);
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+/* ✅ Remove hover movement */
+.card:hover,
+.pop_card:hover,
+.male_card:hover,
+.female_card:hover {
+  transform: none;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* ✅ Fix Extra Space Below `.pop_card` */
+.pop_card {
+  margin-bottom: 0 !important;
+  padding-bottom: 10px !important;
+}
+
+/* ✅ Chart Styling */
+.chart-container,
+#ageDistributionChart {
+  height: 300px;
+  width: 100%; /* Ensures full width within the parent */
+  max-width: 700px; /* Adjust this to control the width */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  box-shadow: inset 10px 0px 15px rgba(0, 0, 0, 0.2),
+    inset -10px 0px 15px rgba(255, 255, 255, 0.05);
+  padding: 20px;
+  background: #f0f0f0;
+  margin: auto; /* Centers the container */
+}
+
+/* ✅ Button Styling */
+.btn-add {
+  background-color: #063e4f;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-add:hover {
+  background-color: #e0f7fa;
+  color: #063e4f;
+}
+.age-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.age-group-list {
+  flex: 1;
+  padding: 10px;
+}
+
+.age-group-item {
+  font-size: 16px;
+  padding: 5px 0;
+}
+
+#ageDistributionChart {
+  width: 500px !important; /* Adjust size */
+  height: 500px !important;
+  margin-left: 70px;
+}
+#barangayCards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.1rem;
+}
+
+#barangayCards .medicine-card {
+  flex: 1 1 calc(25% - 0.2rem); /* 4 cards per row */
+  min-width: 250px;
+}

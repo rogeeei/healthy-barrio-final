@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <title>Healthy Barrio | Stakeholder | Register</title>
+
+    <link rel="icon" type="image/x-icon" href="/assets/img/logo.png" />
+    <link href="css/styles.css" rel="stylesheet" />
+    <link href="css/register.css" rel="stylesheet" />
+    <script crossorigin="anonymous"></script>
+    <script type="module" src="js/auth/stakeholder_register.js"></script>
+  </head>
+  <body class="register" style="height: 100vh">
+    <div
+      id="successNotification"
+      class="notification success"
+      style="display: none"
+    ></div>
+
+    <div
+      id="layoutAuthentication"
+      class="d-flex justify-content-center align-items-center"
+      style="height: 100%"
+    >
+      <div id="layoutAuthentication_content" class="w-100">
+        <main>
+          <div
+            class="login d-flex justify-content-center align-items-center"
+            style="min-height: 100vh"
+          >
+            <div class="row justify-content-center w-100">
+              <div class="col-lg-6 col-md-8 col-sm-10">
+                <!-- Register Card -->
+                <div class="stake_card shadow-lg border-0 rounded-lg">
+                  <div class="card-header">
+                    <h3 class="text-center font-weight-light my-4">
+                      Create Account
+                    </h3>
+                  </div>
+                  <div class="card-body">
+                    <!-- Register Form -->
+                    <form id="form_stakeholder">
+                      <div class="row">
+                        <!-- Agency Name -->
+                        <div class="col-md-6 mb-3">
+                          <div class="form-floating">
+                            <input
+                              class="form-control"
+                              id="agency_name"
+                              type="text"
+                              name="agency_name"
+                              placeholder="Agency Name"
+                              required
+                            />
+                            <label for="agency_name">Agency Name</label>
+                          </div>
+                        </div>
+
+                        <!-- Barangay -->
+                        <div class="col-md-6 mb-3">
+                          <div class="form-floating">
+                            <input
+                              class="form-control"
+                              id="barangay"
+                              type="text"
+                              name="barangay"
+                              placeholder="Barangay"
+                              required
+                            />
+                            <label for="barangay">Barangay</label>
+                          </div>
+                        </div>
+
+                        <!-- Municipality -->
+                        <div class="col-md-6 mb-3">
+                          <div class="form-floating">
+                            <input
+                              class="form-control"
+                              id="municipality"
+                              name="municipality"
+                              type="text"
+                              placeholder="Municipality"
+                              required
+                            />
+                            <label for="municipality">Municipality</label>
+                          </div>
+                        </div>
+
+                        <!-- Province -->
+                        <div class="col-md-6 mb-3">
+                          <div class="form-floating">
+                            <input
+                              class="form-control"
+                              id="province"
+                              name="province"
+                              type="text"
+                              placeholder="Province"
+                              required
+                            />
+                            <label for="province">Province</label>
+                          </div>
+                        </div>
+
+                        <!-- Username -->
+                        <div class="col-md-6 mb-3">
+                          <div class="form-floating">
+                            <input
+                              class="form-control"
+                              id="username"
+                              type="text"
+                              name="username"
+                              placeholder="Username"
+                              required
+                            />
+                            <label for="username">Username</label>
+                          </div>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="col-md-6 mb-3">
+                          <div class="form-floating">
+                            <input
+                              class="form-control"
+                              id="password"
+                              name="password"
+                              type="password"
+                              placeholder="Password"
+                              required
+                            />
+                            <label for="password">Password</label>
+                          </div>
+                        </div>
+
+                        <!-- Confirm Password -->
+                        <div class="col-md-6 mb-3">
+                          <div class="form-floating">
+                            <input
+                              class="form-control"
+                              id="password_confirmation"
+                              name="password_confirmation"
+                              type="password"
+                              placeholder="Confirm Password"
+                              required
+                            />
+                            <label for="password_confirmation"
+                              >Confirm Password</label
+                            >
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="d-grid mt-4 mb-0">
+                        <button
+                          class="reg_btn btn align-items-center justify-content-center"
+                          type="submit"
+                        >
+                          Submit Request
+                        </button>
+                      </div>
+                    </form>
+                    <!-- End of Register Form -->
+                  </div>
+                  <div class="stake_card-footer text-center py-3">
+                    <div class="small">
+                      Have an account?
+                      <a href="stakeholder_login.html">Go to Login!</a>
+                    </div>
+                  </div>
+                </div>
+                <!-- End of Register Card -->
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

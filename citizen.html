@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <title>Healthy Barrio | Citizen</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/img/logo.png" />
+
+    <!-- Bootstrap CSS (Loaded Once) -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- FontAwesome -->
+    <script
+      src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Custom CSS -->
+    <link href="css/sidenav.css" rel="stylesheet" />
+    <link href="css/citizen.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="layoutSidenav">
+      <!-- Sidebar -->
+      <div class="dash_card vertical-card side-nav-card">
+        <div class="card-body">
+          <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav ms-2" id="sidenavAccordion">
+              <div id="barangay-container">
+                <span class="bold-text"></span>
+                <span id="barangay-name"></span>
+              </div>
+              <div>
+                <img
+                  src="assets/img/user1.png"
+                  height="100px"
+                  width="100px"
+                  alt=""
+                />
+                <div class="fw-bold ps-2 pt-2 fs-6 pb-3" id="user_logged"></div>
+              </div>
+              <div class="sb-sidenav-menu">
+                <div class="nav">
+                  <a class="nav-link" href="dashboard.html">
+                    <div class="sb-nav-link-icon">
+                      <i class="fa-solid fa-table-columns"></i>
+                    </div>
+                    Dashboard
+                  </a>
+                  <div id="nav_admin_pages"></div>
+                  <a class="nav-link active" href="citizen.html">
+                    <div class="sb-nav-link-icon">
+                      <i class="fa-solid fa-person"></i>
+                    </div>
+                    Citizens
+                  </a>
+                  <a class="nav-link active" href="supplies.html">
+                    <div class="sb-nav-link-icon">
+                      <i class="fa-solid fa-suitcase-medical"></i>
+                    </div>
+                    Supplies
+                  </a>
+                  <div class="nav-item mt-auto">
+                    <button id="btn_logout" class="nav-link">
+                      <div class="sb-nav-link-icon ms-2 ps-1">
+                        <i class="fa-solid fa-sign-out-alt"></i>
+                      </div>
+                      Logout
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </div>
+      <!-- End Sidebar -->
+
+      <!-- Notification -->
+      <div id="successNotification" class="notification"></div>
+      <div id="errorNotification" class="notification"></div>
+
+      <div id="citizen_content">
+        <main>
+          <div class="sticky-header">
+            <div class="container-fluid">
+              <!-- Add Citizen, Filter, and Search in One Row -->
+              <div
+                class="d-flex justify-content-between align-items-center flex-wrap"
+              >
+                <!-- Add Citizen Button -->
+
+                <button
+                  id="modal_show"
+                  type="button"
+                  class="citizen_btn"
+                  data-bs-toggle="modal"
+                  data-bs-target="#citizen_form_modal"
+                >
+                  Add Citizen
+                </button>
+                <!-- Sticky Header for Timestamp -->
+                <div class="row sticky-header">
+                  <div class="col-12 col-md-6">
+                    <h5 class="timestamp" id="currentTimestamp"></h5>
+                  </div>
+                </div>
+
+                <!-- Search Input  -->
+                <div class="align-items-between">
+                  <input
+                    class="form-control me-2"
+                    id="searchInput"
+                    placeholder="Search"
+                    aria-label="Search"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Table -->
+            <div class="row mt-5">
+              <table class="table citizen-table" id="citizen_table">
+                <thead>
+                  <tr class="citizen_row">
+                    <th scope="col">
+                      Last Name
+                      <button class="btn btn-link sort-button" data-order="asc">
+                        <i class="fa-solid fa-arrow-up"></i>
+                      </button>
+                      <button
+                        class="btn btn-link sort-button"
+                        data-order="desc"
+                      >
+                        <i class="fa-solid fa-arrow-down"></i>
+                      </button>
+                    </th>
+                    <th scope="col">
+                      First Name
+                      <button class="btn btn-link sort-button" data-order="asc">
+                        <i class="fa-solid fa-arrow-up"></i>
+                      </button>
+                      <button
+                        class="btn btn-link sort-button"
+                        data-order="desc"
+                      >
+                        <i class="fa-solid fa-arrow-down"></i>
+                      </button>
+                    </th>
+                    <th scope="col">
+                      Gender
+                      <button class="btn btn-link sort-button" data-order="asc">
+                        <i class="fa-solid fa-arrow-up"></i>
+                      </button>
+                      <button
+                        class="btn btn-link sort-button"
+                        data-order="desc"
+                      >
+                        <i class="fa-solid fa-arrow-down"></i>
+                      </button>
+                    </th>
+                    <th scope="col">
+                      Age
+                      <button class="btn btn-link sort-button" data-order="asc">
+                        <i class="fa-solid fa-arrow-up"></i>
+                      </button>
+                      <button
+                        class="btn btn-link sort-button"
+                        data-order="desc"
+                      >
+                        <i class="fa-solid fa-arrow-down"></i>
+                      </button>
+                    </th>
+                    <th scope="col">
+                      Purok
+                      <button class="btn btn-link sort-button" data-order="asc">
+                        <i class="fa-solid fa-arrow-up"></i>
+                      </button>
+                      <button
+                        class="btn btn-link sort-button"
+                        data-order="desc"
+                      >
+                        <i class="fa-solid fa-arrow-down"></i>
+                      </button>
+                    </th>
+
+                    <th scope="col" class="add">Add Transaction</th>
+                    <th scope="col" class="view">View</th>
+                    <th scope="col" class="edit">Edit</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Data rows will be added here -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div
+      class="modal"
+      id="citizen_form_modal"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title fs-5" id="staticBackdropLabel">
+              Citizen Details
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+
+          <!-- Form Citizen -->
+          <form id="form_citizen">
+            <!-- Modal Body -->
+            <div class="modal-body">
+              <input type="hidden" name="citizen_id" id="citizen_id" />
+
+              <!-- First Name and Middle Name -->
+              <div class="row mb-3">
+                <div class="col-sm-6 form-floating">
+                  <input
+                    class="form-control"
+                    type="text"
+                    name="firstname"
+                    id="firstname"
+                    required
+                  />
+                  <label for="firstname">First Name</label>
+                </div>
+                <div class="col-sm-6 form-floating">
+                  <input
+                    class="form-control"
+                    type="text"
+                    name="middle_name"
+                    id="middle_name"
+                  />
+                  <label for="middle_name">Middle Name</label>
+                </div>
+              </div>
+
+              <!-- Last Name and Suffix -->
+              <div class="row mb-3">
+                <div class="col-sm-6 form-floating">
+                  <input
+                    class="form-control"
+                    type="text"
+                    name="lastname"
+                    id="lastname"
+                    required
+                  />
+                  <label for="lastname">Last Name</label>
+                </div>
+                <div class="col-sm-6 form-floating">
+                  <input
+                    class="form-control"
+                    type="text"
+                    name="suffix"
+                    id="suffix"
+                  />
+                  <label for="suffix">Suffix</label>
+                </div>
+              </div>
+
+              <!-- Purok and Barangay -->
+              <div class="row mb-3">
+                <div class="col-sm-6 form-floating">
+                  <select class="form-select" name="purok" id="purok" required>
+                    <option value="" selected disabled>Select Purok</option>
+                    <!-- Purok options will be dynamically inserted here -->
+                  </select>
+                  <label for="purok">Purok</label>
+                </div>
+
+                <div class="col-sm-6 form-floating">
+                  <select
+                    class="form-select"
+                    id="barangay"
+                    name="barangay"
+                    required
+                  >
+                    <option value="" selected disabled>
+                      Search or Select Barangay
+                    </option>
+                    <!-- Barangay options will be dynamically inserted here -->
+                  </select>
+                  <label for="barangay">Barangay</label>
+                </div>
+              </div>
+
+              <!-- Birthdate and Gender -->
+              <div class="row mb-3">
+                <div class="col-sm-6 form-floating">
+                  <input
+                    class="form-control"
+                    id="date_of_birth"
+                    name="date_of_birth"
+                    type="date"
+                    required
+                  />
+                  <label for="date_of_birth">Birthdate</label>
+                </div>
+                <div class="col-sm-6 form-floating">
+                  <select
+                    class="form-select"
+                    id="gender"
+                    name="gender"
+                    required
+                  >
+                    <option value="" disabled selected></option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                  </select>
+                  <label for="gender">Gender</label>
+                </div>
+              </div>
+
+              <!-- Blood Type -->
+              <div class="row mb-3">
+                <div class="col-sm-6 form-floating">
+                  <select class="form-select" name="blood_type" id="blood_type">
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                    <option value="N/A">N/A</option>
+                  </select>
+                  <label for="blood_type">Blood Type</label>
+                </div>
+              </div>
+
+              <!-- Weight and Height -->
+              <div class="row mb-3">
+                <div class="col-sm-6 form-floating">
+                  <select
+                    class="form-select"
+                    name="weight"
+                    id="weight"
+                    required
+                  ></select>
+                  <label for="weight">Weight (kg)</label>
+                </div>
+                <div class="col-sm-6 form-floating">
+                  <select
+                    class="form-select"
+                    name="height"
+                    id="height"
+                    required
+                  ></select>
+                  <label for="height">Height (cm)</label>
+                </div>
+              </div>
+
+              <!-- Allergies and Medication -->
+              <div class="row mb-3">
+                <div class="col-sm-6 form-floating">
+                  <input
+                    class="form-control"
+                    type="text"
+                    name="allergies"
+                    id="allergies"
+                  />
+                  <label for="allergies">Allergies</label>
+                </div>
+                <div class="col-sm-6 form-floating">
+                  <input
+                    class="form-control"
+                    type="text"
+                    name="medication"
+                    id="medication"
+                  />
+                  <label for="medication">Medication</label>
+                </div>
+              </div>
+
+              <!-- Emergency Contact -->
+              <div class="row mb-3">
+                <div class="col-sm-6 form-floating">
+                  <input
+                    class="form-control"
+                    type="text"
+                    name="emergency_contact_name"
+                    id="emergency_contact_name"
+                    required
+                  />
+                  <label for="emergency_contact_name"
+                    >Emergency Contact Name</label
+                  >
+                </div>
+                <div class="col-sm-6 form-floating">
+                  <input
+                    class="form-control"
+                    type="text"
+                    name="emergency_contact_no"
+                    id="emergency_contact_no"
+                    required
+                  />
+                  <label for="emergency_contact_no"
+                    >Emergency Contact Number</label
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+              <button
+                id="modal_close"
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button
+                class="btn_save d-flex align-items-center justify-content-center"
+                type="submit"
+              >
+                Save
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- End Modal -->
+
+    <!-- Transaction Modal -->
+    <div
+      class="modal fade"
+      id="transactionModal"
+      tabindex="-1"
+      aria-labelledby="transactionModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered add_modal-dialog">
+        <div class="modal-content shadow-lg rounded-4">
+          <!-- Modal Header -->
+          <div class="modal-header add_modal-header">
+            <h5 class="modal-title" id="transactionModalLabel">
+              Add Transaction
+            </h5>
+          </div>
+
+          <!-- Transaction Form -->
+          <form id="transactionForm">
+            <div class="modal-body">
+              <!-- Hidden Citizen ID Field -->
+              <input type="hidden" id="citizen_id" name="citizen_id" />
+
+              <!-- Service Availed -->
+              <div class="mb-3 form-floating add_form-floating">
+                <select
+                  class="form-select"
+                  id="serviceAvailed"
+                  name="service_id"
+                >
+                  <option value="" selected disabled>Select a Service</option>
+                  <!-- Services will be dynamically populated here -->
+                </select>
+                <label for="serviceAvailed">Service Availed</label>
+              </div>
+
+              <!-- Blood Pressure -->
+              <div
+                class="mb-3 form-floating add_form-floating"
+                id="bloodPressureContainer"
+                style="display: none"
+              >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="blood_pressure"
+                  name="blood_pressure"
+                  placeholder="Blood Pressure"
+                />
+                <label for="blood_pressure">Blood Pressure</label>
+              </div>
+
+              <!-- Medicine Availed (Supports Multiple Selections) -->
+              <div class="mb-3">
+                <label>Medicine Availed</label>
+                <div id="medicineList">
+                  <div class="medicine-row d-flex align-items-center">
+                    <select class="form-select medicineAvailed">
+                      <option value="" selected disabled>
+                        Select Medicine
+                      </option>
+                      <!-- Medicine options will be dynamically populated -->
+                    </select>
+                    <input
+                      type="number"
+                      class="form-control medicineQuantity ms-2"
+                      min="1"
+                      value="1"
+                      placeholder="Quantity"
+                    />
+                    <input
+                      type="text"
+                      class="form-control medicineUnitInput ms-2"
+                      placeholder="Unit"
+                    />
+                    <button
+                      type="button"
+                      class="btn btn-danger ms-2 removeMedicine"
+                    >
+                      ❌
+                    </button>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  id="addMedicine"
+                  class="btn btn-sm btn-primary mt-2"
+                >
+                  + Add Medicine
+                </button>
+              </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="submit" class="btn_save">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- End of Transaction Modal -->
+
+    <script>
+      function updateTimestamp() {
+        const now = new Date();
+        const time = now.toLocaleTimeString();
+        const date = now.toLocaleDateString(undefined, {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+        document.getElementById(
+          "currentTimestamp"
+        ).textContent = `${date} ${time}`;
+      }
+      updateTimestamp();
+      setInterval(updateTimestamp, 1000);
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS (Placed Last) -->
+    <script type="module" src="js/system/citizen.js"></script>
+  </body>
+</html>

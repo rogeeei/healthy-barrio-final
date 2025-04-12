@@ -1,0 +1,193 @@
+/* Layout Styles */
+#layoutSidenav {
+  display: flex;
+  height: 100vh;
+}
+
+#layoutSidenav_nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 200px;
+  height: 100vh;
+  background-color: #063e4f;
+  z-index: 1000;
+  overflow-x: hidden;
+}
+
+/* Sidebar Card Styling */
+.dash_card.vertical-card.side-nav-card {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  background-color: #063e4f;
+  color: #e0f7fa;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  height: 100%;
+}
+
+/* Barangay Header */
+#barangay-container .bold-text {
+  font-weight: bold;
+}
+
+#barangay-name {
+  font-size: 18px;
+  font-weight: bold;
+  margin-left: 30px;
+}
+
+/* Profile Image */
+#layoutSidenav_nav img {
+  border-radius: 50%;
+  border: 3px solid #e0f7fa;
+  margin-left: 40px;
+  margin-top: 13px;
+}
+
+/* User Logged-in Name */
+#user_logged {
+  color: #e0f7fa;
+  font-weight: bold;
+  font-size: 16px;
+  text-align: center;
+  margin-top: 10px;
+  margin-right: 15px;
+}
+
+/* Sidebar Navigation */
+.sb-sidenav {
+  display: flex;
+  flex-direction: column;
+}
+
+.sb-sidenav-menu {
+  display: flex;
+  flex-direction: column;
+  padding-left: 0;
+  margin-top: 20px;
+}
+
+.sb-sidenav-menu .nav {
+  display: flex;
+  flex-direction: column;
+  padding-left: 0;
+  gap: 5px;
+}
+
+/* Sidebar Icons */
+.sb-nav-link-icon {
+  margin-right: 10px;
+  color: #e0f7fa;
+  width: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Navigation Links */
+.nav-link {
+  color: #e0f7fa !important;
+  font-size: 16px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  border-radius: 5px;
+  padding: 10px;
+  width: 100%;
+  cursor: pointer;
+  gap: 10px;
+}
+
+.sb-nav-link-icon.active {
+  background-color: #e0f7fa;
+  color: #063e4f !important;
+  font-weight: bold;
+}
+
+/* Active State */
+.nav-link.active {
+  background-color: #063e4f;
+  color: #e0f7fa !important;
+}
+
+/* Hover Effect */
+.nav-link:hover {
+  background-color: #e0f7fa !important;
+  color: #063e4f !important;
+}
+
+.nav-link:hover .sb-nav-link-icon {
+  color: #063e4f !important;
+}
+
+/* Logout Button */
+#btn_logout {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding: 10px;
+  width: 100%;
+  border: none;
+  background: none;
+  color: #e0f7fa;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  gap: 10px;
+}
+
+#btn_logout .sb-nav-link-icon {
+  font-size: 20px;
+  color: #e0f7fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+}
+
+#btn_logout:hover {
+  background-color: #e0f7fa;
+  color: #063e4f;
+}
+
+#btn_logout:hover .sb-nav-link-icon {
+  color: #063e4f;
+}
+
+/* Adjusting Content Margin */
+.content {
+  margin-left: 200px;
+  padding: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  #layoutSidenav {
+    flex-direction: column;
+  }
+
+  .dash_card.vertical-card.side-nav-card {
+    width: 100%;
+    height: auto;
+  }
+
+  .sb-sidenav {
+    width: 100%;
+  }
+
+  .content {
+    margin-left: 0;
+  }
+}
+
+/* Font Style */
+body {
+  font-family: "Helvetica";
+}

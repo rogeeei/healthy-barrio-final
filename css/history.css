@@ -1,0 +1,53 @@
+#history_content {
+  margin-left: 15px;
+  overflow-x: hidden;
+}
+
+.history_card {
+  width: 1300px;
+  margin-top: 50px;
+  margin-bottom: 20px;
+}
+.visit {
+  margin-left: 450px;
+  color: #063e4f;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.history_table {
+  width: 1200px;
+  margin-right: 20px;
+  color: #063e4f;
+  margin-left: 20px;
+  margin-right: 30px;
+  margin-bottom: 20px;
+}
+#monthDropdown {
+  margin-right: 30px;
+  background-color: #e0f7fa;
+  color: #063e4f;
+  border-radius: 5px;
+  width: 130px;
+  height: 30px;
+  border: #063e4f 1px solid;
+}
+#searchInput {
+  width: 300px;
+  height: 40px;
+  margin-right: 50px;
+}
+.timestamp {
+  color: #063e4f;
+  margin-left: 30px;
+}
+.scrollable-dropdown {
+  max-height: 200px;
+  overflow-y: auto;
+  background-color: #e0f7fa;
+  color: #063e4f;
+  width: 50px;
+  border: #063e4f 1px solid;
+}
+.dropdown-item:hover {
+  color: #063e4f;
+}

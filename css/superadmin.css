@@ -1,0 +1,90 @@
+#citizen_table {
+  background-color: #e0f7fa;
+  color: #063e4f;
+  width: 1200px;
+  overflow-x: hidden;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+#citizen_content {
+  margin-left: 60px;
+  width: 1450px;
+  overflow-x: hidden;
+}
+
+.citizen_btn {
+  background-color: #063e4f;
+  color: #e0f7fa;
+  width: 130px;
+  height: 40px;
+  border: #e0f7fa;
+  font-size: 15px;
+  margin-right: 420px;
+  margin-top: 40px;
+  border-radius: 10px;
+}
+
+.view_btn:hover {
+  background-color: #e0f7fa;
+  color: #063e4f;
+  width: 100px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid #063e4f;
+}
+
+.view_btn {
+  background-color: #063e4f;
+  color: #e0f7fa;
+  width: 100px;
+  height: 40px;
+  border-radius: 10px;
+}
+
+#searchInput {
+  width: 300px;
+  height: 40px;
+  margin-left: 700px; /* Decreased value to move it slightly right */
+  margin-top: 10px;
+  margin-right: 100px;
+}
+#pagination_controls {
+  margin-top: 20px;
+}
+.btn {
+  color: #063e4f;
+}
+.btn:hover {
+  color: #063e4f;
+}
+.buttons {
+  margin-top: 20px;
+}
+.sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: white;
+}
+
+.view_btn {
+  margin-left: 50px;
+}
+
+th.view {
+  padding-left: 90px;
+}
+th .sort-button {
+  background: none;
+  border: none;
+  padding: 0;
+  margin-left: 0;
+  color: #063e4f;
+}
+.th .sort-button:hover {
+  color: #063e4f;
+}
+th .sort-button:first-of-type {
+  margin-right: 0;
+}

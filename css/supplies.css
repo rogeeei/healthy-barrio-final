@@ -1,0 +1,134 @@
+/* Supplies Styling */
+
+#name {
+  width: 448px;
+}
+.timestamp {
+  margin-top: 20px;
+  margin-right: 300px;
+}
+#supplies_content {
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+.card {
+  width: 1200px;
+  margin-left: 50px;
+}
+.card-header {
+  background-color: #e0f7fa;
+  color: #063e4f;
+}
+.text {
+  margin-left: 400px;
+  font-size: 40px;
+}
+.sup_table {
+  margin-left: 50px;
+  width: 1300px;
+}
+.med,
+.equip,
+.timestamp {
+  font-size: 14px;
+  color: #063e4f;
+}
+.buttons {
+  margin-left: 650px;
+}
+.btn_add,
+.btn_view,
+.btn_update {
+  background-color: #063e4f;
+  color: #e0f7fa;
+  width: 100px;
+  height: 40px;
+  border-radius: 10px;
+}
+
+.btn_add:hover,
+.btn_view:hover,
+.btn_update:hover {
+  background-color: #e0f7fa;
+  color: #063e4f;
+  width: 100px;
+  height: 40px;
+  border-radius: 10px;
+}
+.btn_save {
+  background-color: #063e4f;
+  color: #e0f7fa;
+  width: 100px;
+  height: 40px;
+  border-radius: 10px;
+}
+.buttons {
+  margin-left: 780px;
+}
+.btn_save:hover {
+  background-color: #e0f7fa;
+  color: #063e4f;
+  width: 100px;
+  height: 40px;
+  border-radius: 10px;
+}
+#modal_close,
+#update_modal_close {
+  background-color: #e0f7fa;
+  color: #063e4f;
+  width: 100px;
+  height: 40px;
+  border-radius: 10px;
+}
+#modal_close:hover,
+#update_modal_close:hover {
+  background-color: #063e4f;
+  color: #e0f7fa;
+  width: 100px;
+  height: 40px;
+  border-radius: 10px;
+}
+.modal-header {
+  background-color: #063e4f;
+  color: #e0f7fa;
+  height: 80px;
+}
+
+.modal-dialog {
+  max-width: 480px;
+  width: 100%;
+}
+
+.form-floating {
+  width: 450px;
+}
+table tr {
+  border: none;
+}
+table td,
+table th {
+  border: none;
+}
+.show {
+  opacity: 1;
+  display: block;
+}
+/* Notification */
+#successNotification,
+#errorNotification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  display: none;
+}
+
+#errorNotification {
+  background-color: #f44336;
+}

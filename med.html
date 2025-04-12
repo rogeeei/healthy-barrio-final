@@ -281,6 +281,56 @@
         </main>
       </div>
     </div>
+    <!-- Medicine Details Modal -->
+    <div
+      class="modal fade"
+      id="medicineModal"
+      tabindex="-1"
+      aria-labelledby="medicineModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="medicineModalLabel">
+              Medicine Details
+            </h5>
+          </div>
+          <div class="modal-body">
+            <p><strong>ID:</strong> <span id="medicine_id"></span></p>
+            <p><strong>Name:</strong> <span id="medicine_name"></span></p>
+            <p>
+              <strong>Usage Description:</strong>
+              <span id="medicine_usage_description"></span>
+            </p>
+            <p><strong>Unit:</strong> <span id="medicine_unit"></span></p>
+            <p>
+              <strong>Quantity:</strong> <span id="medicine_quantity"></span>
+            </p>
+            <p><strong>Status:</strong> <span id="medicine_status"></span></p>
+            <p>
+              <strong>Expiration Date:</strong>
+              <span id="medicine_expiration_date"></span>
+            </p>
+            <p>
+              <strong>Date Acquired:</strong>
+              <span id="medicine_date_acquired"></span>
+            </p>
+          </div>
+          <div class="modal-footer">
+            <!-- Close button inside the footer -->
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <script>
       function updateTimestamp() {

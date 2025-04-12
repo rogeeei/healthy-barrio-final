@@ -64,7 +64,7 @@ async function getMedicine(query = "") {
         let tableContent = json
           .map(
             (medicine) => `  
-        <tr>
+        <tr data-id="${medicine.medicine_id}">
           <td>${medicine.medicine_id}</td>
           <td>${medicine.name}</td>
           <td>${medicine.quantity}</td>
@@ -80,6 +80,15 @@ async function getMedicine(query = "") {
           .join("");
 
         tableBody.innerHTML = tableContent;
+
+        // Attach event listeners for each row to show details modal
+        const rows = document.querySelectorAll("#medicine_table tbody tr");
+        rows.forEach((row) => {
+          row.addEventListener("click", (event) => {
+            const medicineId = row.getAttribute("data-id");
+            showMedicineDetailsModal(medicineId); // Show the medicine details modal
+          });
+        });
 
         // Attach event listeners for each update button
         const updateButtons = document.querySelectorAll(".update-btn");
@@ -102,6 +111,52 @@ async function getMedicine(query = "") {
     tableBody.innerHTML = '<tr><td colspan="8">Error loading data.</td></tr>';
     errorNotification("An error occurred: " + error.message);
   }
+}
+
+// Function to show the Medicine Details Modal
+function showMedicineDetailsModal(medicineId) {
+  const modalElement = document.getElementById("medicineModal");
+
+  // Initialize the Bootstrap modal
+  const medicineModal = new bootstrap.Modal(modalElement);
+
+  // Fetch medicine details based on medicineId
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    console.error("Token is missing or invalid.");
+    return;
+  }
+
+  fetch(`${backendURL}/api/medicine/${medicineId}`, {
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((response) => response.json())
+    .then((medicine) => {
+      // Populate modal fields with fetched data
+      document.getElementById("medicine_id").textContent = medicine.medicine_id;
+      document.getElementById("medicine_name").textContent = medicine.name;
+      document.getElementById("medicine_usage_description").textContent =
+        medicine.usage_description;
+      document.getElementById("medicine_unit").textContent = medicine.unit;
+      document.getElementById("medicine_quantity").textContent =
+        medicine.quantity;
+      document.getElementById("medicine_status").textContent =
+        medicine.medicine_status;
+      document.getElementById("medicine_expiration_date").textContent =
+        medicine.expiration_date;
+      document.getElementById("medicine_date_acquired").textContent =
+        medicine.date_acquired;
+
+      // Show the modal
+      medicineModal.show();
+    })
+    .catch((error) => {
+      console.error("Error fetching medicine details:", error);
+    });
 }
 
 // Sorting functionality
@@ -331,48 +386,3 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
-
-// Function to show the Medicine Details Modal
-function showMedicineDetailsModal(medicineId) {
-  const modalElement = document.getElementById("medicineModal");
-
-  // Initialize the Bootstrap modal
-  const medicineModal = new bootstrap.Modal(modalElement);
-
-  // Fetch medicine details based on medicineId (you can adjust this as needed for your backend)
-  const token = localStorage.getItem("token");
-
-  if (!token) {
-    console.error("Token is missing or invalid.");
-    return;
-  }
-
-  fetch(`${backendURL}/api/medicine/${medicineId}`, {
-    headers: {
-      Accept: "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  })
-    .then((response) => response.json())
-    .then((medicine) => {
-      // Populate modal fields with fetched data
-      document.getElementById("medicine_id").textContent = medicine.medicine_id;
-      document.getElementById("medicine_name").textContent = medicine.name;
-      document.getElementById("medicine_usage_description").textContent =
-        medicine.usage_description;
-      document.getElementById("medicine_unit").textContent = medicine.unit;
-      document.getElementById("medicine_quantity").textContent =
-        medicine.quantity;
-      document.getElementById("medicine_status").textContent = medicine.status;
-      document.getElementById("medicine_expiration_date").textContent =
-        medicine.expiration_date;
-      document.getElementById("medicine_date_acquired").textContent =
-        medicine.date_acquired;
-
-      // Show the modal
-      medicineModal.show();
-    })
-    .catch((error) => {
-      console.error("Error fetching medicine details:", error);
-    });
-}

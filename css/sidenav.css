@@ -191,3 +191,9 @@
 body {
   font-family: "Helvetica";
 }
+#barangay-name-container {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  width: 100%; /* Make sure it uses the full width of the parent */
+}

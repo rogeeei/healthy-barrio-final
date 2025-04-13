@@ -33,7 +33,6 @@ document.getElementById("form_stakeholder").onsubmit = async (e) => {
     });
 
     const json = await response.json(); // Parse the response as JSON
-    console.log("Response JSON:", json); // Debugging response
 
     if (response.ok) {
       const token = json.data?.token;
@@ -54,7 +53,6 @@ document.getElementById("form_stakeholder").onsubmit = async (e) => {
         errorNotification("Login failed. Invalid response from server.");
       }
     } else {
-      // Handle specific error messages from the backend
       errorNotification(json.message || "An error occurred during login.");
     }
   } catch (error) {

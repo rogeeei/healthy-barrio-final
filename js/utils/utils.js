@@ -275,7 +275,7 @@ async function fetchUserDetails() {
   const token = localStorage.getItem("token");
 
   if (!token) {
-    errorNotification("User is not authenticated.");
+    console.error("User is not authenticated.");
     return;
   }
 
@@ -332,7 +332,16 @@ function updateSideNav(userData) {
   // Update the barangay address
   const barangayName = document.getElementById("barangay-name");
   if (barangayName && userData.barangay) {
-    barangayName.innerHTML = `<strong> ${userData.barangay}</strong>`;
+    barangayName.innerHTML = `<strong>${userData.barangay}</strong>`;
+
+    // Apply styles for centering the text
+    barangayName.style.display = "flex";
+    barangayName.style.justifyContent = "center"; // Horizontally center the text
+    barangayName.style.alignItems = "center"; // Vertically center the text (if there's enough space)
+
+    // Ensure that the text container adjusts to the text length
+    barangayName.style.width = "auto"; // The width will now adjust based on text length
+    barangayName.style.margin = "0 auto"; // Horizontally center the container itself
   }
 
   // Update the user name (first name + last name)

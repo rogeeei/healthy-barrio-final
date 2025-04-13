@@ -85,8 +85,11 @@ async function getMedicine(query = "") {
         const rows = document.querySelectorAll("#medicine_table tbody tr");
         rows.forEach((row) => {
           row.addEventListener("click", (event) => {
-            const medicineId = row.getAttribute("data-id");
-            showMedicineDetailsModal(medicineId); // Show the medicine details modal
+            // Only trigger the details modal if the click isn't on the update button
+            if (!event.target.classList.contains("update-btn")) {
+              const medicineId = row.getAttribute("data-id");
+              showMedicineDetailsModal(medicineId); // Show the medicine details modal
+            }
           });
         });
 
@@ -94,6 +97,7 @@ async function getMedicine(query = "") {
         const updateButtons = document.querySelectorAll(".update-btn");
         updateButtons.forEach((button) => {
           button.addEventListener("click", (event) => {
+            event.stopPropagation(); // Prevent row click from triggering
             const medicineId = event.target.getAttribute("data-id");
             showModal(medicineId); // This shows the update modal
           });

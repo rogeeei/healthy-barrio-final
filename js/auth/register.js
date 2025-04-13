@@ -45,15 +45,15 @@ form_register.onsubmit = async (e) => {
         window.location.href = "/login.html";
       }, 2000);
     } else if (response.status === 422) {
-      console.error("Validation errors:", json.errors);
-      console.error(json.message || "Validation error occurred.", 100);
+      errorNotification("Validation errors:", json.errors);
+      errorNotification(json.message || "Validation error occurred.", 100);
     } else {
-      console.error("Unexpected error:", json);
-      console.error("An unexpected error occurred. Please try again.", 5);
+      errorNotification("Unexpected error:", json);
+      errorNotification("An unexpected error occurred. Please try again.", 20);
     }
   } catch (error) {
-    console.error("Fetch error:", error);
-    console.error("Network error: " + error.message, 5);
+    errorNotification("Fetch error:", error);
+    errorNotification("Network error: " + error.message, 20);
   } finally {
     // Re-enable Submit Button
     submitButton.disabled = false;

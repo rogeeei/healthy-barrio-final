@@ -6,13 +6,28 @@ import {
 } from "../utils/utils.js";
 
 showNavAdminPages();
+
 // Logout Button
 const btn_logout = document.getElementById("btn_logout");
 if (btn_logout) {
   btn_logout.addEventListener("click", logout);
 }
+
+let allEquipmentData = []; // Global storage for filterable data
+
 document.addEventListener("DOMContentLoaded", async () => {
-  fetchEquipmentReports();
+  await fetchEquipmentReports();
+
+  // Event listeners for dropdown filters
+  document
+    .getElementById("barangayFilter")
+    .addEventListener("change", applyFilters);
+  document
+    .getElementById("municipalityFilter")
+    .addEventListener("change", applyFilters);
+  document
+    .getElementById("provinceFilter")
+    .addEventListener("change", applyFilters);
 });
 
 /** Fetch and Display Equipment Reports by Barangay */
@@ -30,103 +45,98 @@ async function fetchEquipmentReports() {
     }
 
     const data = await response.json();
-    displayEquipmentReports(data);
+    allEquipmentData = data;
+
+    populateDropdownFilters(data); // Populate filters
+    displayEquipmentReports(data); // Display full table
   } catch (error) {
     console.error("Error fetching equipment reports:", error);
     errorNotification("Failed to load equipment data.");
   }
 }
 
-/** Display Equipment Reports */
+/** Display Equipment Reports in a Table */
 function displayEquipmentReports(data) {
-  const barangayCardsContainer = document.getElementById(
-    "barangayEquipmentCards"
-  );
-  barangayCardsContainer.innerHTML = ""; // Clear previous content
+  const tbody = document.querySelector("#equipmentTable tbody");
+  tbody.innerHTML = ""; // Clear previous rows
 
-  if (!data || !Array.isArray(data)) {
-    console.warn("Invalid equipment data received.");
+  if (!data || !Array.isArray(data) || data.length === 0) {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td colspan="6" style="text-align: center; color: gray; font-style: italic;">
+        No data available.
+      </td>
+    `;
+    tbody.appendChild(row);
     return;
   }
 
   data.forEach((barangayData) => {
-    const { barangay, equipment } = barangayData;
-    const cardId = `equipmentChart-${barangay}`;
+    const { barangay, municipality, province, equipment } = barangayData;
 
-    // Create Barangay Card
-    const card = document.createElement("div");
-    card.classList.add("col-md-4", "mb-3");
-    card.innerHTML = `
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title text-center fw-bold">${barangay}</h5>
-          <div class="chart-container">
-            <canvas id="${cardId}" class="equipment-chart"></canvas>
-          </div>
-        </div>
-      </div>
-    `;
+    equipment.forEach((equip) => {
+      const row = document.createElement("tr");
 
-    barangayCardsContainer.appendChild(card);
-    renderEquipmentChart(cardId, equipment);
+      row.innerHTML = `
+        <td style="text-align: center">${equip.name}</td>
+        <td style="text-align: center">${equip.total_quantity}</td>
+        <td style="text-align: center">${barangay}</td>
+        <td style="text-align: center">${municipality}</td>
+        <td style="text-align: center">${province}</td>
+      `;
+
+      tbody.appendChild(row);
+    });
   });
 }
 
-/** Render Equipment Chart */
-function renderEquipmentChart(canvasId, equipment) {
-  const ctx = document.getElementById(canvasId);
+/** Populate filter dropdowns */
+function populateDropdownFilters(data) {
+  const barangaySet = new Set();
+  const municipalitySet = new Set();
+  const provinceSet = new Set();
 
-  if (!ctx) {
-    console.warn(`Canvas with ID ${canvasId} not found.`);
-    return;
-  }
-
-  if (!equipment || equipment.length === 0) {
-    console.warn(`No equipment data available for ${canvasId}`);
-    ctx.textContent = "No data available";
-    return;
-  }
-
-  const labels = equipment.map((equip) => equip.name);
-  const dataValues = equipment.map((equip) => equip.total_quantity);
-
-  const backgroundColors = [
-    "#0056b3",
-    "#003f7f",
-    "#006eff",
-    "#0099ff",
-    "#00b3ff",
-    "#00ccff",
-    "#00e6ff",
-    "#005ea1",
-  ];
-
-  new Chart(ctx, {
-    type: "pie",
-    data: {
-      labels: labels,
-      datasets: [
-        {
-          label: "Quantity",
-          data: dataValues,
-          backgroundColor: backgroundColors,
-          hoverOffset: 10,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { position: "bottom" },
-        tooltip: {
-          callbacks: {
-            label: (tooltipItem) =>
-              `${labels[tooltipItem.dataIndex]}: ${
-                dataValues[tooltipItem.dataIndex]
-              }`,
-          },
-        },
-      },
-    },
+  data.forEach((item) => {
+    barangaySet.add(item.barangay);
+    municipalitySet.add(item.municipality);
+    provinceSet.add(item.province);
   });
+
+  fillDropdown("barangayFilter", Array.from(barangaySet));
+  fillDropdown("municipalityFilter", Array.from(municipalitySet));
+  fillDropdown("provinceFilter", Array.from(provinceSet));
+}
+
+/** Fill a dropdown with sorted values */
+function fillDropdown(dropdownId, values) {
+  const select = document.getElementById(dropdownId);
+  select.innerHTML = '<option value="">All</option>';
+
+  values.sort().forEach((value) => {
+    const option = document.createElement("option");
+    option.value = value;
+    option.textContent = value;
+    select.appendChild(option);
+  });
+}
+
+/** Apply filters */
+function applyFilters() {
+  const selectedBarangay = document.getElementById("barangayFilter").value;
+  const selectedMunicipality =
+    document.getElementById("municipalityFilter").value;
+  const selectedProvince = document.getElementById("provinceFilter").value;
+
+  const filteredData = allEquipmentData.filter((item) => {
+    const matchBarangay =
+      selectedBarangay === "" || item.barangay === selectedBarangay;
+    const matchMunicipality =
+      selectedMunicipality === "" || item.municipality === selectedMunicipality;
+    const matchProvince =
+      selectedProvince === "" || item.province === selectedProvince;
+
+    return matchBarangay && matchMunicipality && matchProvince;
+  });
+
+  displayEquipmentReports(filteredData);
 }

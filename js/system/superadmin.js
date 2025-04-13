@@ -89,7 +89,7 @@ function removeUserRow(userId) {
 
 function approveUser(userId) {
   const token = localStorage.getItem("token");
-  const url = `${backendURL}/api/user/${userId}/approve`;
+  const url = `${backendURL}/api/users/${userId}/approve`;
 
   fetch(url, {
     method: "PATCH",

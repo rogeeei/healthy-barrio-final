@@ -90,13 +90,54 @@
       <!-- End of Vertical Card with Side Navigation -->
       <!-- Header Row -->
       <div class="back">
-        <h5 class="report">Medicine by Barangay</h5>
+        <h5 class="report">Medicine Monitoring</h5>
       </div>
 
-      <!-- Barangay Medicine Reports -->
-      <div class="content_service mt-3 w-100">
-        <div class="row" id="barangayCards">
-          <!-- Barangay Cards will be dynamically inserted here -->
+      <!-- Table for Medicine Report -->
+      <div class="content_service mt-3 w-90" style="margin-left: 200px">
+        <div class="table-responsive">
+          <table class="table table-bordered" id="medicineTable">
+            <thead style="background-color: #063e4f">
+              <tr>
+                <th style="color: white; text-align: center">Medicine Name</th>
+                <th style="color: white; text-align: center">Quantity</th>
+                <th style="color: white; text-align: center">Unit</th>
+                <th style="color: white; text-align: center">
+                  Barangay
+                  <br />
+                  <select
+                    id="barangayFilter"
+                    class="form-select form-select-sm mt-1"
+                  >
+                    <option value="">All</option>
+                  </select>
+                </th>
+                <th style="color: white; text-align: center">
+                  Municipality
+                  <br />
+                  <select
+                    id="municipalityFilter"
+                    class="form-select form-select-sm mt-1"
+                  >
+                    <option value="">All</option>
+                  </select>
+                </th>
+                <th style="color: white; text-align: center">
+                  Province
+                  <br />
+                  <select
+                    id="provinceFilter"
+                    class="form-select form-select-sm mt-1"
+                  >
+                    <option value="">All</option>
+                  </select>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Medicine data rows will be dynamically populated here -->
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -109,16 +150,5 @@
       crossorigin="anonymous"
     ></script>
     <script type="module" src="js/system/superadmin_med.js"></script>
-    <script>
-      document.getElementById("backButton").addEventListener("click", (e) => {
-        e.preventDefault(); // Prevent default link action
-        const userRole = localStorage.getItem("role"); // Get user role
-        if (userRole === "super_admin") {
-          window.location.href = "superadmin_supplies.html";
-        } else {
-          window.location.href = "supplies.html";
-        }
-      });
-    </script>
   </body>
 </html>

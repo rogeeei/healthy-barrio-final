@@ -54,11 +54,11 @@ async function getUsers(query = "", sortBy = "user_id", order = "asc") {
   }
 }
 
-function renderTable() {
+function renderTable(users = usersData) {
   const tableBody = document.querySelector("#users_table tbody");
 
-  tableBody.innerHTML = usersData.length
-    ? usersData
+  tableBody.innerHTML = users.length
+    ? users
         .map(
           (user) => `
       <tr class="user-row" data-id="${user.user_id}">
@@ -121,6 +121,9 @@ window.addEventListener("click", (event) => {
 document.addEventListener("DOMContentLoaded", () => {
   getUsers();
 });
+document.getElementById("modalClose").addEventListener("click", () => {
+  document.getElementById("userModal").style.display = "none";
+});
 
 function populateFilters(users) {
   const barangayFilter = document.getElementById("barangayFilter");
@@ -172,7 +175,6 @@ document.querySelectorAll(".sortable").forEach((header) => {
 document.querySelectorAll(".dropdown-filter").forEach((select) => {
   select.addEventListener("change", filterTable);
 });
-
 function filterTable() {
   const searchValue = document
     .getElementById("searchInput")
@@ -187,37 +189,37 @@ function filterTable() {
     .getElementById("provinceFilter")
     .value.toLowerCase();
 
-  document.querySelectorAll("#users_table tbody tr").forEach((row) => {
-    const idCell = (row.cells[0]?.textContent || "").toLowerCase();
-    const firstNameCell = (row.cells[1]?.textContent || "").toLowerCase();
-    const lastNameCell = (row.cells[2]?.textContent || "").toLowerCase();
-    const barangayCell = (row.cells[3]?.textContent || "").toLowerCase();
-    const municipalityCell = (row.cells[4]?.textContent || "").toLowerCase();
-    const provinceCell = (row.cells[5]?.textContent || "").toLowerCase();
+  const shouldShowAllData =
+    barangayValue === "" && municipalityValue === "" && provinceValue === "";
+
+  const filteredUsers = usersData.filter((user) => {
+    const userValues = Object.values(user)
+      .map((value) => (value !== null ? value.toString().toLowerCase() : ""))
+      .join(" ");
 
     const matchesSearch =
-      searchValue === "" ||
-      idCell.includes(searchValue) ||
-      firstNameCell.includes(searchValue) ||
-      lastNameCell.includes(searchValue);
+      searchValue === "" || userValues.includes(searchValue);
 
     const matchesFilters =
-      (barangayValue === "" || barangayCell.includes(barangayValue)) &&
+      (barangayValue === "" ||
+        user.brgy.toLowerCase().includes(barangayValue)) &&
       (municipalityValue === "" ||
-        municipalityCell.includes(municipalityValue)) &&
-      (provinceValue === "" || provinceCell.includes(provinceValue));
+        user.municipality.toLowerCase().includes(municipalityValue)) &&
+      (provinceValue === "" ||
+        user.province.toLowerCase().includes(provinceValue));
 
-    row.style.display = matchesSearch && matchesFilters ? "" : "none";
+    return matchesSearch && matchesFilters;
   });
+
+  renderTable(filteredUsers);
+
+  if (filteredUsers.length === 0) {
+    document.querySelector("#users_table tbody").innerHTML =
+      '<tr><td colspan="6">No data available.</td></tr>';
+  }
 }
 
 document.getElementById("searchInput").addEventListener("input", filterTable);
-
-document.addEventListener("click", () => {
-  document.querySelectorAll(".dropdown-filter").forEach((dropdown) => {
-    dropdown.style.display = "none";
-  });
-});
 
 document.querySelectorAll(".dropdown-toggle").forEach((button) => {
   button.addEventListener("click", (event) => {

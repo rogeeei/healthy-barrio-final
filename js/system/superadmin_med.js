@@ -11,8 +11,21 @@ const btn_logout = document.getElementById("btn_logout");
 if (btn_logout) {
   btn_logout.addEventListener("click", logout);
 }
+let allMedicineData = []; // Store fetched data globally for filtering
+
 document.addEventListener("DOMContentLoaded", async () => {
-  fetchMedicineReports();
+  await fetchMedicineReports();
+
+  // Add event listeners for dropdown filters
+  document
+    .getElementById("barangayFilter")
+    .addEventListener("change", applyFilters);
+  document
+    .getElementById("municipalityFilter")
+    .addEventListener("change", applyFilters);
+  document
+    .getElementById("provinceFilter")
+    .addEventListener("change", applyFilters);
 });
 
 /** Fetch and Display Medicine Reports by Barangay */
@@ -30,103 +43,98 @@ async function fetchMedicineReports() {
     }
 
     const data = await response.json();
-    displayMedicineReports(data);
+    allMedicineData = data; // Store for filtering
+
+    populateDropdownFilters(data); // Populate filters once
+    displayMedicineReports(data); // Display full data initially
   } catch (error) {
     console.error("Error fetching medicine reports:", error);
     errorNotification("Failed to load medicine data.");
   }
 }
 
-/**  Display Medicine Reports */
 function displayMedicineReports(data) {
-  const barangayCardsContainer = document.getElementById("barangayCards");
-  barangayCardsContainer.innerHTML = ""; // Clear previous content
+  const tbody = document.querySelector("#medicineTable tbody");
+  tbody.innerHTML = ""; // Clear previous content
 
-  if (!data || !Array.isArray(data)) {
-    console.warn("Invalid medicine data received.");
+  if (!data || !Array.isArray(data) || data.length === 0) {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td colspan="6" style="text-align: center; color: gray; font-style: italic;">
+        No data available.
+      </td>
+    `;
+    tbody.appendChild(row);
     return;
   }
 
   data.forEach((barangayData) => {
-    const { barangay, medicines } = barangayData;
-    const cardId = `medicineChart-${barangay.replace(/\s+/g, "-")}`;
+    const { barangay, municipality, province, medicines } = barangayData;
 
-    //  Create Barangay Card
-    const card = document.createElement("div");
-    card.classList.add("col-lg-3", "col-md-4", "col-sm-6", "mb-2", "px-1");
+    medicines.forEach((medicine) => {
+      const row = document.createElement("tr");
 
-    card.innerHTML = `
-      <div class="card medicine-card">
-        <div class="card-body">
-          <h6 class="card-title text-center fw-bold">${barangay}</h6> 
-          <div class="chart-container">
-            <canvas id="${cardId}" class="medicine-chart"></canvas>
-          </div>
-        </div>
-      </div>
-    `;
+      row.innerHTML = `
+        <td style="text-align: center">${medicine.name}</td>
+        <td style="text-align: center">${medicine.total_quantity}</td>
+        <td style="text-align: center">${medicine.unit}</td>
+        <td style="text-align: center">${barangay}</td>
+        <td style="text-align: center">${municipality}</td>
+        <td style="text-align: center">${province}</td>
+      `;
 
-    barangayCardsContainer.appendChild(card);
-    renderMedicineChart(cardId, medicines);
+      tbody.appendChild(row);
+    });
   });
 }
 
-/** Render Medicine Chart (Pie Chart) */
-function renderMedicineChart(canvasId, medicines) {
-  const ctx = document.getElementById(canvasId);
+/** Populate filter dropdowns with unique values */
+function populateDropdownFilters(data) {
+  const barangaySet = new Set();
+  const municipalitySet = new Set();
+  const provinceSet = new Set();
 
-  if (!ctx) {
-    console.warn(`Canvas with ID ${canvasId} not found.`);
-    return;
-  }
-
-  if (!medicines || medicines.length === 0) {
-    console.warn(`No medicine data available for ${canvasId}`);
-    ctx.textContent = "No data available";
-    return;
-  }
-
-  const labels = medicines.map((med) => med.name);
-  const dataValues = medicines.map((med) => med.total_quantity);
-  const units = medicines.map((med) => med.unit || "unit");
-
-  const backgroundColors = [
-    "#0056b3",
-    "#003f7f",
-    "#006eff",
-    "#0099ff",
-    "#00b3ff",
-    "#00ccff",
-    "#00e6ff",
-    "#005ea1",
-  ];
-
-  new Chart(ctx, {
-    type: "pie",
-    data: {
-      labels: labels,
-      datasets: [
-        {
-          label: "Quantity",
-          data: dataValues,
-          backgroundColor: backgroundColors,
-          hoverOffset: 10,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { position: "top" },
-        tooltip: {
-          callbacks: {
-            label: (tooltipItem) => {
-              const index = tooltipItem.dataIndex;
-              return `${labels[index]}: ${dataValues[index]} ${units[index]}`;
-            },
-          },
-        },
-      },
-    },
+  data.forEach((item) => {
+    barangaySet.add(item.barangay);
+    municipalitySet.add(item.municipality);
+    provinceSet.add(item.province);
   });
+
+  fillDropdown("barangayFilter", Array.from(barangaySet));
+  fillDropdown("municipalityFilter", Array.from(municipalitySet));
+  fillDropdown("provinceFilter", Array.from(provinceSet));
+}
+
+/** Helper to fill a dropdown with sorted options */
+function fillDropdown(dropdownId, values) {
+  const select = document.getElementById(dropdownId);
+  select.innerHTML = '<option value="">All</option>'; // Reset
+
+  values.sort().forEach((value) => {
+    const option = document.createElement("option");
+    option.value = value;
+    option.textContent = value;
+    select.appendChild(option);
+  });
+}
+
+/** Apply filters based on dropdown selections */
+function applyFilters() {
+  const selectedBarangay = document.getElementById("barangayFilter").value;
+  const selectedMunicipality =
+    document.getElementById("municipalityFilter").value;
+  const selectedProvince = document.getElementById("provinceFilter").value;
+
+  const filteredData = allMedicineData.filter((item) => {
+    const matchBarangay =
+      selectedBarangay === "" || item.barangay === selectedBarangay;
+    const matchMunicipality =
+      selectedMunicipality === "" || item.municipality === selectedMunicipality;
+    const matchProvince =
+      selectedProvince === "" || item.province === selectedProvince;
+
+    return matchBarangay && matchMunicipality && matchProvince;
+  });
+
+  displayMedicineReports(filteredData);
 }

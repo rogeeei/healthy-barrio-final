@@ -112,8 +112,24 @@ function openUserModal(userId) {
 }
 
 // Close the modal when the close button is clicked
+// Close the modal when the close button (X) is clicked
 document.querySelector(".close").addEventListener("click", () => {
-  document.getElementById("userModal").style.display = "none"; // Hide the modal
+  const modal = document.getElementById("userModal");
+  modal.style.display = "none"; // Hide modal
+});
+
+// Close the modal when the 'Close' button is clicked
+document.getElementById("modalClose").addEventListener("click", () => {
+  const modal = document.getElementById("userModal");
+  modal.style.display = "none"; // Hide modal
+});
+
+// Close the modal if clicked outside the modal content
+window.addEventListener("click", (event) => {
+  const modal = document.getElementById("userModal");
+  if (event.target === modal) {
+    modal.style.display = "none"; // Hide modal if clicked outside
+  }
 });
 
 // Close the modal if clicked outside the modal content
@@ -242,13 +258,6 @@ function filterTable() {
 
 // Attach event listener to search input
 document.getElementById("searchInput").addEventListener("input", filterTable);
-
-// Close dropdowns when clicking outside
-document.addEventListener("click", () => {
-  document.querySelectorAll(".dropdown-filter").forEach((dropdown) => {
-    dropdown.style.display = "none";
-  });
-});
 
 // Prevent dropdown from closing when clicking inside it
 document.querySelectorAll(".dropdown-toggle").forEach((button) => {

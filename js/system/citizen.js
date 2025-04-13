@@ -48,7 +48,6 @@ async function fetchCitizensByBarangay() {
     if (data.success) {
       displayCitizens(data.data);
     } else {
-      console.log(data.message || "No citizens found.");
     }
   } catch (error) {
     console.error("Error fetching citizens:", error);

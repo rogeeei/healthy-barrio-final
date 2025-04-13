@@ -186,8 +186,6 @@ document
       icon: selectedIconValue || "fa-question-circle", // Default icon if none selected
     };
 
-    console.log("Submitting Service Data:", serviceData); // Debugging
-
     try {
       const response = await fetch(`${backendURL}/api/services`, {
         method: "POST",

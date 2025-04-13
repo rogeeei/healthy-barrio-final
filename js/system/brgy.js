@@ -30,10 +30,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  console.log(
-    `📍 Fetching data for: ${province}, ${municipality}, ${barangay}`
-  );
-
   await fetchBarangayReport(province, municipality, barangay);
 });
 
@@ -59,7 +55,6 @@ async function fetchBarangayReport(province, municipality, barangay) {
     }
 
     const data = await response.json();
-    console.log("📊 API Response:", data);
 
     if (!data.success) {
       throw new Error("Failed to retrieve data.");
@@ -169,8 +164,6 @@ function renderAgeChart(labels, data) {
 
 /** ✅ Render BMI Chart */
 function renderBmiChart(bmiData) {
-  console.log("📊 Debugging - BMI Data for Chart:", bmiData);
-
   const canvas = document.getElementById("bmiChart");
   if (!canvas) return console.warn("⚠️ BMI Chart canvas not found.");
 

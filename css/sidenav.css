@@ -197,3 +197,7 @@ body {
   align-items: center; /* Center vertically */
   width: 100%; /* Make sure it uses the full width of the parent */
 }
+body.fade-out {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}

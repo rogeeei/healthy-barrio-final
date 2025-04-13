@@ -255,7 +255,6 @@ function clearForm() {
   document.getElementById("update_medicine_id").value = "";
   document.getElementById("update_quantity").value = "";
   document.getElementById("update_date_acquired").value = "";
-  console.log("Form cleared after successful update.");
 }
 
 // Debounce function for search input (optional, improves performance)

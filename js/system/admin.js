@@ -66,7 +66,6 @@ async function fetchUsers(query = "") {
     }
 
     const responseData = await response.json();
-    console.log("📢 API Response:", responseData); // Debugging API Response
 
     let tableBody = "";
 
@@ -131,8 +130,6 @@ document.addEventListener("click", function (event) {
 
 // Approve User Function
 async function approveUser(userId) {
-  console.log("✅ Approving user with ID:", userId);
-
   if (!userId) {
     errorNotification("User ID is missing!");
     return;
@@ -191,11 +188,9 @@ async function declineUser(userId) {
 
 // Remove User Row from Table
 function removeUserRow(userId) {
-  console.log("🗑️ Removing user row:", `user-${userId}`);
   const userRow = document.getElementById(`user-${userId}`);
   if (userRow) {
     userRow.remove();
-    console.log("✅ User row removed.");
   } else {
     console.warn(`⚠️ User row not found: user-${userId}`);
   }

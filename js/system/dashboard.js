@@ -176,11 +176,6 @@ document
       service_id: card.getAttribute("data-service-id"),
     }));
 
-    console.log(
-      "Sending services data:",
-      JSON.stringify({ services: serviceData })
-    );
-
     try {
       const response = await fetch(`${backendURL}/api/barangay/services`, {
         method: "POST",

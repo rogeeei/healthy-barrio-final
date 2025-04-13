@@ -37,7 +37,6 @@ async function getUsers(query = "", sortBy = "user_id", order = "asc") {
 
     if (response.ok) {
       usersData = await response.json();
-      console.log("Fetched Users:", usersData);
 
       sortTable(sortBy, order);
       renderTable();

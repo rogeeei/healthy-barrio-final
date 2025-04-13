@@ -20,8 +20,6 @@ document.getElementById("form_stakeholder").onsubmit = async (e) => {
   const formObject = Object.fromEntries(formData.entries());
 
   try {
-    console.log("Form Data:", formObject); // Debugging form data
-
     // Make a POST request to the backend with the form data as JSON
     const response = await fetch(`${backendURL}/api/stakeholders/login`, {
       method: "POST",

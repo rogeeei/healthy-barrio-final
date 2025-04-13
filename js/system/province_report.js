@@ -33,7 +33,6 @@ async function fetchMunicipalities(province) {
       );
 
     const data = await response.json();
-    console.log("📍 Municipalities Response:", data);
 
     const dropdownMenu = document.getElementById("municipalityDropdown");
     dropdownMenu.innerHTML = ""; // Clear previous entries
@@ -66,7 +65,6 @@ async function fetchMunicipalities(province) {
 function selectMunicipality(municipality, province) {
   document.getElementById("municipalityDropdownButton").textContent =
     municipality;
-  console.log(`✅ Selected Municipality: ${municipality}`);
 
   // ✅ Redirect to municipality report page with province & municipality in URL
   window.location.href = `municipality_report.html?province=${encodeURIComponent(
@@ -104,7 +102,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     const data = await response.json();
-    console.log("📊 API Response:", data); // ✅ Debugging output
 
     displayDemographics(province, data);
   } catch (error) {
@@ -212,8 +209,6 @@ function renderAgeChart(labels, data) {
 
 /**  Render BMI Chart */
 function renderBmiChart(bmiData) {
-  console.log("📊 Debugging - BMI Data for Chart:", bmiData);
-
   const canvas = document.getElementById("bmiChart");
   if (!canvas) return console.warn("⚠️ BMI Chart canvas not found.");
 

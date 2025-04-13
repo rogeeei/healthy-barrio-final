@@ -17,7 +17,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  console.log(`📍 Fetching data for municipality: ${municipality}`);
   await fetchMunicipalityReport(municipality);
 });
 
@@ -41,8 +40,6 @@ async function fetchMunicipalityReport(municipality) {
     }
 
     const data = await response.json();
-    console.log("📊 API Response:", data);
-
     if (!data.success) {
       throw new Error("Failed to retrieve data.");
     }
@@ -56,8 +53,6 @@ async function fetchMunicipalityReport(municipality) {
 
 /** ✅ Display Municipality Demographics */
 function displayMunicipalityDemographics(data) {
-  console.log("📊 Debugging - Municipality Data:", data);
-
   const municipalityEl = document.getElementById("municipality-name");
   if (municipalityEl) municipalityEl.innerText = data.municipality || "Unknown";
 
@@ -123,8 +118,6 @@ function displayMunicipalityDemographics(data) {
 
 /** ✅ Render BMI Chart */
 function renderBmiChart(bmiData) {
-  console.log("📊 Debugging - BMI Data for Chart:", bmiData);
-
   const canvas = document.getElementById("bmiChart");
   if (!canvas) return console.warn("⚠️ BMI Chart canvas not found.");
 

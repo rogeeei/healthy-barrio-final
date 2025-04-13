@@ -25,7 +25,6 @@ async function fetchUserProvinces() {
     }
 
     const data = await response.json();
-    console.log("📍 User Provinces Response:", data);
 
     const dropdownMenu = document.getElementById("provinceDropdown");
     dropdownMenu.innerHTML = ""; // Clear previous entries
@@ -51,7 +50,6 @@ async function fetchUserProvinces() {
 /** ✅ Handle Province Selection and Redirect */
 function selectProvince(province) {
   document.getElementById("provinceDropdownButton").textContent = province;
-  console.log(`✅ Selected Province: ${province}`);
 
   // ✅ Redirect to province report page
   window.location.href = `province_report.html?province=${encodeURIComponent(
@@ -319,7 +317,6 @@ async function loadOverallMedicineAvailed() {
     }
 
     const medicineData = await response.json();
-    console.log("Overall Medicine Data:", medicineData); // ✅ Debugging
 
     // ✅ Check if there's valid data
     if (!medicineData || medicineData.length === 0) {

@@ -31,7 +31,6 @@ async function fetchBarangays(province, municipality) {
     }
 
     const data = await response.json();
-    console.log("📍 Barangays Response:", data);
 
     const dropdownMenu = document.getElementById("barangayDropdown");
     dropdownMenu.innerHTML = ""; // Clear previous entries
@@ -59,7 +58,6 @@ async function fetchBarangays(province, municipality) {
 /** ✅ Handle Barangay Selection and Redirect */
 function selectBarangay(province, municipality, barangay) {
   document.getElementById("barangayDropdownButton").textContent = barangay;
-  console.log(`✅ Selected Barangay: ${barangay}`);
 
   // ✅ Redirect to barangay report page with province, municipality & barangay in URL
   window.location.href = `brgy.html?province=${encodeURIComponent(
@@ -102,7 +100,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     const data = await response.json();
-    console.log("📊 API Response:", data); // ✅ Debugging output
 
     displayDemographics(province, municipality, data);
   } catch (error) {
@@ -113,8 +110,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 /** ✅ Render BMI Chart */
 function renderBmiChart(bmiData) {
-  console.log("📊 Debugging - BMI Data for Chart:", bmiData);
-
   const canvas = document.getElementById("bmiChart");
   if (!canvas) return console.warn("⚠️ BMI Chart canvas not found.");
 

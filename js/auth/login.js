@@ -31,8 +31,6 @@ document.getElementById("form_login").onsubmit = async (e) => {
       localStorage.setItem("token", token);
       localStorage.setItem("role", role);
 
-      console.log("Stored Token:", token);
-
       const dashboardRoutes = {
         super_admin: "/superadmin_dashboard.html",
         admin: "/dashboard.html",

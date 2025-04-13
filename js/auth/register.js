@@ -18,12 +18,6 @@ form_register.onsubmit = async (e) => {
   // Prepare FormData
   const formData = new FormData(form_register);
 
-  // Debug: Log form data
-  console.log("Form Data Submitted:");
-  for (const [key, value] of formData.entries()) {
-    console.log(`${key}: ${value}`);
-  }
-
   try {
     // Fetch API - User Registration
     const response = await fetch(`${backendURL}/api/user`, {

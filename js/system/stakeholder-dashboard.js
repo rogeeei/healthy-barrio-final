@@ -84,8 +84,6 @@ function populateMunicipalityDropdown(municipalities) {
 
 /** ✅ Render BMI Chart */
 function renderBmiChart(bmiData) {
-  console.log("📊 Debugging - BMI Data for Chart:", bmiData);
-
   const canvas = document.getElementById("bmiChart");
   if (!canvas) return console.warn("⚠️ BMI Chart canvas not found.");
 

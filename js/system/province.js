@@ -33,7 +33,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     const result = await response.json();
-    console.log("API Response:", result); // ✅ Debugging
 
     if (!result.success || !result.data.length) {
       throw new Error("No provinces found.");

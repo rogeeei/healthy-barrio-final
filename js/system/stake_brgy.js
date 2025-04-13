@@ -17,7 +17,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  console.log(`📍 Fetching data for barangay: ${barangay}`);
   await fetchBarangayReport(barangay);
 });
 
@@ -41,7 +40,6 @@ async function fetchBarangayReport(barangay) {
     }
 
     const data = await response.json();
-    console.log("📊 API Response:", data);
 
     if (!data.success) {
       throw new Error("Failed to retrieve data.");
@@ -56,8 +54,6 @@ async function fetchBarangayReport(barangay) {
 
 /** ✅ Display Barangay Demographics */
 function displayBarangayDemographics(data) {
-  console.log("📊 Debugging - Barangay Data:", data);
-
   const barangayEl = document.getElementById("barangay-name");
   if (barangayEl) barangayEl.innerText = data.barangay || "Unknown";
 
@@ -94,8 +90,6 @@ function displayBarangayDemographics(data) {
 
 /** ✅ Render BMI Chart */
 function renderBmiChart(bmiData) {
-  console.log("📊 Debugging - BMI Data for Chart:", bmiData);
-
   const canvas = document.getElementById("bmiChart");
   if (!canvas) return console.warn("⚠️ BMI Chart canvas not found.");
 

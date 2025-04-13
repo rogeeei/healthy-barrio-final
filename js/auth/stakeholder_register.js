@@ -18,11 +18,6 @@ form_stakeholder.onsubmit = async (e) => {
   // Get Values of Form (input, textarea, select) set it as form-data
   const formData = new FormData(form_stakeholder);
 
-  // Inspect form data before sending
-  for (const [key, value] of formData.entries()) {
-    console.log(`${key}: ${value}`);
-  }
-
   try {
     // Fetch API User Register Endpoint
     const response = await fetch(backendURL + "/api/stakeholders", {

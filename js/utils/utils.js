@@ -85,7 +85,7 @@ function showNavAdminPages() {
     navContainer.innerHTML = `
     <a class="nav-link" href="user_report.html" onclick="setActiveLink(this)">
       <div class="sb-nav-link-icon"><i class="fa-solid fa-file"></i></div>
-      View Services
+       Services
     </a>
     <a class="nav-link" href="admin.html" onclick="setActiveLink(this)">
       <div class="sb-nav-link-icon"><i class="fa-solid fa-user-tie"></i></div>
@@ -97,7 +97,7 @@ function showNavAdminPages() {
     navContainer.innerHTML = `
      <a class="nav-link" href="add_services.html" onclick="setActiveLink(this)">
       <div class="sb-nav-link-icon"><i class="fa-solid fa-file"></i></div>
-      View Services
+       Services
     </a>
     <a class="nav-link dropdown-toggle" href="#" id="userManagementDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="setActiveLink(this)">
       <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>

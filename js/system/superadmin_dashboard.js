@@ -262,14 +262,14 @@ function renderBmiChart(bmiData) {
   const data = Object.values(bmiData);
 
   new Chart(ctx, {
-    type: "line",
+    type: "bar",
     data: {
       labels: labels,
       datasets: [
         {
           label: "Number of Citizens",
           data: data,
-          backgroundColor: ["#0056b3", "#003f7f", "#006eff", "#0099ff"],
+          backgroundColor: ["#1E90FF", "#32CD32", "#FFD700", "#FF4500"],
         },
       ],
     },

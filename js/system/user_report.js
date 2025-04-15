@@ -6,11 +6,13 @@ import {
 } from "../utils/utils.js";
 
 showNavAdminPages();
+
 // Logout Button
 const btn_logout = document.getElementById("btn_logout");
 if (btn_logout) {
   btn_logout.addEventListener("click", logout);
 }
+
 /** ✅ Fetch and Load Barangay Report */
 async function fetchBarangayReport() {
   try {
@@ -38,7 +40,17 @@ async function fetchBarangayReport() {
   }
 }
 
-document.addEventListener("DOMContentLoaded", fetchBarangayReport);
+document.addEventListener("DOMContentLoaded", () => {
+  fetchBarangayReport();
+
+  const medicineCard = document.getElementById("medicine_availment_card");
+  if (medicineCard) {
+    medicineCard.style.cursor = "pointer"; // optional: show pointer cursor
+    medicineCard.addEventListener("click", () => {
+      window.location.href = "medicine_availment.html";
+    });
+  }
+});
 
 /** ✅ Display Report Data */
 function displayReport(data) {
@@ -58,10 +70,7 @@ function displayReport(data) {
     data.bmiData?.Overweight || 0;
   document.getElementById("obeseCount").textContent = data.bmiData?.Obese || 0;
 
-  // ✅ Use `renderBmiChart()` instead of `renderChart()`
-  renderBmiChart(data.bmiData || {}); // ✅ Fix: Correct function for BMI
-
-  // ✅ Other charts remain the same
+  renderBmiChart(data.bmiData || {});
   renderChart("medicineChart", "Medicine Availment", data.medicineData || []);
   renderChart("serviceChart", "Service Availment", data.serviceData || []);
 }
@@ -76,12 +85,10 @@ function renderChart(canvasId, label, dataset) {
 
   const ctx = canvas.getContext("2d");
 
-  // ✅ Ensure there's an existing chart before trying to destroy it
   if (window[canvasId] instanceof Chart) {
     window[canvasId].destroy();
   }
 
-  // ✅ Check if dataset is empty
   if (!Array.isArray(dataset) || dataset.length === 0) {
     console.warn(`⚠️ No data available for ${label}, skipping chart.`);
     return;
@@ -111,13 +118,12 @@ function renderChart(canvasId, label, dataset) {
 
 /** ✅ Render BMI Chart */
 function renderBmiChart(bmiData) {
-  console.log("📊 Debugging - BMI Data for Chart:", bmiData); // ✅ Debug output
+  console.log("📊 Debugging - BMI Data for Chart:", bmiData);
 
-  // ✅ Check if data is missing
   if (!bmiData || Object.keys(bmiData).length === 0) {
     console.warn("⚠️ No data available for BMI, skipping chart.");
     document.getElementById("bmiChart").parentNode.innerHTML =
-      "<p class='text-center text-muted'>No BMI data available</p>"; // ✅ Show text instead of a blank chart
+      "<p class='text-center text-muted'>No BMI data available</p>";
     return;
   }
 
@@ -129,18 +135,13 @@ function renderBmiChart(bmiData) {
 
   const ctx = canvas.getContext("2d");
 
-  // ✅ Destroy old chart before creating a new one
   if (window.bmiChartInstance instanceof Chart) {
     window.bmiChartInstance.destroy();
   }
 
-  // ✅ Convert BMI data to chart format
-  const labels = Object.keys(bmiData); // ["Underweight", "Normal", "Overweight", "Obese"]
-  const values = Object.values(bmiData); // [1, 3, 2, 0]
+  const labels = Object.keys(bmiData);
+  const values = Object.values(bmiData);
 
-  console.log("📊 Processed BMI Data:", { labels, values });
-
-  // ✅ Create BMI Chart
   window.bmiChartInstance = new Chart(ctx, {
     type: "bar",
     data: {

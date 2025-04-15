@@ -231,7 +231,7 @@
 
           <!-- Right Column -->
           <div class="col-md-6 d-flex flex-column" style="margin-bottom: 20px">
-            <div class="card flex-fill p-3 shadow-sm">
+            <div class="card flex-fill p-3 shadow-sm" id="medicineCard">
               <h5 class="fw-bold text-center"><b>Medicine Availment</b></h5>
               <div class="chart-container">
                 <canvas id="medicineChart"></canvas>
@@ -261,9 +261,21 @@
           "currentTimestamp"
         ).textContent = `${date} ${time}`;
       }
+
       updateTimestamp();
       setInterval(updateTimestamp, 1000);
+
+      // Navigate to medicine_availment.html when medicineCard is clicked
+      document.addEventListener("DOMContentLoaded", () => {
+        const medicineCard = document.getElementById("medicineCard");
+        if (medicineCard) {
+          medicineCard.addEventListener("click", () => {
+            window.location.href = "medicine_availment.html";
+          });
+        }
+      });
     </script>
+
     <script type="module" src="/js/system/superadmin_dashboard.js"></script>
   </body>
 </html>

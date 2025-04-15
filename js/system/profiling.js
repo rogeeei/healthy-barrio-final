@@ -3,7 +3,7 @@ import {
   showNavAdminPages,
   successNotification,
   errorNotification,
-  logout
+  logout,
 } from "../utils/utils.js";
 
 showNavAdminPages();
@@ -25,14 +25,19 @@ document.addEventListener("DOMContentLoaded", () => {
     errorNotification("Citizen ID is missing.");
   }
 
-  // Event listener for month selection
   const monthDropdownItems = document.querySelectorAll(".dropdown-item");
   monthDropdownItems.forEach((item) => {
     item.addEventListener("click", (event) => {
+      event.preventDefault();
       const selectedMonth = event.target.getAttribute("data-month");
       document.getElementById("monthDropdown").textContent =
-        event.target.textContent; // Update dropdown text
-      fetchTransactionHistory(citizenId, selectedMonth);
+        event.target.textContent;
+
+      // Pass null instead of "all" to fetch all months
+      fetchTransactionHistory(
+        citizenId,
+        selectedMonth === "all" ? null : selectedMonth
+      );
     });
   });
 });
@@ -166,10 +171,10 @@ async function fetchTransactionHistory(citizenId, month = null) {
 
         const row = document.createElement("tr");
         row.innerHTML = `
-    <td>${transaction.transaction_date}</td>
-    <td>${serviceDetails}</td>
-    <td>${medicineDetails}</td>
-  `;
+          <td>${transaction.transaction_date}</td>
+          <td>${serviceDetails}</td>
+          <td>${medicineDetails}</td>
+        `;
 
         transactionHistoryBody.appendChild(row);
       });

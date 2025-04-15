@@ -417,19 +417,16 @@ async function editCitizen(id) {
   }
 }
 
-// Populate citizen form for editing
 function populateCitizenForm(citizen) {
-  const fields = [
+  const textFields = [
     "citizen_id",
     "firstname",
     "middle_name",
     "lastname",
     "suffix",
-    "purok",
     "municipality",
     "province",
     "date_of_birth",
-    "blood_type",
     "height",
     "weight",
     "allergies",
@@ -439,33 +436,59 @@ function populateCitizenForm(citizen) {
   ];
 
   // Set values for text inputs
-  fields.forEach((field) => {
+  textFields.forEach((field) => {
     const inputElement = document.getElementById(field);
     if (inputElement) {
       inputElement.value = citizen[field] || "";
     }
   });
 
-  //  Set Barangay in Dropdown
+  // Set dropdowns
   const barangaySelect = document.getElementById("barangay");
   if (barangaySelect) {
     barangaySelect.value = citizen.barangay || "";
   }
 
-  //  Set the gender dropdown
   const genderSelect = document.getElementById("gender");
   if (genderSelect) {
     const genderValue = citizen.gender || "";
     const genderOption = genderSelect.querySelector(
       `option[value="${genderValue}"]`
     );
-
     if (genderOption) {
       genderSelect.value = genderValue;
     } else {
       console.warn(
         `Gender value "${genderValue}" not found in dropdown options.`
       );
+    }
+  }
+
+  const purokSelect = document.getElementById("purok");
+  if (purokSelect) {
+    const purokValue = citizen.purok || "";
+    const purokOption = purokSelect.querySelector(
+      `option[value="${purokValue}"]`
+    );
+    if (purokOption) {
+      purokSelect.value = purokValue;
+    } else {
+      console.warn(
+        `Purok value "${purokValue}" not found in dropdown options.`
+      );
+    }
+  }
+
+  const bloodTypeSelect = document.getElementById("blood_type");
+  if (bloodTypeSelect) {
+    const bloodValue = citizen.blood_type || "";
+    const bloodOption = bloodTypeSelect.querySelector(
+      `option[value="${bloodValue}"]`
+    );
+    if (bloodOption) {
+      bloodTypeSelect.value = bloodValue;
+    } else {
+      console.warn(`Blood type "${bloodValue}" not found in dropdown options.`);
     }
   }
 }

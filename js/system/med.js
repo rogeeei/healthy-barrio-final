@@ -61,22 +61,36 @@ async function getMedicine(query = "") {
       const json = await response.json();
 
       if (json && json.length > 0) {
+        let lowStockNotified = false; // Prevent duplicate notifications
+
         let tableContent = json
-          .map(
-            (medicine) => `  
-        <tr data-id="${medicine.medicine_id}">
-          <td>${medicine.medicine_id}</td>
-          <td>${medicine.name}</td>
-          <td>${medicine.quantity}</td>
-          <td>${medicine.expiration_date}</td>
-          <td>${medicine.date_acquired}</td>
-          <td>
-            <button class="btn btn-sm update-btn" data-id="${medicine.medicine_id}">
-              Update 
-            </button>
-          </td>
-        </tr>`
-          )
+          .map((medicine) => {
+            const isLowStock = medicine.quantity < 10;
+            if (isLowStock && !lowStockNotified) {
+              errorNotification(
+                `Medicine "${medicine.name}" is running low on stock.`
+              );
+              lowStockNotified = true;
+            }
+
+            return `  
+      <tr data-id="${medicine.medicine_id}" class="${
+              isLowStock ? "table-danger" : ""
+            }">
+        <td>${medicine.medicine_id}</td>
+        <td>${medicine.name}</td>
+        <td>${medicine.quantity}</td>
+        <td>${medicine.expiration_date}</td>
+        <td>${medicine.date_acquired}</td>
+        <td>
+          <button class="btn btn-sm update-btn" data-id="${
+            medicine.medicine_id
+          }">
+            Update 
+          </button>
+        </td>
+      </tr>`;
+          })
           .join("");
 
         tableBody.innerHTML = tableContent;

@@ -124,10 +124,8 @@ function displayDemographics(province, data) {
   document.getElementById("femaleCount").innerText =
     data.genderDistribution?.Female || 0;
 
-  // ✅ Age Distribution
+  // ✅ Age Distribution - Update the existing HTML structure
   const ageGroupList = document.querySelector(".age-group-list");
-  ageGroupList.innerHTML = ""; // Clear previous content
-
   const ageGroups = [
     "Infant",
     "Toddler",
@@ -139,19 +137,15 @@ function displayDemographics(province, data) {
     "Elderly",
   ];
 
-  const ageData = []; // Array to hold age group counts
-  ageGroups.forEach((group) => {
-    const count = data.ageGroups?.[group] || 0; // Default to 0 if no data
-    ageData.push(count); // Store count for the chart
-
-    // Display age groups in the list
-    const listItem = document.createElement("div");
-    listItem.textContent = `${group}: ${count}`;
-    listItem.classList.add("age-group-item");
-    ageGroupList.appendChild(listItem);
+  // Update the displayed age counts in the HTML
+  ageGroupList.querySelectorAll("div").forEach((item, index) => {
+    item.innerHTML = `<b>${ageGroups[index]}:</b> ${
+      data.ageGroups?.[ageGroups[index]] || 0
+    }`;
   });
 
   // ✅ Render Age Distribution Pie Chart
+  const ageData = ageGroups.map((group) => data.ageGroups?.[group] || 0);
   renderAgeChart(ageGroups, ageData);
 
   // ✅ Render Other Charts

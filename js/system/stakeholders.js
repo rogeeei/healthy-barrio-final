@@ -34,21 +34,31 @@ async function fetchStakeholder() {
 
       const filteredUsers = stakeholders.filter((user) => !user.approved);
 
-      filteredUsers.forEach((stakeholder) => {
-        tableBody += `
-          <tr id="stakeholder-${stakeholder.id}">
-              <td>${stakeholder.agency_name}</td>
-              <td>${stakeholder.username}</td>
-              <td>${stakeholder.barangay}</td>
-              <td>${stakeholder.municipality}</td>
-              <td>${stakeholder.province}</td>
-              <td class="action-buttons">
-                <button class="approve-btn btn-success" onclick="approveStakeholder(${stakeholder.id})" style="margin-left:100px;">Approve</button>
-                <button class="decline-btn btn-danger" onclick="declineStakeholder(${stakeholder.id})" style="background-color: #dc3545;">Decline</button>
-              </td>
+      if (filteredUsers.length === 0) {
+        tableBody = `
+          <tr>
+            <td colspan="6" class="text-center text-muted py-4">
+              No data available
+            </td>
           </tr>
         `;
-      });
+      } else {
+        filteredUsers.forEach((stakeholder) => {
+          tableBody += `
+            <tr id="stakeholder-${stakeholder.id}">
+                <td>${stakeholder.agency_name}</td>
+                <td>${stakeholder.username}</td>
+                <td>${stakeholder.barangay}</td>
+                <td>${stakeholder.municipality}</td>
+                <td>${stakeholder.province}</td>
+                <td class="action-buttons">
+                  <button class="approve-btn btn-success" onclick="approveStakeholder(${stakeholder.id})" style="margin-left:100px;">Approve</button>
+                  <button class="decline-btn btn-danger" onclick="declineStakeholder(${stakeholder.id})" style="background-color: #dc3545;">Decline</button>
+                </td>
+            </tr>
+          `;
+        });
+      }
 
       document.querySelector("table tbody").innerHTML = tableBody;
       searchTable(); // Ensure the search function works after the table is populated

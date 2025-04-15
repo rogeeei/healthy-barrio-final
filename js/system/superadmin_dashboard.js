@@ -376,3 +376,6 @@ async function loadOverallMedicineAvailed() {
     console.error("Error fetching overall medicine data:", error);
   }
 }
+document.getElementById("medicineAvail")?.addEventListener("click", () => {
+  window.location.href = "superadmin_med-avail.html"; // Redirect to the correct page
+});

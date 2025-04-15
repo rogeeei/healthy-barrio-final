@@ -142,16 +142,45 @@
           <!-- Age Distribution Card -->
           <div class="col-md-6">
             <div
-              class="card card-age"
-              style="width: 700px; border: 2px solid #063e4f"
+              class="card card-age shadow-sm"
+              style="
+                width: 100%;
+                border: 2px solid #063e4f;
+                border-radius: 10px;
+                overflow: hidden;
+              "
             >
-              <div class="card-body text-center">
-                <h5 class="card-title text-center" style="font-size: 18px">
-                  <b>Age Distribution</b>
+              <div class="card-body text-center" style="padding: 20px">
+                <h5
+                  class="card-title mb-4"
+                  style="font-size: 22px; color: #063e4f; font-weight: bold"
+                >
+                  Age Distribution
                 </h5>
-                <div class="age-container text-muted" style="font-size: 8px">
-                  <div class="age-group-list"></div>
-                  <canvas id="ageDistributionChart"></canvas>
+
+                <div class="age-container text-muted" style="font-size: 14px">
+                  <div
+                    class="age-group-list mb-4"
+                    style="
+                      display: block; /* Stack the items vertically */
+                      text-align: left; /* Align text to the left */
+                      font-size: 16px; /* Ensure consistency in font size */
+                    "
+                  >
+                    <div><b>Infant:</b> 0</div>
+                    <div><b>Toddler:</b> 0</div>
+                    <div><b>Child:</b> 0</div>
+                    <div><b>Teenager:</b> 0</div>
+                    <div><b>Young Adult:</b> 2</div>
+                    <div><b>Middle-aged Adult:</b> 1</div>
+                    <div><b>Senior:</b> 0</div>
+                    <div><b>Elderly:</b> 0</div>
+                  </div>
+
+                  <canvas
+                    id="ageDistributionChart"
+                    style="max-width: 100%"
+                  ></canvas>
                 </div>
               </div>
             </div>

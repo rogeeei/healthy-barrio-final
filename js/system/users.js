@@ -25,7 +25,7 @@ async function getUsers(query = "", sortBy = "user_id", order = "asc") {
     return;
   }
 
-  const url = `${backendURL}/api/superadmin?search=${query}&sort=${sortBy}&order=${order}`;
+  const url = `${backendURL}/api/superadmin/approved-admins?search=${query}&sort=${sortBy}&order=${order}`;
 
   try {
     const response = await fetch(url, {
@@ -43,9 +43,8 @@ async function getUsers(query = "", sortBy = "user_id", order = "asc") {
       populateFilters(usersData); // Populate dropdown filters dynamically
       filterTable(); // Reapply filters after fetching data
     } else {
-      tableBody.innerHTML =
-        '<tr><td colspan="6">Failed to load data.</td></tr>';
-      errorNotification("Failed to fetch User data.");
+      tableBody.innerHTML = '<tr><td colspan="6">No data available.</td></tr>';
+      errorNotification("No data available.");
     }
   } catch (error) {
     tableBody.innerHTML = '<tr><td colspan="6">Error loading data.</td></tr>';

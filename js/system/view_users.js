@@ -25,7 +25,7 @@ async function getUsers(query = "", sortBy = "user_id", order = "asc") {
     return;
   }
 
-  const url = `${backendURL}/api/bhw?search=${query}&sort=${sortBy}&order=${order}`;
+  const url = `${backendURL}/api/approved-user?search=${query}&sort=${sortBy}&order=${order}`;
 
   try {
     const response = await fetch(url, {

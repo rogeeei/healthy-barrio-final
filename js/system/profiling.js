@@ -40,6 +40,12 @@ document.addEventListener("DOMContentLoaded", () => {
       );
     });
   });
+
+  // Download PDF Button Event Listener
+  const downloadBtn = document.getElementById("download-pdf");
+  if (downloadBtn) {
+    downloadBtn.addEventListener("click", downloadPDF);
+  }
 });
 
 // Fetching Citizen Details
@@ -115,6 +121,11 @@ function populateCitizenDetails(citizen) {
     citizen.emergency_contact_name || "N/A";
   document.getElementById("emergency_contact_number").innerText =
     citizen.emergency_contact_no || "N/A";
+
+  // Update the municipality and province at the bottom of the Profiling section
+  document.getElementById("municipality").innerText =
+    citizen.municipality || "N/A";
+  document.getElementById("province").innerText = citizen.province || "N/A";
 }
 
 const transactionHistoryBody = document.getElementById(
@@ -185,4 +196,111 @@ async function fetchTransactionHistory(citizenId, month = null) {
   } catch (error) {
     errorNotification("An error occurred: " + error.message);
   }
+}
+
+function downloadPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  let y = 10;
+
+  // Title
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const title = "Citizen Profile";
+  const textWidth = doc.getTextWidth(title);
+  const x = (pageWidth - textWidth) / 2;
+
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(16);
+  doc.text(title, x, y);
+  y += 10;
+
+  // Basic text styling
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(12);
+
+  const details = [
+    ["Citizen ID", "citizen_id"],
+    ["Name", "lastname"],
+    ["Birthdate", "citizenBirthdate"],
+    ["Gender", "gender"],
+    ["Purok", "purok"],
+    ["Barangay", "barangay"],
+    ["Blood Type", "blood_type"],
+    ["Allergies", "allergies"],
+    ["Weight", "weight"],
+    ["Height", "height"],
+    ["Medication", "medication"],
+    ["Municipality", "municipality"],
+    ["Province", "province"],
+  ];
+
+  // Loop and print each detail
+  details.forEach(([label, id]) => {
+    const value = document.getElementById(id)?.innerText || "N/A";
+    doc.setFont("helvetica", "bold");
+    doc.text(`${label}:`, 10, y);
+    doc.setFont("helvetica", "normal");
+    doc.text(value, 60, y);
+    y += 8;
+  });
+
+  // Emergency Contact (on a new line each)
+  y += 4;
+  doc.setFont("helvetica", "bold");
+  doc.text(`Emergency Contact Name:`, 10, y);
+  y += 8;
+  doc.setFont("helvetica", "normal");
+  doc.text(
+    document.getElementById("emergency_contact_name").innerText || "N/A",
+    10,
+    y
+  );
+  y += 8;
+  doc.setFont("helvetica", "bold");
+  doc.text(`Emergency Contact Number:`, 10, y);
+  y += 8;
+  doc.setFont("helvetica", "normal");
+  doc.text(
+    document.getElementById("emergency_contact_number").innerText || "N/A",
+    10,
+    y
+  );
+  y += 10;
+
+  // Transaction Table Header
+  doc.setFont("helvetica", "bold");
+  doc.text("Transaction History:", 10, y);
+  y += 10;
+
+  doc.setFontSize(11);
+  doc.setFont("helvetica", "bold");
+  doc.text("Date", 10, y);
+  doc.text("Service", 60, y);
+  doc.text("Medicines", 120, y);
+  y += 7;
+  doc.setFont("helvetica", "normal");
+
+  const transactionHistory = document.getElementById("transactionHistoryBody");
+  Array.from(transactionHistory.rows).forEach((row) => {
+    const date = row.cells[0].innerText;
+    const service = row.cells[1].innerText;
+    const medicine = row.cells[2].innerText;
+
+    // Wrap text if needed (basic word wrapping)
+    const maxWidth = 60;
+    const splitService = doc.splitTextToSize(service, maxWidth);
+    const splitMedicine = doc.splitTextToSize(medicine, maxWidth);
+    const lineCount = Math.max(splitService.length, splitMedicine.length);
+
+    for (let i = 0; i < lineCount; i++) {
+      doc.text(i === 0 ? date : "", 10, y);
+      doc.text(splitService[i] || "", 60, y);
+      doc.text(splitMedicine[i] || "", 120, y);
+      y += 7;
+    }
+  });
+
+  const citizenId = document.getElementById("citizen_id").innerText;
+  doc.save(`citizen_profile_${citizenId}.pdf`);
 }

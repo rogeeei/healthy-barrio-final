@@ -37,24 +37,33 @@ async function fetchAdmin(query = "") {
         (user) => !user.approved && user.role !== "super_admin"
       );
 
-      filteredUsers.forEach((user) => {
-        tableBody += `
+      if (filteredUsers.length === 0) {
+        tableBody = `
+          <tr>
+            <td colspan="8" class="text-center text-muted py-4">
+              No data available
+            </td>
+          </tr>
+        `;
+      } else {
+        filteredUsers.forEach((user) => {
+          tableBody += `
             <tr id="user-${user.user_id}">
                 <td>${user.user_id}</td>
                 <td>${user.username}</td>
                 <td>${user.firstname}</td>
                 <td>${user.lastname}</td>
-                <td>${user.brgy}</td>
+                <td>${user.municipality}</td>
+                <td>${user.province}</td>
                 <td>${user.email}</td>
-                <td>${user.phone_number}</td>
-                
                 <td class="action-buttons">
                     <button class="approve-btn btn-success" data-user-id="${user.user_id}">Approve</button>
                     <button class="decline-btn btn-danger" data-user-id="${user.user_id}" style="background-color: #dc3545;">Decline</button>
                 </td>
             </tr>
-        `;
-      });
+          `;
+        });
+      }
 
       document.querySelector("table tbody").innerHTML = tableBody;
     } else {
@@ -131,18 +140,20 @@ window.declineUser = async function (userId) {
 
     successNotification("User declined successfully.");
     removeUserRow(userId);
-    fetchAdmin();
+    fetchAdmin(); // Re-fetch admin users after the action
   } catch (error) {
     errorNotification("Error declining user: " + error.message);
   }
 };
+
 // Handle search input keypress (Enter key)
 document
   .getElementById("searchInput")
   .addEventListener("keypress", async (e) => {
-    if (e.key === "Search") {
+    if (e.key === "Enter") {
+      // Changed from 'Search' to 'Enter'
       const query = e.target.value;
-      await fetchCitizensByBarangay(query);
+      fetchAdmin(query); // Pass query to fetchAdmin to filter
     }
   });
 

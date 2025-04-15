@@ -57,6 +57,7 @@ function displayMedicineReports(data) {
   const tbody = document.querySelector("#medicineTable tbody");
   tbody.innerHTML = ""; // Clear previous content
 
+  // Check if there's no data to display
   if (!data || !Array.isArray(data) || data.length === 0) {
     const row = document.createElement("tr");
     row.innerHTML = `
@@ -68,6 +69,7 @@ function displayMedicineReports(data) {
     return;
   }
 
+  // Populate the table with the data
   data.forEach((barangayData) => {
     const { barangay, municipality, province, medicines } = barangayData;
 
@@ -136,5 +138,18 @@ function applyFilters() {
     return matchBarangay && matchMunicipality && matchProvince;
   });
 
-  displayMedicineReports(filteredData);
+  // Check if filtered data is empty and show "No data available" message if true
+  if (filteredData.length === 0) {
+    const tbody = document.querySelector("#medicineTable tbody");
+    tbody.innerHTML = ""; // Clear any existing rows
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td colspan="6" style="text-align: center; color: gray; font-style: italic;">
+        No data available.
+      </td>
+    `;
+    tbody.appendChild(row);
+  } else {
+    displayMedicineReports(filteredData); // Display filtered data
+  }
 }

@@ -86,12 +86,29 @@
         </div>
       </div>
       <!-- End of Vertical Card with Side Navigation -->
-
+      <div id="errorNotification" class="notification error"></div>
       <div id="dashboard_content" class="container-fluid px-4 pt-3 pb-3">
         <!-- Timestamp & Search Bar -->
         <div class="row sticky-header align-items-center mb-3">
-          <div class="col-12 d-flex justify-content-between align-items-center">
-            <h5 class="timestamp mb-0" id="currentTimestamp"></h5>
+          <div
+            class="col-12 position-relative d-flex justify-content-center align-items-center"
+          >
+            <h5
+              class="timestamp mb-0 position-absolute start-0"
+              id="currentTimestamp"
+            ></h5>
+
+            <h5 class="sum mb-0" id="summaryReport" style="font-size: 25px">
+              Summary Report
+            </h5>
+
+            <button
+              id="download-pdf"
+              class="btn position-absolute end-0"
+              style="background-color: #063e4f; color: white"
+            >
+              Download PDF
+            </button>
           </div>
         </div>
 
@@ -126,28 +143,52 @@
             </div>
 
             <div class="row g-3 mt-2">
-              <div class="col-md-3">
-                <div class="card p-3 shadow-sm text-center">
-                  <h6 class="fw-bold">Underweight</h6>
-                  <h3 id="underweightCount">0</h3>
+              <div class="col-6 col-md-3">
+                <div class="card p-2 py-3 shadow-sm text-center">
+                  <h6 class="fw-semibold mb-1" style="font-size: 0.9rem">
+                    Underweight
+                  </h6>
+                  <h4
+                    id="underweightCount"
+                    class="mb-0"
+                    style="font-size: 1.3rem"
+                  >
+                    0
+                  </h4>
                 </div>
               </div>
-              <div class="col-md-3">
-                <div class="card p-3 shadow-sm text-center">
-                  <h6 class="fw-bold">Normal</h6>
-                  <h3 id="normalCount">0</h3>
+              <div class="col-6 col-md-3">
+                <div class="card p-2 py-3 shadow-sm text-center">
+                  <h6 class="fw-semibold mb-1" style="font-size: 0.9rem">
+                    Normal
+                  </h6>
+                  <h4 id="normalCount" class="mb-0" style="font-size: 1.3rem">
+                    0
+                  </h4>
                 </div>
               </div>
-              <div class="col-md-3">
-                <div class="card p-3 shadow-sm text-center">
-                  <h6 class="fw-bold">Overweight</h6>
-                  <h3 id="overweightCount">0</h3>
+              <div class="col-6 col-md-3">
+                <div class="card p-2 py-3 shadow-sm text-center">
+                  <h6 class="fw-semibold mb-1" style="font-size: 0.9rem">
+                    Overweight
+                  </h6>
+                  <h4
+                    id="overweightCount"
+                    class="mb-0"
+                    style="font-size: 1.3rem"
+                  >
+                    0
+                  </h4>
                 </div>
               </div>
-              <div class="col-md-3">
-                <div class="card p-3 shadow-sm text-center">
-                  <h6 class="fw-bold">Obese</h6>
-                  <h3 id="obeseCount">0</h3>
+              <div class="col-6 col-md-3">
+                <div class="card p-2 py-3 shadow-sm text-center">
+                  <h6 class="fw-semibold mb-1" style="font-size: 0.9rem">
+                    Obese
+                  </h6>
+                  <h4 id="obeseCount" class="mb-0" style="font-size: 1.3rem">
+                    0
+                  </h4>
                 </div>
               </div>
             </div>
@@ -190,6 +231,9 @@
       updateTimestamp();
       setInterval(updateTimestamp, 1000);
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+
     <script type="module" src="/js/system/user_report.js"></script>
   </body>
 </html>

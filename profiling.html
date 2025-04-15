@@ -205,66 +205,69 @@
         <div class="card mt-3" id="transactionHistory">
           <div class="transaction-controls">
             <!-- Dropdown for Month Selection -->
-            <div class="dropdown monthly">
-              <button
-                class="btn dropdown-toggle fw-bold mb-3"
-                type="button"
-                id="monthDropdown"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Select Month
-              </button>
-              <ul
-                class="dropdown-menu scrollable-dropdown"
-                aria-labelledby="monthDropdown"
-                id="monthDropdownList"
-              >
-                <!-- All Months Option -->
-                <li>
-                  <a class="dropdown-item" href="#" data-month="all"
-                    >All Months</a
-                  >
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#" data-month="1">January</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#" data-month="2">February</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#" data-month="3">March</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#" data-month="4">April</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#" data-month="5">May</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#" data-month="6">June</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#" data-month="7">July</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#" data-month="8">August</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#" data-month="9">September</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#" data-month="10">October</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#" data-month="11">November</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#" data-month="12">December</a>
-                </li>
-              </ul>
+            <div class="row g-2 mb-3">
+              <!-- From Month -->
+              <div class="col-md-2">
+                <label for="fromMonth" class="form-label fw-bold"
+                  >From Month</label
+                >
+                <select id="fromMonth" class="form-select" style="width: 100%">
+                  <option value="">-- Select Month --</option>
+                  <option value="1">January</option>
+                  <option value="2">February</option>
+                  <option value="3">March</option>
+                  <option value="4">April</option>
+                  <option value="5">May</option>
+                  <option value="6">June</option>
+                  <option value="7">July</option>
+                  <option value="8">August</option>
+                  <option value="9">September</option>
+                  <option value="10">October</option>
+                  <option value="11">November</option>
+                  <option value="12">December</option>
+                </select>
+              </div>
+
+              <!-- To Month -->
+              <div class="col-md-2">
+                <label for="toMonth" class="form-label fw-bold">To Month</label>
+                <select id="toMonth" class="form-select" style="width: 100%">
+                  <option value="">-- Select Month --</option>
+                  <option value="1">January</option>
+                  <option value="2">February</option>
+                  <option value="3">March</option>
+                  <option value="4">April</option>
+                  <option value="5">May</option>
+                  <option value="6">June</option>
+                  <option value="7">July</option>
+                  <option value="8">August</option>
+                  <option value="9">September</option>
+                  <option value="10">October</option>
+                  <option value="11">November</option>
+                  <option value="12">December</option>
+                </select>
+              </div>
+
+              <!-- Filter Button -->
+              <div class="col-md-2 align-self-end">
+                <button
+                  id="filterByMonthRangeBtn"
+                  class="btn w-100"
+                  style="background-color: #063e4f; color: white"
+                >
+                  Filter
+                </button>
+              </div>
+
+              <!-- Reset Button -->
+              <div class="col-md-2 align-self-end">
+                <button id="resetFilterBtn" class="btn btn-secondary w-100">
+                  Reset
+                </button>
+              </div>
             </div>
           </div>
+
           <div
             class="card-header mt-0 text-center"
             style="background-color: #063e4f"

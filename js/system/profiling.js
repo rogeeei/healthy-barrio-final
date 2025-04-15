@@ -14,9 +14,11 @@ if (btn_logout) {
   btn_logout.addEventListener("click", logout);
 }
 
+let citizenId; // Declare it here so it’s available throughout the script.
+
 document.addEventListener("DOMContentLoaded", () => {
   const urlParams = new URLSearchParams(window.location.search);
-  const citizenId = urlParams.get("citizen_id");
+  citizenId = urlParams.get("citizen_id");
 
   if (citizenId) {
     fetchCitizenDetails(citizenId);
@@ -45,6 +47,41 @@ document.addEventListener("DOMContentLoaded", () => {
   const downloadBtn = document.getElementById("download-pdf");
   if (downloadBtn) {
     downloadBtn.addEventListener("click", downloadPDF);
+  }
+
+  // Filter by Month Range Button Event Listener
+  const filterByMonthRangeBtn = document.getElementById(
+    "filterByMonthRangeBtn"
+  );
+  const fromMonthSelect = document.getElementById("fromMonth");
+  const toMonthSelect = document.getElementById("toMonth");
+
+  if (filterByMonthRangeBtn) {
+    filterByMonthRangeBtn.addEventListener("click", () => {
+      const fromMonth = parseInt(fromMonthSelect.value);
+      const toMonth = parseInt(toMonthSelect.value);
+
+      if (!fromMonth || !toMonth) {
+        errorNotification("Please select both months.");
+        return;
+      }
+
+      if (fromMonth > toMonth) {
+        errorNotification("From Month cannot be after To Month.");
+        return;
+      }
+
+      fetchTransactionHistoryByRange(fromMonth, toMonth, citizenId);
+    });
+  }
+
+  const resetFilterBtn = document.getElementById("resetFilterBtn");
+  if (resetFilterBtn) {
+    resetFilterBtn.addEventListener("click", () => {
+      fromMonthSelect.value = "";
+      toMonthSelect.value = "";
+      fetchTransactionHistory(citizenId);
+    });
   }
 });
 
@@ -159,6 +196,22 @@ async function fetchTransactionHistory(citizenId, month = null) {
       }
 
       data.transactions.forEach((transaction) => {
+        // 🩺 Services
+        let serviceDetails = transaction.service_availed || "N/A";
+        if (
+          serviceDetails.toLowerCase().includes("bp") ||
+          serviceDetails.toLowerCase().includes("blood pressure")
+        ) {
+          serviceDetails += ` - ${transaction.blood_pressure || "N/A"}`;
+        }
+
+        // Put each service on a new line (if multiple services in future)
+        const formattedServiceDetails = serviceDetails
+          .split(",")
+          .map((s) => s.trim())
+          .join("<br>");
+
+        // 💊 Medicines
         let medicineDetails = "N/A";
         if (
           transaction.medicines_availed &&
@@ -169,21 +222,13 @@ async function fetchTransactionHistory(citizenId, month = null) {
               (med) =>
                 `${med.name} (${med.quantity} ${med.unit ? med.unit : ""})`
             )
-            .join(", ");
-        }
-
-        let serviceDetails = transaction.service_availed || "N/A";
-        if (
-          serviceDetails.toLowerCase().includes("bp") ||
-          serviceDetails.toLowerCase().includes("blood pressure")
-        ) {
-          serviceDetails += ` - ${transaction.blood_pressure || "N/A"}`;
+            .join("<br>");
         }
 
         const row = document.createElement("tr");
         row.innerHTML = `
           <td>${transaction.transaction_date}</td>
-          <td>${serviceDetails}</td>
+          <td>${formattedServiceDetails}</td>
           <td>${medicineDetails}</td>
         `;
 
@@ -198,6 +243,120 @@ async function fetchTransactionHistory(citizenId, month = null) {
   }
 }
 
+async function fetchTransactionHistoryByRange(fromMonth, toMonth, citizenId) {
+  console.log("citizenId:", citizenId); // Log to confirm the value
+  try {
+    const url = `${backendURL}/api/transactions/${citizenId}/filter-by-month-range?month_from=${fromMonth}&month_to=${toMonth}`;
+
+    console.log("Request URL: ", url); // Log the request URL
+
+    const response = await fetch(url, {
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+
+    console.log("Response Status: ", response.status); // Log the response status code
+
+    if (response.ok) {
+      const data = await response.json();
+
+      console.log("Fetched Data: ", data); // Log the fetched data
+
+      transactionHistoryBody.innerHTML = "";
+
+      if (!data.transactions || data.transactions.length === 0) {
+        console.log("No transactions found for the selected range."); // Log when no transactions are found
+        transactionHistoryBody.innerHTML = `
+          <tr><td colspan="5" class="text-center">No transactions found for the selected range.</td></tr>
+        `;
+        return;
+      }
+
+      data.transactions.forEach((transaction) => {
+        console.log("Transaction: ", transaction); // Log each transaction
+
+        // Access the service from transaction.service
+        let serviceDetails = transaction.service
+          ? transaction.service.name
+          : "N/A";
+
+        // Check if the service involves blood pressure and include it in the details if available
+        if (
+          serviceDetails.toLowerCase().includes("bp") ||
+          serviceDetails.toLowerCase().includes("blood pressure")
+        ) {
+          serviceDetails += ` - ${transaction.blood_pressure || "N/A"}`;
+        }
+
+        const formattedServiceDetails = serviceDetails
+          .split(",")
+          .map((s) => s.trim())
+          .join("<br>");
+
+        // Access medicines from transaction.medicines
+        let medicineDetails = "N/A";
+        if (transaction.medicines && transaction.medicines.length > 0) {
+          medicineDetails = transaction.medicines
+            .map(
+              (med) =>
+                `${med.name} (${med.quantity} ${med.unit ? med.unit : ""})`
+            )
+            .join("<br>");
+        }
+
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${transaction.transaction_date}</td>
+          <td>${formattedServiceDetails}</td>
+          <td>${medicineDetails}</td>
+        `;
+
+        transactionHistoryBody.appendChild(row);
+      });
+    } else {
+      const errorData = await response.json();
+      console.error(`Error ${response.status}: `, errorData.message); // Log the error message if the response is not OK
+      errorNotification(`Error: ${response.status} - ${errorData.message}`);
+    }
+  } catch (error) {
+    console.error("An error occurred: ", error.message); // Log the error in case of any issues in the fetch or data processing
+    errorNotification("An error occurred: " + error.message);
+  }
+}
+
+const fromMonthSelect = document.getElementById("fromMonth");
+const toMonthSelect = document.getElementById("toMonth");
+const filterByMonthRangeBtn = document.getElementById("filterByMonthRangeBtn");
+const resetFilterBtn = document.getElementById("resetFilterBtn");
+
+if (filterByMonthRangeBtn) {
+  filterByMonthRangeBtn.addEventListener("click", () => {
+    const fromMonth = parseInt(fromMonthSelect.value);
+    const toMonth = parseInt(toMonthSelect.value);
+
+    if (!fromMonth || !toMonth) {
+      errorNotification("Please select both months.");
+      return;
+    }
+
+    if (fromMonth > toMonth) {
+      errorNotification("From Month cannot be after To Month.");
+      return;
+    }
+
+    fetchTransactionHistoryByRange(fromMonth, toMonth, citizenId);
+  });
+}
+
+if (resetFilterBtn) {
+  resetFilterBtn.addEventListener("click", () => {
+    fromMonthSelect.value = "";
+    toMonthSelect.value = "";
+    fetchTransactionHistory(citizenId);
+  });
+}
 function downloadPDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
@@ -252,7 +411,7 @@ function downloadPDF() {
   y += 8;
   doc.setFont("helvetica", "normal");
   doc.text(
-    document.getElementById("emergency_contact_name").innerText || "N/A",
+    document.getElementById("emergency_contact_name")?.innerText || "N/A",
     10,
     y
   );
@@ -262,7 +421,7 @@ function downloadPDF() {
   y += 8;
   doc.setFont("helvetica", "normal");
   doc.text(
-    document.getElementById("emergency_contact_number").innerText || "N/A",
+    document.getElementById("emergency_contact_number")?.innerText || "N/A",
     10,
     y
   );
@@ -282,25 +441,31 @@ function downloadPDF() {
   doc.setFont("helvetica", "normal");
 
   const transactionHistory = document.getElementById("transactionHistoryBody");
-  Array.from(transactionHistory.rows).forEach((row) => {
-    const date = row.cells[0].innerText;
-    const service = row.cells[1].innerText;
-    const medicine = row.cells[2].innerText;
 
-    // Wrap text if needed (basic word wrapping)
-    const maxWidth = 60;
-    const splitService = doc.splitTextToSize(service, maxWidth);
-    const splitMedicine = doc.splitTextToSize(medicine, maxWidth);
-    const lineCount = Math.max(splitService.length, splitMedicine.length);
+  if (transactionHistory) {
+    Array.from(transactionHistory.rows).forEach((row) => {
+      const date = row.cells[0]?.innerText || "";
+      const service = row.cells[1]?.innerText || "";
+      const medicine = row.cells[2]?.innerText || "";
 
-    for (let i = 0; i < lineCount; i++) {
-      doc.text(i === 0 ? date : "", 10, y);
-      doc.text(splitService[i] || "", 60, y);
-      doc.text(splitMedicine[i] || "", 120, y);
-      y += 7;
-    }
-  });
+      // Wrap text if needed (basic word wrapping)
+      const maxWidth = 60;
+      const splitService = doc.splitTextToSize(service, maxWidth);
+      const splitMedicine = doc.splitTextToSize(medicine, maxWidth);
+      const lineCount = Math.max(splitService.length, splitMedicine.length);
 
-  const citizenId = document.getElementById("citizen_id").innerText;
+      for (let i = 0; i < lineCount; i++) {
+        doc.text(i === 0 ? date : "", 10, y);
+        doc.text(splitService[i] || "", 60, y);
+        doc.text(splitMedicine[i] || "", 120, y);
+        y += 7;
+      }
+    });
+  } else {
+    doc.text("No transaction history found.", 10, y);
+  }
+
+  const citizenId =
+    document.getElementById("citizen_id")?.innerText || "unknown";
   doc.save(`citizen_profile_${citizenId}.pdf`);
 }

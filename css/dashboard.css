@@ -312,3 +312,7 @@ body {
     0.8
   ); /* Light background for better contrast */
 }
+#download-pdf {
+  display: block; /* Makes the button a block element */
+  margin-left: 0; /* Aligns it to the left */
+}

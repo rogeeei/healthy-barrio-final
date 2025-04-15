@@ -10,6 +10,12 @@ document.addEventListener("DOMContentLoaded", () => {
   fetchServiceAvailmentStats();
   fetchDemographicSummary();
 });
+document
+  .getElementById("service_availment_card")
+  ?.addEventListener("click", () => {
+    window.location.href = "super_serv.html"; // ✅ Update to the correct target page
+  });
+
 /** ✅ Fetch and Populate Province Dropdown */
 async function fetchUserProvinces() {
   try {

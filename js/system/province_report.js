@@ -112,19 +112,20 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 /** ✅ Display Province Demographic Data */
 function displayDemographics(province, data) {
-  document.getElementById("barangay-name").innerText = province;
+  // Update Province Name
+  document.getElementById("province").innerText = province;
 
-  // ✅ Total Population
+  // Total Population
   document.getElementById("totalPopulation").innerText =
     data.totalPopulation || 0;
 
-  // ✅ Gender Distribution
+  // Gender Distribution
   document.getElementById("maleCount").innerText =
     data.genderDistribution?.Male || 0;
   document.getElementById("femaleCount").innerText =
     data.genderDistribution?.Female || 0;
 
-  // ✅ Age Distribution - Update the existing HTML structure
+  // Age Distribution - Update the existing HTML structure
   const ageGroupList = document.querySelector(".age-group-list");
   const ageGroups = [
     "Infant",
@@ -137,23 +138,25 @@ function displayDemographics(province, data) {
     "Elderly",
   ];
 
-  // Update the displayed age counts in the HTML
-  ageGroupList.querySelectorAll("div").forEach((item, index) => {
-    item.innerHTML = `<b>${ageGroups[index]}:</b> ${
-      data.ageGroups?.[ageGroups[index]] || 0
-    }`;
+  // Update Age Group Data Dynamically
+  ageGroupList.innerHTML = ""; // Clear previous content
+  ageGroups.forEach((group) => {
+    const ageData = data.ageGroups?.[group] || 0;
+    const ageElement = document.createElement("div");
+    ageElement.innerHTML = `<b>${group}:</b> ${ageData}`;
+    ageGroupList.appendChild(ageElement);
   });
 
-  // ✅ Render Age Distribution Pie Chart
+  // Render Age Distribution Pie Chart
   const ageData = ageGroups.map((group) => data.ageGroups?.[group] || 0);
   renderAgeChart(ageGroups, ageData);
 
-  // ✅ Render Other Charts
+  // Render Other Charts
   renderBmiChart(data.bmiData || {});
   renderListChart("medicineChart", "Citizen Availed", data.medicineData || []);
   renderListChart("serviceChart", "Citizen Availed", data.serviceData || []);
 
-  // ✅ BMI Classification
+  // BMI Classification
   document.getElementById("underweightCount").innerText =
     data.bmiData?.Underweight || 0;
   document.getElementById("normalCount").innerText = data.bmiData?.Normal || 0;
@@ -162,7 +165,7 @@ function displayDemographics(province, data) {
   document.getElementById("obeseCount").innerText = data.bmiData?.Obese || 0;
 }
 
-/** ✅ Render Age Distribution Pie Chart */
+/** Render Age Distribution Pie Chart */
 function renderAgeChart(labels, data) {
   const ctx = document.getElementById("ageDistributionChart").getContext("2d");
 
@@ -171,7 +174,7 @@ function renderAgeChart(labels, data) {
     window.ageChart.destroy();
   }
 
-  // Create new Pie Chart
+  // Create a new Pie Chart
   window.ageChart = new Chart(ctx, {
     type: "pie",
     data: {
@@ -191,12 +194,22 @@ function renderAgeChart(labels, data) {
             "#457B9D", // Cool Blue
             "#8D99AE", // Soft Gray-Blue
           ],
+          borderWidth: 1,
         },
       ],
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: function (tooltipItem) {
+              return `${tooltipItem.label}: ${tooltipItem.raw} people`;
+            },
+          },
+        },
+      },
     },
   });
 }

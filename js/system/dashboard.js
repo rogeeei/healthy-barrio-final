@@ -206,3 +206,15 @@ document
 
 // ✅ Fetch services when the page loads
 getServicesByBarangay();
+//  Search Services
+document.getElementById("searchInput").addEventListener("input", function () {
+  const filter = this.value.trim().toLowerCase();
+  const serviceCards = document.querySelectorAll(".service-card");
+
+  serviceCards.forEach((card) => {
+    const serviceName = card
+      .querySelector(".card-title")
+      .textContent.toLowerCase();
+    card.style.display = serviceName.includes(filter) ? "block" : "none";
+  });
+});

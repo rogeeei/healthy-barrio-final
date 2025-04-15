@@ -497,3 +497,10 @@ select.form-select-sm {
   font-size: 20px;
   margin: 10px 0;
 }
+#municipality-name {
+  display: flex; /* Enable Flexbox */
+  justify-content: center; /* Horizontally center the text */
+  align-items: center; /* Vertically center the text */
+  text-align: center; /* Ensure text is centered inside the element */
+  width: 100%; /* Make sure it spans the available width */
+}

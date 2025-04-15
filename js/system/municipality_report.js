@@ -268,6 +268,7 @@ function displayDemographics(province, municipality, data) {
     data.bmiData?.Overweight || 0;
   document.getElementById("obeseCount").innerText = data.bmiData?.Obese || 0;
 }
+
 /** ✅ Render Age Distribution Pie Chart */
 function renderAgeChart(labels, data) {
   const ctx = document.getElementById("ageDistributionChart").getContext("2d");

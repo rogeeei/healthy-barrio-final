@@ -36,6 +36,11 @@
         <div id="layoutSidenav_nav">
           <nav class="sb-sidenav ms-2" id="sidenavAccordion">
             <div>
+              <div id="barangay-container">
+                <span class="bold-text"></span>
+                <span id="barangay-name"></span>
+                <!-- This will be updated dynamically -->
+              </div>
               <img
                 src="assets/img/user1.png"
                 height="100px"
@@ -102,7 +107,13 @@
         <h5
           id="municipality-name"
           class="fw-bold text-center"
-          style="font-size: 20px"
+          style="
+            font-size: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          "
         ></h5>
 
         <div class="row g-0">

@@ -50,6 +50,14 @@ document.addEventListener("DOMContentLoaded", () => {
       window.location.href = "medicine_availment.html";
     });
   }
+  // ✅ Add event listener for Service Availment card
+  const serviceCard = document.getElementById("service_availment_card");
+  if (serviceCard) {
+    serviceCard.style.cursor = "pointer"; // optional: show pointer cursor
+    serviceCard.addEventListener("click", () => {
+      window.location.href = "service_availment.html";
+    });
+  }
 });
 
 /** ✅ Display Report Data */

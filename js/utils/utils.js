@@ -122,7 +122,7 @@ function showNavAdminPages() {
     navContainer.innerHTML = `
     <a class="nav-link" href="user_report.html" onclick="setActiveLink(this)">
       <div class="sb-nav-link-icon"><i class="fa-solid fa-file"></i></div>
-      View Services
+      Services
     </a>
   `;
   }

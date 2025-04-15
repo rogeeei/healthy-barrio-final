@@ -78,7 +78,8 @@ function displayCitizens(citizens) {
           <td>${citizen.firstname || "N/A"}</td>
           <td>${citizen.gender || "N/A"}</td>
           <td>${calculateAge(citizen.date_of_birth) || "N/A"}</td>
-          <td>${citizen.barangay || "N/A"}</td>
+          <td>${citizen.municipality || "N/A"}</td>
+          <td>${citizen.province || "N/A"}</td>
           <td>
             <button class="view_btn btn-sm viewCitizen" data-citizen-id="${
               citizen.citizen_id

@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  await fetchBarangays(province, municipality); // ✅ Fetch barangays for the municipality
+  await fetchBarangays(province, municipality);
 
   try {
     const response = await fetch(
@@ -166,14 +166,11 @@ function renderBmiChart(bmiData) {
     },
   });
 }
-/** ✅ Render List Charts */
+/**  Render List Charts */
 function renderListChart(canvasId, label, dataList) {
   const canvas = document.getElementById(canvasId);
-
-  // ✅ Retry if the canvas is not found
   if (!canvas) {
-    console.warn(`⚠️ ${canvasId} not found. Retrying in 500ms...`);
-    setTimeout(() => renderListChart(canvasId, label, dataList), 500);
+    console.warn(`⚠️ Skipping chart: ${canvasId} not found`);
     return;
   }
 
@@ -202,7 +199,7 @@ function renderListChart(canvasId, label, dataList) {
         {
           label: label,
           data: values,
-          backgroundColor: ["#063e4f", "#28a745", "#ffc107", "#dc3545"],
+          backgroundColor: ["#063E4F", "#F4A261", "#E76F51", "#2A9D8F"],
         },
       ],
     },
@@ -215,7 +212,9 @@ function renderListChart(canvasId, label, dataList) {
 
 /** ✅ Display Municipality & Barangay Demographic Data */
 function displayDemographics(province, municipality, data) {
-  document.getElementById("municipality-name").innerText = municipality;
+document.getElementById(
+  "municipality-name"
+).textContent = `${municipality} - Summary Report`;
 
   // ✅ Total Population
   document.getElementById("totalPopulation").innerText =

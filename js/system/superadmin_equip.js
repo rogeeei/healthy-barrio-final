@@ -78,12 +78,12 @@ function displayEquipmentReports(data) {
       const row = document.createElement("tr");
 
       row.innerHTML = `
-        <td style="text-align: center">${equip.name}</td>
-        <td style="text-align: center">${equip.total_quantity}</td>
-        <td style="text-align: center">${barangay}</td>
-        <td style="text-align: center">${municipality}</td>
-        <td style="text-align: center">${province}</td>
-      `;
+  <td style="text-align: center; font-family: 'Helvetica', 'Arial', sans-serif !important">${equip.name}</td>
+  <td style="text-align: center; font-family: 'Helvetica', 'Arial', sans-serif !important">${equip.total_quantity}</td>
+  <td style="text-align: center; font-family: 'Helvetica', 'Arial', sans-serif !important">${barangay}</td>
+  <td style="text-align: center; font-family: 'Helvetica', 'Arial', sans-serif !important">${municipality}</td>
+  <td style="text-align: center; font-family: 'Helvetica', 'Arial', sans-serif !important">${province}</td>
+`;
 
       tbody.appendChild(row);
     });

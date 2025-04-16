@@ -113,7 +113,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 /** ✅ Display Province Demographic Data */
 function displayDemographics(province, data) {
   // Update Province Name
-  document.getElementById("province").innerText = province;
+  document.getElementById(
+    "province"
+  ).innerText = `${province} - Summary Report`;
 
   // Total Population
   document.getElementById("totalPopulation").innerText =

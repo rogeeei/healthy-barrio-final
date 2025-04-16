@@ -59,7 +59,10 @@ async function fetchBarangayReport(barangay) {
 /** ✅ Display Barangay Demographics */
 function displayBarangayDemographics(data) {
   const barangayEl = document.getElementById("barangay-name");
-  if (barangayEl) barangayEl.innerText = data.barangay || "Unknown";
+  if (barangayEl) {
+    const barangay = data.barangay || "Unknown Barangay";
+    barangayEl.innerText = `Brgy. ${barangay} - Summary Report`;
+  }
 
   const municipalityEl = document.getElementById("municipality-name");
   if (municipalityEl) municipalityEl.innerText = data.municipality || "Unknown";

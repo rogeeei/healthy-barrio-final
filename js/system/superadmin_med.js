@@ -77,13 +77,13 @@ function displayMedicineReports(data) {
       const row = document.createElement("tr");
 
       row.innerHTML = `
-        <td style="text-align: center">${medicine.name}</td>
-        <td style="text-align: center">${medicine.total_quantity}</td>
-        <td style="text-align: center">${medicine.unit}</td>
-        <td style="text-align: center">${barangay}</td>
-        <td style="text-align: center">${municipality}</td>
-        <td style="text-align: center">${province}</td>
-      `;
+  <td style="text-align: center; font-family: 'Helvetica', 'Arial', sans-serif !important">${medicine.name}</td>
+  <td style="text-align: center; font-family: 'Helvetica', 'Arial', sans-serif !important">${medicine.total_quantity}</td>
+  <td style="text-align: center; font-family: 'Helvetica', 'Arial', sans-serif !important">${medicine.unit}</td>
+  <td style="text-align: center; font-family: 'Helvetica', 'Arial', sans-serif !important">${barangay}</td>
+  <td style="text-align: center; font-family: 'Helvetica', 'Arial', sans-serif !important">${municipality}</td>
+  <td style="text-align: center; font-family: 'Helvetica', 'Arial', sans-serif !important">${province}</td>
+`;
 
       tbody.appendChild(row);
     });

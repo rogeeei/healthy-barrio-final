@@ -69,7 +69,7 @@ async function fetchBarangayReport(province, municipality, barangay) {
 
 /** ✅ Display Barangay Demographic Data */
 function displayBarangayDemographics(province, municipality, barangay, data) {
-  document.getElementById("municipality-name").innerText = barangay;
+  document.getElementById("brgy").textContent = `${barangay} - Summary Report`;
 
   // ✅ Total Population
   document.getElementById("totalPopulation").innerText =

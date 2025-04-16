@@ -446,7 +446,8 @@ select.form-select-sm {
   display: block;
   margin: 0 auto;
 }
-#medicineTable {
+#medicineTable,
+#equipmentTable {
   width: 90%;
   margin: 20px auto;
   font-size: 14px;
@@ -457,32 +458,39 @@ select.form-select-sm {
 }
 
 #medicineTable th,
-#medicineTable td {
+#medicineTable td,
+#equipmentTable th,
+equipmentTable td {
   padding: 12px 15px;
   text-align: center;
 }
 
-#medicineTable th {
+#medicineTable th,
+#equipmentTable th {
   background-color: #063e4f;
   color: #ffffff;
   font-weight: 600;
   letter-spacing: 0.5px;
 }
 
-#medicineTable td {
+#medicineTable td,
+#equipmentTable td {
   color: #333333;
   font-weight: 500;
 }
 
-#medicineTable tr:nth-child(even) {
+#medicineTable tr:nth-child(even),
+#equipmentTable tr:nth-child(even) {
   background-color: #f7fbfc;
 }
 
-#medicineTable tr:nth-child(odd) {
+#medicineTable tr:nth-child(odd),
+#equipmentTable tr:nth-child(odd) {
   background-color: #ffffff;
 }
 
-#medicineTable tr:hover {
+#medicineTable tr:hover,
+#equipmentTable tr:hover {
   background-color: #d9f2f7;
   transition: background-color 0.3s ease;
   cursor: pointer;
@@ -503,4 +511,8 @@ select.form-select-sm {
   align-items: center; /* Vertically center the text */
   text-align: center; /* Ensure text is centered inside the element */
   width: 100%; /* Make sure it spans the available width */
+  font-size: 18px !important;
+}
+#province {
+  font-size: 18px !important;
 }

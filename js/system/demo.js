@@ -23,6 +23,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 /** ✅ Fetch Municipality Report */
 async function fetchMunicipalityReport(municipality) {
   try {
+    // Log the API request to check if data is coming in correctly
+    console.log("🌍 Fetching municipality data for:", municipality);
+
     const response = await fetch(
       `${backendURL}/api/muni-report/${municipality}`,
       {
@@ -40,36 +43,51 @@ async function fetchMunicipalityReport(municipality) {
     }
 
     const data = await response.json();
+    // Log the response data for debugging
+    console.log("🌍 API response data:", data);
+
     if (!data.success) {
       throw new Error("Failed to retrieve data.");
     }
 
     displayMunicipalityDemographics(data);
+    const stakeholder = data.stakeholder || {};
+    document.getElementById("agency_name").textContent =
+      stakeholder.agency_name || "Unknown Agency";
   } catch (error) {
     console.error("❌ Error fetching municipality data:", error);
     errorNotification("Failed to load municipality demographic data.");
   }
 }
 
-/** ✅ Display Municipality Demographics */
 function displayMunicipalityDemographics(data) {
-  const municipalityEl = document.getElementById("municipality-name");
-  if (municipalityEl) municipalityEl.innerText = data.municipality || "Unknown";
+  // Log the received data to verify it's correct
+  console.log("Received data:", data);
 
-  const provinceEl = document.getElementById("province-name");
-  if (provinceEl) provinceEl.innerText = data.province || "Unknown";
+  // Update the summary report with the municipality name
+  const summaryReportEl = document.getElementById("summaryReport");
+  if (summaryReportEl) {
+    const municipality =
+      data.stakeholder?.municipality || "Unknown Municipality";
+
+    summaryReportEl.textContent = `${municipality} - Summary Report`; // Set municipality to the summary report
+  }
+
+  const municipalityEl = document.getElementById("municipality-name");
+  if (municipalityEl)
+    municipalityEl.innerText = data.municipality || "Unknown Municipality";
 
   const totalPopulationEl = document.getElementById("totalPopulation");
   if (totalPopulationEl)
     totalPopulationEl.innerText = data.totalPopulation || 0;
 
-  // ✅ Gender Distribution
+  // Gender Distribution
   document.getElementById("maleCount").innerText =
     data.genderDistribution?.Male || 0;
   document.getElementById("femaleCount").innerText =
     data.genderDistribution?.Female || 0;
 
-  // ✅ Ensure BMI data exists before updating the UI
+  // Ensure BMI data exists before updating the UI
   const bmiData = data.bmiData || {};
   document.getElementById("underweightCount").innerText =
     bmiData.Underweight || 0;
@@ -78,10 +96,9 @@ function displayMunicipalityDemographics(data) {
     bmiData.Overweight || 0;
   document.getElementById("obeseCount").innerText = bmiData.Obese || 0;
 
-  // ✅ Populate Barangay Dropdown with Redirect Feature
+  // Populate Barangay Dropdown with Redirect Feature
   const barangayDropdown = document.getElementById("provinceDropdown");
   const barangayButton = document.getElementById("provinceDropdownButton");
-
   if (barangayDropdown) {
     barangayDropdown.innerHTML = ""; // Clear previous entries
 
@@ -93,7 +110,7 @@ function displayMunicipalityDemographics(data) {
         button.textContent = barangay;
         button.type = "button";
 
-        // ✅ Redirect to stake_brgy.html with the selected barangay in the URL
+        // Redirect to stake_brgy.html with the selected barangay in the URL
         button.addEventListener("click", function () {
           barangayButton.textContent = barangay; // Update button text
           window.location.href = `stake_brgy.html?barangay=${encodeURIComponent(
@@ -110,7 +127,7 @@ function displayMunicipalityDemographics(data) {
     }
   }
 
-  // ✅ Render Charts
+  // Render Charts
   renderBmiChart(data.bmiData || {});
   renderListChart("medicineChart", "Citizen Availed", data.medicineData || []);
   renderListChart("serviceChart", "Citizen Availed", data.serviceData || []);
@@ -174,6 +191,7 @@ function renderBmiChart(bmiData) {
     },
   });
 }
+
 /** ✅ Render List Charts */
 function renderListChart(canvasId, label, dataList) {
   const canvas = document.getElementById(canvasId);

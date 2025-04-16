@@ -89,7 +89,6 @@ function renderTable(tableId, label, dataset) {
   dataset.forEach((item) => {
     const row = document.createElement("tr");
     row.innerHTML = `
-      <td>${item.id || "N/A"}</td>
       <td>${item.name || "Unknown"}</td>
       <td>${item.availment_count || 0}</td>
     `;
@@ -99,16 +98,22 @@ function renderTable(tableId, label, dataset) {
 
 function addSearchingFunctionality() {
   const searchInput = document.getElementById("searchInput");
-  if (!searchInput) return;
+  if (!searchInput) {
+    console.warn("❌ Search input not found");
+    return;
+  }
 
   searchInput.addEventListener("input", (e) => {
     const query = e.target.value.toLowerCase();
 
-    const filtered = originalDataset.filter(
-      (item) =>
-        item.name.toLowerCase().includes(query) ||
-        item.id.toLowerCase().includes(query)
-    );
+    const filtered = originalDataset.filter((item) => {
+      const nameMatch = (item.name ?? "")
+        .toString()
+        .toLowerCase()
+        .includes(query);
+      const idMatch = (item.id ?? "").toString().toLowerCase().includes(query);
+      return nameMatch || idMatch;
+    });
 
     const dataToRender = query === "" ? originalDataset : filtered;
     renderTable("medicine_table", "Medicine Availment", dataToRender);

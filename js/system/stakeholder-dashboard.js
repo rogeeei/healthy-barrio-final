@@ -1,9 +1,4 @@
-import {
-  backendURL,
-  showNavAdminPages,
-  successNotification,
-  logout,
-} from "../utils/utils.js";
+import { backendURL, successNotification, logout } from "../utils/utils.js";
 
 // Logout Button
 const btn_logout = document.getElementById("btn_logout");
@@ -14,7 +9,6 @@ if (btn_logout) {
 document.addEventListener("DOMContentLoaded", () => {
   fetchStakeholderProvinceReport();
 });
-
 async function fetchStakeholderProvinceReport() {
   try {
     const response = await fetch(`${backendURL}/api/stakeholder/province`, {
@@ -35,6 +29,10 @@ async function fetchStakeholderProvinceReport() {
 
     updateDashboard(data);
     populateMunicipalityDropdown(data.municipalities || []);
+
+    const stakeholder = data.stakeholder || {};
+    document.getElementById("agency_name").textContent =
+      stakeholder.agency_name || "Unknown Agency";
   } catch (error) {
     console.error("Error fetching province report:", error);
     errorNotification("Failed to fetch province report.");
@@ -159,6 +157,28 @@ function renderMedicineChart(medicineData) {
           backgroundColor: ["#063e4f", "#28a745", "#ffc107", "#dc3545"],
         },
       ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: "top", // Place the legend at the top (default is 'top')
+          align: "center", // Align the legend items in the center
+          labels: {
+            boxWidth: 20, // Adjust the size of the legend color boxes
+            padding: 10, // Adjust the spacing between legend items
+            font: {
+              size: 14, // Adjust font size of legend text
+            },
+          },
+        },
+        tooltip: {
+          callbacks: {
+            label: (tooltipItem) => ` ${tooltipItem.raw} citizen(s)`, // Custom tooltip format
+          },
+        },
+      },
     },
   });
 }

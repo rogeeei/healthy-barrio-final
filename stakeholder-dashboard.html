@@ -36,6 +36,7 @@
         <div class="card-body">
           <div id="layoutSidenav_nav">
             <nav class="sb-sidenav ms-2" id="sidenavAccordion">
+              <div></div>
               <div>
                 <img
                   src="assets/img/user1.png"
@@ -43,8 +44,8 @@
                   width="100px"
                   alt=""
                 />
-                <div class="fw-bold ps-2 pt-2 fs-6 pb-3" id="user_logged"></div>
-                <span></span>
+                <div class="fw-bold ps-2 pt-2 fs-6 pb-3"></div>
+                <span id="agency_name"></span>
               </div>
               <div class="sb-sidenav-menu">
                 <div class="nav">
@@ -80,13 +81,21 @@
               id="currentTimestamp"
               style="font-size: 14px"
             ></h5>
+            <h5 class="sum mb-0" id="summaryReport" style="font-size: 18px">
+              Summary Report
+            </h5>
             <div class="dropdown">
               <button
-                class="btn btn-primary dropdown-toggle"
+                class="btn dropdown-toggle"
                 type="button"
                 id="provinceDropdownButton"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
+                style="
+                  background-color: #063e4f !important;
+                  border-color: #063e4f !important;
+                  color: white;
+                "
               >
                 Select Municipality
               </button>

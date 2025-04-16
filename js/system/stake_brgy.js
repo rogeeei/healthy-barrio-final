@@ -19,12 +19,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   await fetchBarangayReport(barangay);
 });
-
 /** ✅ Fetch Barangay Report */
 async function fetchBarangayReport(barangay) {
   try {
     const response = await fetch(
-      `${backendURL}/api/stakeholder/brgy-report/${barangay}`, // ✅ Change to barangay-level API endpoint
+      `${backendURL}/api/stakeholder/brgy-report/${barangay}`,
       {
         headers: {
           Accept: "application/json",
@@ -46,6 +45,11 @@ async function fetchBarangayReport(barangay) {
     }
 
     displayBarangayDemographics(data);
+
+    // Now directly access agency_name from the response object
+    const agencyName = data.agency_name || "Unknown Agency"; // Accessing it directly
+
+    document.getElementById("agency_name").textContent = agencyName; // Displaying agency name
   } catch (error) {
     console.error("❌ Error fetching barangay data:", error);
     errorNotification("Failed to load barangay demographic data.");
@@ -68,6 +72,7 @@ function displayBarangayDemographics(data) {
     totalPopulationEl.innerText = data.totalPopulation || 0;
 
   // ✅ Gender Distribution
+  console.log("Gender Distribution:", data.genderDistribution);
   document.getElementById("maleCount").innerText =
     data.genderDistribution?.Male || 0;
   document.getElementById("femaleCount").innerText =
@@ -75,6 +80,7 @@ function displayBarangayDemographics(data) {
 
   // ✅ Ensure BMI data exists before updating the UI
   const bmiData = data.bmiData || {};
+  console.log("BMI Data:", bmiData);
   document.getElementById("underweightCount").innerText =
     bmiData.Underweight || 0;
   document.getElementById("normalCount").innerText = bmiData.Normal || 0;

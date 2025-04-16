@@ -266,7 +266,7 @@ downloadBtn.addEventListener("click", async () => {
     clonedCanvas.parentNode.replaceChild(image, clonedCanvas);
   }
 
-  // Wrap everything in a container
+  // Wrap everything in a container for the PDF
   const container = document.createElement("div");
   container.style.display = "block";
   container.style.padding = "1rem";

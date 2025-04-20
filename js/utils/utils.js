@@ -4,7 +4,7 @@ import { setRouter } from "../router/router.js";
 setRouter();
 
 // Backend URL
-const backendURL = "http://capstone-system.test";
+const backendURL = "https://capstone-system-production.up.railway.app";
 
 // Function to handle response
 async function handleResponse(response) {

@@ -3,7 +3,7 @@ import { setRouter } from "../router/router.js";
 // Set Router
 setRouter();
 
-// Backend URL
+// Set the backend URL
 const backendURL = "https://capstone-system-production.up.railway.app";
 
 // Function to handle response

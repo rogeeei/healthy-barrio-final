@@ -19,7 +19,6 @@ document.getElementById("form_login").onsubmit = async (e) => {
       headers: {
         Accept: "application/json",
       },
-      credentials: "include",
       body: formData,
     });
 

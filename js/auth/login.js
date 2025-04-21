@@ -19,7 +19,7 @@ document.getElementById("form_login").onsubmit = async (e) => {
       headers: {
         Accept: "application/json",
       },
-      body: formData, // Send formData as the body
+      body: formData,
     });
 
     const json = await response.json();

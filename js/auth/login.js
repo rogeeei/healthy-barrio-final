@@ -16,6 +16,7 @@ document.getElementById("form_login").onsubmit = async (e) => {
   try {
     const response = await fetch(`${backendURL}/api/login`, {
       method: "POST",
+      mode: "no-cors",
       headers: {
         Accept: "application/json",
       },

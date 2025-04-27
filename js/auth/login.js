@@ -23,7 +23,13 @@ document.getElementById("form_login").onsubmit = async (e) => {
       body: formData,
     });
 
-    const json = await response.json();
+    const contentType = response.headers.get("Content-Type");
+    let json = {};
+    if (contentType && contentType.includes("application/json")) {
+      json = await response.json();
+    } else {
+      json = { message: "Server responded with unexpected content type." };
+    }
 
     if (response.ok && json.token && json.role) {
       const { token, role } = json;
@@ -51,6 +57,7 @@ document.getElementById("form_login").onsubmit = async (e) => {
     }
   } catch (error) {
     errorNotification("An error occurred. Please try again.");
+    console.error(error); // Log error details to debug
   } finally {
     loginButton.disabled = false;
     loginButton.innerHTML = `Login`;

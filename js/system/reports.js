@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
 async function fetchDemographicSummary() {
   try {
     const response = await fetch(`${backendURL}/api/demo-summary`, {
+      credentials: "include",
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -209,6 +210,7 @@ function renderAgePieChart(ageGroups) {
 async function loadServices() {
   try {
     const response = await fetch(`${backendURL}/api/services/all`, {
+      credentials: "include",
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -265,6 +267,7 @@ async function fetchAgeDistribution(serviceName) {
     const response = await fetch(
       `${backendURL}/api/service/${encodedServiceName}/age-distribution`,
       {
+        credentials: "include",
         headers: {
           Accept: "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -409,6 +412,7 @@ loadServices();
 async function loadMonthlyMedicineAvailed() {
   try {
     const response = await fetch(`${backendURL}/api/monthly/medicine`, {
+      credentials: "include",
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -538,6 +542,7 @@ loadMonthlyMedicineAvailed();
 async function loadBmiSummary() {
   try {
     const response = await fetch(`${backendURL}/api/bmi`, {
+      credentials: "include",
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,

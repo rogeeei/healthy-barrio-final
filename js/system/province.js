@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   try {
     const response = await fetch(`${backendURL}/api/province`, {
+      credentials: "include",
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,

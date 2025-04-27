@@ -17,6 +17,7 @@ if (btn_logout) {
 async function fetchBarangayReport() {
   try {
     const response = await fetch(`${backendURL}/api/citizen-report`, {
+      credentials: "include",
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -241,7 +242,7 @@ downloadBtn.addEventListener("click", async () => {
     const h6 = card.querySelector("h6");
     const h4 = card.querySelector("h4");
 
-    if (h6) h6.style.fontSize = "0.8rem";
+    if (h6) h6.style.fontSize = "0.rem";
     if (h4) h4.style.fontSize = "1rem";
   });
 

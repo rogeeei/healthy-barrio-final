@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
 async function fetchStakeholder() {
   try {
     const response = await fetch(`${backendURL}/api/stakeholder`, {
+      credentials: "include",
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -75,6 +76,7 @@ async function approveStakeholder(id) {
     const response = await fetch(
       `${backendURL}/api/stakeholders/${id}/approve`,
       {
+        credentials: "include",
         method: "POST", // Use POST as per backend configuration
         headers: {
           Accept: "application/json",
@@ -101,6 +103,7 @@ async function declineStakeholder(id) {
     const response = await fetch(
       `${backendURL}/api/stakeholders/${id}/decline`,
       {
+        credentials: "include",
         method: "POST",
         headers: {
           Accept: "application/json",

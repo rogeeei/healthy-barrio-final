@@ -19,6 +19,7 @@ async function fetchData(url, token, tableBody, mapFn, errorMsg) {
   tableBody.innerHTML = '<tr><td colspan="8">Loading...</td></tr>';
   try {
     const response = await fetch(url, {
+      credentials: "include",
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${token}`,

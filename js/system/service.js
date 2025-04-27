@@ -13,6 +13,7 @@ if (btn_logout) {
 async function loadServices() {
   try {
     const response = await fetch(`${backendURL}/api/services`, {
+      credentials: "include",
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,

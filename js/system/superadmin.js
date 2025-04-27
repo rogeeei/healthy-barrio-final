@@ -127,6 +127,7 @@ function approveUser(userId) {
 window.declineUser = async function (userId) {
   try {
     const response = await fetch(`${backendURL}/api/user/decline/${userId}`, {
+      credentials: "include",
       method: "POST",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,

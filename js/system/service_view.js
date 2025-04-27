@@ -39,6 +39,7 @@ async function viewService(page) {
     const response = await fetch(
       `${backendURL}/api/show/availed-citizens/${serviceId}?page=${page}`,
       {
+        credentials: "include",
         headers: {
           Accept: "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,

@@ -41,6 +41,7 @@ async function fetchBarangayReport(province, municipality, barangay) {
         province
       )}/${encodeURIComponent(municipality)}/${encodeURIComponent(barangay)}`,
       {
+        credentials: "include",
         headers: {
           Accept: "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,

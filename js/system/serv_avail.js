@@ -18,6 +18,7 @@ let originalDataset = [];
 async function fetchMedicineAvailmentReport() {
   try {
     const response = await fetch(`${backendURL}/api/service-availment`, {
+      credentials: "include",
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,

@@ -360,6 +360,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const response = await fetch(
           `${backendURL}/api/medicine/${medicineId}/update-stock`,
           {
+            credentials: "include",
             method: "POST",
             headers: {
               "Content-Type": "application/json",

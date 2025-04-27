@@ -28,6 +28,7 @@ async function fetchCitizenHistory() {
     let url = new URL(`${backendURL}/api/citizen-overview`);
 
     const response = await fetch(url, {
+      credentials: "include",
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,

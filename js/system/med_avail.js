@@ -18,6 +18,7 @@ let originalDataset = [];
 async function fetchMedicineAvailmentReport() {
   try {
     const response = await fetch(`${backendURL}/api/medicine-availment`, {
+      credentials: "include",
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -30,7 +31,6 @@ async function fetchMedicineAvailmentReport() {
       );
 
     const data = await response.json();
-    console.log("📊 API Response:", data);
 
     if (!data || !data.data) {
       throw new Error("Failed to load availment data.");

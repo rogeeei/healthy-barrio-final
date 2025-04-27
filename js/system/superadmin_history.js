@@ -31,6 +31,7 @@ async function fetchCitizensByBarangay(page, query) {
     const response = await fetch(
       `${backendURL}/api/citizens/barangay?page=${page}&per_page=${itemsPerPage}&query=${query}`,
       {
+        credentials: "include",
         headers: {
           Accept: "application/json",
           Authorization: `Bearer ${token}`,

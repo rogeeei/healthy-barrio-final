@@ -55,6 +55,7 @@ function searchTable() {
 async function fetchUsers(query = "") {
   try {
     const response = await fetch(`${backendURL}/api/get-bhw?search=${query}`, {
+      credentials: "include",
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -137,6 +138,7 @@ async function approveUser(userId) {
 
   try {
     const response = await fetch(`${backendURL}/api/users/${userId}/approve`, {
+      credentials: "include",
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -167,6 +169,7 @@ async function declineUser(userId) {
 
   try {
     const response = await fetch(`${backendURL}/api/user/decline/${userId}`, {
+      credentials: "include",
       method: "POST",
       headers: {
         Accept: "application/json",

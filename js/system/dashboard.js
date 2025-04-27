@@ -23,6 +23,7 @@ if (btn_logout) {
 async function getPredefinedServices() {
   try {
     const response = await fetch(`${backendURL}/api/services`, {
+      credentials: "include",
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -41,6 +42,7 @@ async function getPredefinedServices() {
 async function getServicesByBarangay() {
   try {
     const response = await fetch(`${backendURL}/api/barangay/services`, {
+      credentials: "include",
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -101,6 +103,7 @@ async function renderServiceSelection() {
     const [predefinedServices, assignedServicesResponse] = await Promise.all([
       getPredefinedServices(),
       fetch(`${backendURL}/api/barangay/services`, {
+        credentials: "include",
         headers: {
           Accept: "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -178,6 +181,7 @@ document
 
     try {
       const response = await fetch(`${backendURL}/api/barangay/services`, {
+        credentials: "include",
         method: "POST",
         headers: {
           Accept: "application/json",

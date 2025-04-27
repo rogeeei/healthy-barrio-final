@@ -89,6 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
 async function fetchCitizenDetails(citizen_id) {
   try {
     const response = await fetch(`${backendURL}/api/citizen/${citizen_id}`, {
+      credentials: "include",
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -177,6 +178,7 @@ async function fetchTransactionHistory(citizenId, month = null) {
     }
 
     const response = await fetch(url, {
+      credentials: "include",
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -244,20 +246,16 @@ async function fetchTransactionHistory(citizenId, month = null) {
 }
 
 async function fetchTransactionHistoryByRange(fromMonth, toMonth, citizenId) {
-  console.log("citizenId:", citizenId); // Log to confirm the value
   try {
     const url = `${backendURL}/api/transactions/${citizenId}/filter-by-month-range?month_from=${fromMonth}&month_to=${toMonth}`;
 
-    console.log("Request URL: ", url); // Log the request URL
-
     const response = await fetch(url, {
+      credentials: "include",
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
-
-    console.log("Response Status: ", response.status); // Log the response status code
 
     if (response.ok) {
       const data = await response.json();

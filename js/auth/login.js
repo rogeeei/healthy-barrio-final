@@ -15,6 +15,7 @@ document.getElementById("form_login").onsubmit = async (e) => {
 
   try {
     const response = await fetch(`${backendURL}/api/login`, {
+      credentials: "include",
       method: "POST",
       headers: {
         Accept: "application/json",

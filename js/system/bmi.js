@@ -36,6 +36,7 @@ function fetchCitizensByBmi() {
     console.log("Fetching citizens with BMI category:", bmiCategory);
 
     fetch(`${backendURL}/bmi-citizens?classification=${bmiCategory}`, {
+      credentials: "include",
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${token}`,

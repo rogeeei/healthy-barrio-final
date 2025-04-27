@@ -21,6 +21,7 @@ form_stakeholder.onsubmit = async (e) => {
   try {
     // Fetch API User Register Endpoint
     const response = await fetch(backendURL + "/api/stakeholders", {
+      credentials: "include",
       method: "POST",
       headers: {
         Accept: "application/json",

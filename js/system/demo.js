@@ -29,6 +29,7 @@ async function fetchMunicipalityReport(municipality) {
     const response = await fetch(
       `${backendURL}/api/muni-report/${municipality}`,
       {
+        credentials: "include",
         headers: {
           Accept: "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,

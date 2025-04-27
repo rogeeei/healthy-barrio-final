@@ -103,6 +103,7 @@ async function declineStakeholder(id) {
     const response = await fetch(
       `${backendURL}/api/stakeholders/${id}/decline`,
       {
+        credentials: "include",
         method: "POST",
         headers: {
           Accept: "application/json",

@@ -19,6 +19,7 @@ async function fetchBarangays(province, municipality) {
         province
       )}/${encodeURIComponent(municipality)}`,
       {
+        credentials: "include",
         headers: {
           Accept: "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -86,6 +87,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         province
       )}/${encodeURIComponent(municipality)}`,
       {
+        credentials: "include",
         headers: {
           Accept: "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -212,9 +214,9 @@ function renderListChart(canvasId, label, dataList) {
 
 /** ✅ Display Municipality & Barangay Demographic Data */
 function displayDemographics(province, municipality, data) {
-document.getElementById(
-  "municipality-name"
-).textContent = `${municipality} - Summary Report`;
+  document.getElementById(
+    "municipality-name"
+  ).textContent = `${municipality} - Summary Report`;
 
   // ✅ Total Population
   document.getElementById("totalPopulation").innerText =

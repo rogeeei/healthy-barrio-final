@@ -188,6 +188,7 @@ document
 
     try {
       const response = await fetch(`${backendURL}/api/services`, {
+        credentials: "include",
         method: "POST",
         headers: {
           Accept: "application/json",

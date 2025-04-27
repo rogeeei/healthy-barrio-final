@@ -22,6 +22,7 @@ document.getElementById("form_stakeholder").onsubmit = async (e) => {
   try {
     // Make a POST request to the backend with the form data as JSON
     const response = await fetch(`${backendURL}/api/stakeholders/login`, {
+      credentials: "include",
       method: "POST",
       headers: {
         Accept: "application/json",

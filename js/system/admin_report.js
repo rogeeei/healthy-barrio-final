@@ -177,6 +177,7 @@ async function loadServices(barangay) {
     const response = await fetch(
       `${backendURL}/api/services/brgy?barangay=${encodedBarangay}`,
       {
+        credentials: "include",
         headers: {
           Accept: "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -246,6 +247,7 @@ async function fetchAgeDistribution(serviceName, barangay) {
         serviceName
       )}/age?barangay=${encodeURIComponent(barangay)}`,
       {
+        credentials: "include",
         headers: {
           Accept: "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -373,6 +375,7 @@ async function loadMonthlyMedicineAvailed() {
         barangay
       )}`,
       {
+        credentials: "include",
         headers: {
           Accept: "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,

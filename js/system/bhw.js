@@ -23,6 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
 async function fetchBhw() {
   try {
     const response = await fetch(`${backendURL}/api/get-bhw`, {
+      credentials: "include",
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,

@@ -35,6 +35,7 @@ async function fetchCitizensByBarangay() {
   try {
     const token = localStorage.getItem("token");
     const response = await fetch(`${backendURL}/api/citizens/barangay`, {
+      credentials: "include",
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${token}`,
@@ -149,6 +150,7 @@ async function fetchServices() {
 async function fetchMedicines() {
   try {
     const response = await fetch(`${backendURL}/api/medicines/available`, {
+      credentials: "include",
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     });
 
@@ -291,6 +293,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       try {
         const response = await fetch(`${backendURL}/api/transactions`, {
+          credentials: "include",
           method: "POST",
           headers: {
             Accept: "application/json",
@@ -320,6 +323,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function populateMedicineDropdown(selectElement) {
     fetch(`${backendURL}/api/medicine`, {
+      credentials: "include",
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     })
       .then((response) => {
@@ -506,6 +510,7 @@ async function populateBarangayDropdown(selectedBarangay = "") {
 
   try {
     const response = await fetch(`${backendURL}/api/all-barangays`, {
+      credentials: "include",
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -565,6 +570,7 @@ document
         : `${backendURL}/api/citizen`;
 
       const response = await fetchWithAuth(endpoint, {
+        credentials: "include",
         method,
         headers: {
           Accept: "application/json",
@@ -711,6 +717,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 async function loadPurokOptions() {
   try {
     const response = await fetch(`${backendURL}/api/puroks`, {
+      credentials: "include",
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,

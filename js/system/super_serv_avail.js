@@ -20,6 +20,7 @@ async function fetchMedicineAvailmentReport() {
     const response = await fetch(
       `${backendURL}/api/services/service-availment-all`,
       {
+        credentials: "include",
         headers: {
           Accept: "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,

@@ -25,6 +25,7 @@ async function fetchBarangayReport(barangay) {
     const response = await fetch(
       `${backendURL}/api/stakeholder/brgy-report/${barangay}`,
       {
+        credentials: "include",
         headers: {
           Accept: "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,

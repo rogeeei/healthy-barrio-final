@@ -23,6 +23,7 @@ async function handleResponse(response) {
 // Logout function
 export async function logout() {
   try {
+    
     const response = await fetchWithAuth(`${backendURL}/api/logout`);
     if (response.ok) {
       localStorage.clear();

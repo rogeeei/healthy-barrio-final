@@ -20,6 +20,7 @@ async function fetchMunicipalities(province) {
         province
       )}`,
       {
+        credentials: "include",
         headers: {
           Accept: "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,

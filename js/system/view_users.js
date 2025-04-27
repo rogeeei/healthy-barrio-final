@@ -29,6 +29,7 @@ async function getUsers(query = "", sortBy = "user_id", order = "asc") {
 
   try {
     const response = await fetch(url, {
+      credentials: "include",
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${token}`,

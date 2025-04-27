@@ -107,6 +107,7 @@ async function handleEquipmentSubmit(event) {
 
   try {
     const response = await fetch(url, {
+      credentials: "include",
       method,
       headers: {
         Accept: "application/json",

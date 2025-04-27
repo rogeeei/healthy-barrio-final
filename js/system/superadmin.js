@@ -101,7 +101,7 @@ function approveUser(userId) {
   const url = `${backendURL}/api/users/${userId}/approve`;
 
   fetch(url, {
-    method: "PATCH",
+    method: "POST",
     headers: {
       Accept: "application/json",
       Authorization: `Bearer ${token}`,
@@ -127,7 +127,7 @@ function approveUser(userId) {
 window.declineUser = async function (userId) {
   try {
     const response = await fetch(`${backendURL}/api/user/decline/${userId}`, {
-      method: "PATCH",
+      method: "POST",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
         "Content-Type": "application/json",

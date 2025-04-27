@@ -217,10 +217,8 @@ downloadBtn.addEventListener("click", async () => {
   const reportElement = document.getElementById("dashboard_content");
   const originalButton = downloadBtn;
 
-  // Hide the download button temporarily
   originalButton.style.display = "none";
 
-  // Clone the content
   const printable = reportElement.cloneNode(true);
   printable.style.width = "100%";
   printable.style.padding = "20px";
@@ -229,27 +227,24 @@ downloadBtn.addEventListener("click", async () => {
   printable.style.margin = "0 auto";
   printable.style.display = "block";
 
-  // Optional: adjust cloned title
   const clonedSummary = printable.querySelector("#summaryReport");
   if (clonedSummary) {
-    clonedSummary.style.fontSize = "16px";
+    clonedSummary.style.fontSize = "12px";
   }
 
-  // 🔸 Increase card size & spacing for PDF
   const cards = printable.querySelectorAll(".row.g-3.mt-2 .card");
   cards.forEach((card) => {
     card.style.padding = "1.5rem";
-    card.style.fontSize = "1rem";
-    card.style.minHeight = "130px"; // optional: make them taller
+    card.style.fontSize = "0.7rem";
+    card.style.minHeight = "130px";
 
-    const h3 = card.querySelector("h3");
     const h6 = card.querySelector("h6");
+    const h4 = card.querySelector("h4");
 
-    if (h3) h3.style.fontSize = "1.5rem";
-    if (h6) h6.style.fontSize = "1rem";
+    if (h6) h6.style.fontSize = "0.8rem";
+    if (h4) h4.style.fontSize = "1rem";
   });
 
-  // Replace each canvas with image version
   const originalCanvases = reportElement.querySelectorAll("canvas");
   const clonedCanvases = printable.querySelectorAll("canvas");
 
@@ -266,14 +261,12 @@ downloadBtn.addEventListener("click", async () => {
     clonedCanvas.parentNode.replaceChild(image, clonedCanvas);
   }
 
-  // Wrap everything in a container for the PDF
   const container = document.createElement("div");
   container.style.display = "block";
   container.style.padding = "1rem";
   container.appendChild(printable);
   document.body.appendChild(container);
 
-  // PDF settings
   const opt = {
     margin: 0.5,
     filename: `Barangay_Report_${new Date().toISOString().slice(0, 10)}.pdf`,
@@ -284,7 +277,6 @@ downloadBtn.addEventListener("click", async () => {
 
   await html2pdf().set(opt).from(container).save();
 
-  // Clean up and restore button
   document.body.removeChild(container);
   originalButton.style.display = "inline-block";
 });

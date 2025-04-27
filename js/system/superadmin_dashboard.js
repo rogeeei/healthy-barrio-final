@@ -385,3 +385,73 @@ async function loadOverallMedicineAvailed() {
 document.getElementById("medicineAvail")?.addEventListener("click", () => {
   window.location.href = "superadmin_med-avail.html"; // Redirect to the correct page
 });
+
+const downloadBtn = document.getElementById("download-pdf");
+
+downloadBtn.addEventListener("click", async () => {
+  const reportElement = document.getElementById("dashboard_content");
+  const originalButton = downloadBtn;
+
+  originalButton.style.display = "none";
+
+  const printable = reportElement.cloneNode(true);
+  printable.style.width = "100%";
+  printable.style.padding = "20px";
+  printable.style.backgroundColor = "white";
+  printable.style.textAlign = "left";
+  printable.style.margin = "0 auto";
+  printable.style.display = "block";
+
+  const clonedSummary = printable.querySelector("#summaryReport");
+  if (clonedSummary) {
+    clonedSummary.style.fontSize = "12px";
+  }
+
+  const cards = printable.querySelectorAll(".row.g-3.mt-2 .card");
+  cards.forEach((card) => {
+    card.style.padding = "1.5rem";
+    card.style.fontSize = "0.7rem";
+    card.style.minHeight = "130px";
+
+    const h6 = card.querySelector("h6");
+    const h4 = card.querySelector("h4");
+
+    if (h6) h6.style.fontSize = "0.8rem";
+    if (h4) h4.style.fontSize = "1rem";
+  });
+
+  const originalCanvases = reportElement.querySelectorAll("canvas");
+  const clonedCanvases = printable.querySelectorAll("canvas");
+
+  for (let i = 0; i < originalCanvases.length; i++) {
+    const originalCanvas = originalCanvases[i];
+    const clonedCanvas = clonedCanvases[i];
+
+    const image = new Image();
+    image.src = originalCanvas.toDataURL("image/png");
+    image.className = "chart-img";
+    image.style.width = "100%";
+    image.style.height = "auto";
+
+    clonedCanvas.parentNode.replaceChild(image, clonedCanvas);
+  }
+
+  const container = document.createElement("div");
+  container.style.display = "block";
+  container.style.padding = "1rem";
+  container.appendChild(printable);
+  document.body.appendChild(container);
+
+  const opt = {
+    margin: 0.5,
+    filename: `Barangay_Report_${new Date().toISOString().slice(0, 10)}.pdf`,
+    image: { type: "jpeg", quality: 0.98 },
+    html2canvas: { scale: 2, useCORS: true },
+    jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+  };
+
+  await html2pdf().set(opt).from(container).save();
+
+  document.body.removeChild(container);
+  originalButton.style.display = "inline-block";
+});

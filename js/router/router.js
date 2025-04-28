@@ -21,26 +21,36 @@ function setRouter() {
   if (
     !token &&
     (window.location.pathname === "/admin_report.html" ||
+      window.location.pathname === "/add_services.html" ||
       window.location.pathname === "/admin_view_users.html" ||
       window.location.pathname === "/admin.html" ||
       window.location.pathname === "/bhw.html" ||
       window.location.pathname === "/brgy.html" ||
       window.location.pathname === "/citizen.html" ||
+      window.location.pathname === "/citizens_bmi_list.html" ||
       window.location.pathname === "/dashboard.html" ||
       window.location.pathname === "/demo.html" ||
       window.location.pathname === "/equipment.html" ||
       window.location.pathname === "/history.html" ||
       window.location.pathname === "/med.html" ||
+      window.location.pathname === "/medicine_availment.html" ||
+      window.location.pathname === "/municipality_report.html" ||
       window.location.pathname === "/profiling.html" ||
+      window.location.pathname === "/province_report.html" ||
+      window.location.pathname === "/province.html" ||
       window.location.pathname === "/reports.html" ||
+      window.location.pathname === "/service_availment.html" ||
       window.location.pathname === "/service_view.html" ||
       window.location.pathname === "/services.html" ||
+      window.location.pathname === "/stake_brgy.html" ||
       window.location.pathname === "/stakeholder_user.html" ||
       window.location.pathname === "/stakeholder-dashboard.html" ||
       window.location.pathname === "/stakeholder.html" ||
+      window.location.pathname === "/super_serv.html" ||
       window.location.pathname === "/superadmin_citizen.html" ||
       window.location.pathname === "/superadmin_dashboard.html" ||
       window.location.pathname === "/superadmin_equipment.html" ||
+      window.location.pathname === "/superadmin_med-avail.html" ||
       window.location.pathname === "/superadmin_med.html" ||
       window.location.pathname === "/superadmin_report.html" ||
       window.location.pathname === "/superadmin_supplies.html" ||

@@ -23,22 +23,9 @@
     />
     <link href="css/sidenav.css" rel="stylesheet" />
     <link href="css/med.css" rel="stylesheet" />
-
     <style>
-      #layoutSidenav {
-        display: flex;
-      }
-
-      #layoutSidenav_nav {
-        width: 250px; /* sidebar width */
-        flex-shrink: 0;
-        background-color: #063e4f;
-        height: 100vh;
-        position: fixed;
-      }
-
+      /* Only adjust the content area, not the sidebar */
       #layoutSidenav_content {
-        margin-left: 250px; /* same as sidebar width */
         padding: 20px 30px;
         background-color: #f8f9fa;
         min-height: 100vh;
@@ -49,6 +36,26 @@
         border-radius: 10px;
         padding: 20px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Optional: Style the table to look cleaner */
+      table.table {
+        background-color: white;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      table.table th {
+        background-color: #063e4f;
+        color: white;
+        font-weight: bold;
+      }
+      table.table td {
+        vertical-align: middle;
+      }
+
+      /* Search bar alignment fix */
+      .search-container {
+        margin-right: 30px;
       }
     </style>
   </head>

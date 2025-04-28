@@ -7,7 +7,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <title>Healthy Barrio | Stakeholder Management</title>
+    <title>Healthy Barrio | Satkeholder Management</title>
     <link rel="icon" type="image/x-icon" href="assets/img/logo.png" />
     <script
       src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
@@ -23,149 +23,157 @@
     />
     <link href="css/sidenav.css" rel="stylesheet" />
     <link href="css/med.css" rel="stylesheet" />
-    <style>
-      /* keep sidebar untouched */
-
-      /* shift all content right so it clears the sidebar */
-      #layoutSidenav_content {
-        margin-left: 250px; /* match your sidebar width */
-        padding: 20px;
-        background-color: #f8f9fa;
-        min-height: 100vh;
-      }
-
-      /* the pale-blue header bar behind the “Manage Stakeholder” title */
-      .page-header {
-        background-color: #dff0f7;
-        padding: 1rem 1.25rem;
-        border-top-left-radius: 0.25rem;
-        border-top-right-radius: 0.25rem;
-        margin-bottom: 0;
-      }
-      .page-header h2 {
-        margin: 0;
-        color: #063e4f;
-      }
-
-      /* Timestamp & search row */
-      .timestamp-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1rem;
-      }
-      .timestamp-container .timestamp {
-        font-size: 0.875rem;
-        color: #063e4f;
-      }
-      .timestamp-container .search-container {
-        width: 250px;
-      }
-      .timestamp-container .search-container .form-control {
-        border-radius: 0.25rem;
-        padding: 0.5rem;
-      }
-
-      /* card wrapper for the table */
-      .stakeholder-card {
-        border: none;
-        border-radius: 0 0.25rem 0.25rem 0.25rem;
-        box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
-      }
-
-      /* dark teal table header */
-      .stakeholder-card thead {
-        background-color: #063e4f;
-        color: #fff;
-      }
-      .stakeholder-card th,
-      .stakeholder-card td {
-        vertical-align: middle;
-        padding: 0.75rem;
-      }
-      .stakeholder-card tbody tr + tr {
-        border-top: 1px solid #dee2e6;
-      }
-    </style>
   </head>
-
   <body class="admin">
     <div id="successNotification" class="notification"></div>
     <div id="errorNotification" class="notification"></div>
 
     <div id="layoutSidenav" class="admin">
-      <!-- Sidebar stays exactly as-is -->
+      <!-- Vertical Card with Side Navigation -->
       <div class="dash_card vertical-card side-nav-card">
         <div class="card-body">
           <div id="layoutSidenav_nav">
-            <!-- ... your sidebar content ... -->
+            <nav class="sb-sidenav ms-2" id="sidenavAccordion">
+              <div id="barangay-container">
+                <span class="bold-text"></span>
+                <span id="barangay-name"></span>
+                <!-- This will be updated dynamically -->
+              </div>
+              <div>
+                <img
+                  src="assets/img/user1.png"
+                  height="100px"
+                  width="100px"
+                  alt=""
+                />
+                <div class="fw-bold ps-2 pt-2 fs-6 pb-3" id="user_logged"></div>
+                <span></span>
+              </div>
+              <div class="sb-sidenav-menu">
+                <div class="nav">
+                  <a class="nav-link active" href="dashboard.html">
+                    <div class="sb-nav-link-icon">
+                      <i class="fa-solid fa-table-columns"></i>
+                    </div>
+                    Dashboard
+                  </a>
+                  <div id="nav_admin_pages"></div>
+                  <a class="nav-link" href="citizen.html">
+                    <div class="sb-nav-link-icon">
+                      <i class="fa-solid fa-person"></i>
+                    </div>
+                    Citizens
+                  </a>
+                  <a class="nav-link" href="supplies.html">
+                    <div class="sb-nav-link-icon">
+                      <i class="fa-solid fa-suitcase-medical"></i>
+                    </div>
+                    Supplies
+                  </a>
+                  <!-- Logout link -->
+                  <div class="nav-item mt-auto">
+                    <button id="btn_logout" class="nav-link">
+                      <div class="sb-nav-link-icon ms-2 ps-1">
+                        <i class="fa-solid fa-sign-out-alt"></i>
+                      </div>
+                      Logout
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </nav>
           </div>
         </div>
       </div>
+      <!-- End of Vertical Card with Side Navigation -->
 
-      <!-- Main Content -->
-      <div id="layoutSidenav_content">
-        <!-- Timestamp & Search -->
-        <div class="timestamp-container">
-          <h5 id="currentTimestamp" class="timestamp"></h5>
-          <div class="search-container">
-            <input
-              type="text"
-              id="searchInput"
-              class="form-control"
-              placeholder="Search"
-            />
+      <div id="layoutSidenav_content" class="ps-2 ms-2 adcard">
+        <main class="container-fluid ps-0 ms-0">
+          <div class="mb-0 pb-0 sticky-part">
+            <!-- Sticky Timestamp and Search Bar Section -->
+            <div
+              class="timestamp-container mt-3 d-flex justify-content-between align-items-center"
+            >
+              <!-- Timestamp Section -->
+              <h5
+                class="timestamp ms-5 ps-4"
+                id="currentTimestamp"
+                style="font-size: 14px; color: #063e4f"
+              ></h5>
+
+              <!-- Sticky Search Bar Section -->
+              <div class="search-container">
+                <div class="d-flex justify-content-between align-items-center">
+                  <input
+                    class="form-control ms-2"
+                    id="searchInput"
+                    placeholder="Search"
+                    aria-label="Search Supplies"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-
-        <!-- Pale-blue header bar -->
-        <div class="page-header">
-          <h2>Manage Stakeholder</h2>
-        </div>
-
-        <!-- Table inside its own “card” -->
-        <div class="card stakeholder-card">
-          <div class="card-body p-0 table-responsive">
-            <table class="table table-hover mb-0">
-              <thead>
-                <tr>
-                  <th>Agency Name</th>
-                  <th>Username</th>
-                  <th>Barangay</th>
-                  <th>Municipality</th>
-                  <th>Province</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- Dynamic data inserted here -->
-              </tbody>
-            </table>
+          <div class="row ms-0 ps-0">
+            <div class="col-md-12">
+              <div class="card mt-3">
+                <div
+                  class="card-header d-flex justify-content-between align-items-center"
+                >
+                  <h3 class="card-title pr-5">Manage Stakeholder</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body bhw table-responsive">
+                  <table
+                    class="table table-bordered table-hover m-3"
+                    style="width: 1150px"
+                    id="myTable"
+                  >
+                    <thead style="background-color: #063e4f; color: white">
+                      <tr>
+                        <th>Agency Name</th>
+                        <th>Username</th>
+                        <th>Barangay</th>
+                        <th>Municipality</th>
+                        <th>Province</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody style="height: 15px">
+                      <!-- Dynamic Data will be inserted here -->
+                    </tbody>
+                  </table>
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+            </div>
+            <!-- /.col -->
           </div>
-        </div>
+          <!-- /.row -->
+          <!-- /.container-fluid -->
+        </main>
+        <!-- /.content-wrapper -->
       </div>
-      <!-- End Main Content -->
+      <!-- /.layoutSidenav_content -->
     </div>
-
     <script>
       function updateTimestamp() {
         const now = new Date();
-        document.getElementById("currentTimestamp").textContent =
-          now.toLocaleDateString(undefined, {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          }) +
-          " " +
-          now.toLocaleTimeString();
+        const time = now.toLocaleTimeString();
+        const date = now.toLocaleDateString(undefined, {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+        document.getElementById(
+          "currentTimestamp"
+        ).textContent = `${date} ${time}`;
       }
       updateTimestamp();
       setInterval(updateTimestamp, 1000);
     </script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-      defer
-    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/system/stakeholders.js" type="module" defer></script>
   </body>
 </html>

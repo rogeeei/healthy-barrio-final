@@ -148,7 +148,6 @@ document.addEventListener("click", (event) => {
 function viewCitizen(citizenId) {
   window.location.href = `/profiling.html?citizen_id=${citizenId}`;
 }
-
 function sortTable(column, order) {
   const tbody = document.querySelector("table tbody");
   const rows = Array.from(tbody.querySelectorAll("tr"));
@@ -159,6 +158,8 @@ function sortTable(column, order) {
     gender: 2,
     age: 3,
     barangay: 4,
+    municipality: 5, // ADDED
+    province: 6, // ADDED
   };
 
   const columnIndex = columnIndices[column.toLowerCase()];
@@ -190,7 +191,7 @@ function addSortEventListeners() {
       const buttonClicked = e.target.closest("button");
       const column = buttonClicked
         .closest("th")
-        .textContent.trim()
+        .childNodes[0].textContent.trim()
         .toLowerCase();
       currentSortOrder = buttonClicked.dataset.order === "asc" ? "desc" : "asc";
       buttonClicked.dataset.order = currentSortOrder;
@@ -222,3 +223,4 @@ function toggleSortIcons(buttonClicked) {
     iconDown.classList.add("active");
   }
 }
+

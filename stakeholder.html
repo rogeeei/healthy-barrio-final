@@ -3,33 +3,95 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <title>Healthy Barrio | Satkeholder Management</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Healthy Barrio | Stakeholder Management</title>
     <link rel="icon" type="image/x-icon" href="assets/img/logo.png" />
-    <script
-      src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
-      crossorigin="anonymous"
-    ></script>
-    <link
-      href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="css/sidenav.css" rel="stylesheet" />
     <link href="css/med.css" rel="stylesheet" />
+    <style>
+      /* Content Styling: Adjusted from your original request */
+      #layoutSidenav_content {
+        padding: 20px 30px;
+        background-color: #f8f9fa;
+        min-height: 100vh;
+      }
+
+      main.container-fluid {
+        background-color: white;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Sticky Timestamp and Search Bar Section */
+      .timestamp-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+      
+      .timestamp-container .timestamp {
+        font-size: 14px;
+        color: #063e4f;
+      }
+
+      .search-container {
+        width: 250px;
+      }
+
+      .search-container .form-control {
+        font-size: 14px;
+        padding: 10px;
+        border-radius: 5px;
+      }
+
+      /* Table Styling */
+      table.table {
+        background-color: white;
+        border-radius: 8px;
+        overflow: hidden;
+        width: 100%;
+      }
+
+      table.table th {
+        background-color: #063e4f;
+        color: white;
+        font-weight: bold;
+        padding: 15px;
+      }
+
+      table.table td {
+        vertical-align: middle;
+        padding: 15px;
+      }
+
+      /* Card Header Styling */
+      .card-header {
+        background-color: #dff0f7 !important;
+        font-weight: bold !important;
+        font-size: 18px !important;
+      }
+      
+      /* Adjust margin and padding for the layout */
+      .card-body {
+        padding: 20px;
+      }
+
+      .table-responsive {
+        margin-top: 20px;
+      }
+    </style>
   </head>
   <body class="admin">
     <div id="successNotification" class="notification"></div>
     <div id="errorNotification" class="notification"></div>
 
     <div id="layoutSidenav" class="admin">
-      <!-- Vertical Card with Side Navigation -->
+      <!-- Sidebar -->
       <div class="dash_card vertical-card side-nav-card">
         <div class="card-body">
           <div id="layoutSidenav_nav">
@@ -37,17 +99,10 @@
               <div id="barangay-container">
                 <span class="bold-text"></span>
                 <span id="barangay-name"></span>
-                <!-- This will be updated dynamically -->
               </div>
               <div>
-                <img
-                  src="assets/img/user1.png"
-                  height="100px"
-                  width="100px"
-                  alt=""
-                />
+                <img src="assets/img/user1.png" height="100px" width="100px" alt="" />
                 <div class="fw-bold ps-2 pt-2 fs-6 pb-3" id="user_logged"></div>
-                <span></span>
               </div>
               <div class="sb-sidenav-menu">
                 <div class="nav">
@@ -70,7 +125,6 @@
                     </div>
                     Supplies
                   </a>
-                  <!-- Logout link -->
                   <div class="nav-item mt-auto">
                     <button id="btn_logout" class="nav-link">
                       <div class="sb-nav-link-icon ms-2 ps-1">
@@ -85,79 +139,50 @@
           </div>
         </div>
       </div>
-      <!-- End of Vertical Card with Side Navigation -->
 
-      <div id="layoutSidenav_content" class="ps-2 ms-2 adcard">
-        <main class="container-fluid ps-0 ms-0">
-          <div class="mb-0 pb-0 sticky-part">
-            <!-- Sticky Timestamp and Search Bar Section -->
-            <div
-              class="timestamp-container mt-3 d-flex justify-content-between align-items-center"
-              style="margin-left: 200px"
-            >
-              <!-- Timestamp Section -->
-              <h5
-                class="timestamp ms-5 ps-4"
-                id="currentTimestamp"
-                style="font-size: 14px; color: #063e4f"
-              ></h5>
+      <!-- Main Content -->
+      <div id="layoutSidenav_content">
+        <main class="container-fluid">
+          <div class="timestamp-container mt-3 d-flex justify-content-between align-items-center">
+            <h5 class="timestamp mb-0" id="currentTimestamp"></h5>
 
-              <!-- Sticky Search Bar Section -->
-              <div class="search-container">
-                <div class="d-flex justify-content-between align-items-center">
-                  <input
-                    class="form-control ms-2"
-                    id="searchInput"
-                    placeholder="Search"
-                    aria-label="Search Supplies"
-                  />
-                </div>
-              </div>
+            <div class="search-container">
+              <input
+                class="form-control"
+                id="searchInput"
+                placeholder="Search"
+                aria-label="Search Supplies"
+              />
             </div>
           </div>
-          <div class="row ms-0 ps-0">
-            <div class="col-md-12">
-              <div class="card mt-3" style="margin-left: 250px">
-                <div
-                  class="card-header d-flex justify-content-between align-items-center"
-                >
-                  <h3 class="card-title pr-5">Manage Stakeholder</h3>
-                </div>
-                <!-- /.card-header -->
-                <div class="card-body bhw table-responsive">
-                  <table
-                    class="table table-bordered table-hover m-3"
-                    style="width: 1150px"
-                    id="myTable"
-                  >
-                    <thead style="background-color: #063e4f; color: white">
-                      <tr>
-                        <th>Agency Name</th>
-                        <th>Username</th>
-                        <th>Barangay</th>
-                        <th>Municipality</th>
-                        <th>Province</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody style="height: 15px">
-                      <!-- Dynamic Data will be inserted here -->
-                    </tbody>
-                  </table>
-                </div>
-                <!-- /.card-body -->
-              </div>
-              <!-- /.card -->
+
+          <!-- Manage Stakeholder Table -->
+          <div class="card">
+            <div class="card-header">
+              Manage Stakeholder
             </div>
-            <!-- /.col -->
+            <div class="card-body table-responsive mt-3">
+              <table class="table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th>Agency Name</th>
+                    <th>Username</th>
+                    <th>Barangay</th>
+                    <th>Municipality</th>
+                    <th>Province</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Dynamic Data will be inserted here -->
+                </tbody>
+              </table>
+            </div>
           </div>
-          <!-- /.row -->
-          <!-- /.container-fluid -->
         </main>
-        <!-- /.content-wrapper -->
       </div>
-      <!-- /.layoutSidenav_content -->
     </div>
+
     <script>
       function updateTimestamp() {
         const now = new Date();
@@ -167,9 +192,7 @@
           month: "long",
           day: "numeric",
         });
-        document.getElementById(
-          "currentTimestamp"
-        ).textContent = `${date} ${time}`;
+        document.getElementById("currentTimestamp").textContent = `${date} ${time}`;
       }
       updateTimestamp();
       setInterval(updateTimestamp, 1000);

@@ -148,6 +148,7 @@ document.addEventListener("click", (event) => {
 function viewCitizen(citizenId) {
   window.location.href = `/profiling.html?citizen_id=${citizenId}`;
 }
+
 function sortTable(column, order) {
   const tbody = document.querySelector("table tbody");
   const rows = Array.from(tbody.querySelectorAll("tr"));
@@ -158,8 +159,8 @@ function sortTable(column, order) {
     gender: 2,
     age: 3,
     barangay: 4,
-    municipality: 5, // ADDED
-    province: 6, // ADDED
+    municipality: 5,
+    province: 6,
   };
 
   const columnIndex = columnIndices[column.toLowerCase()];
@@ -189,10 +190,17 @@ function addSortEventListeners() {
   sortButtons.forEach((button) => {
     button.addEventListener("click", (e) => {
       const buttonClicked = e.target.closest("button");
-      const column = buttonClicked
-        .closest("th")
-        .childNodes[0].textContent.trim()
+      const th = buttonClicked.closest("th");
+
+      // 🔥 Get only the TH text (without button text)
+      const columnText = Array.from(th.childNodes)
+        .filter((node) => node.nodeType === Node.TEXT_NODE)
+        .map((node) => node.textContent.trim())
+        .join(" ")
         .toLowerCase();
+
+      const column = columnText.trim();
+
       currentSortOrder = buttonClicked.dataset.order === "asc" ? "desc" : "asc";
       buttonClicked.dataset.order = currentSortOrder;
 
@@ -223,4 +231,3 @@ function toggleSortIcons(buttonClicked) {
     iconDown.classList.add("active");
   }
 }
-

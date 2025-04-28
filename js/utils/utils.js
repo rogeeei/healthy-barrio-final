@@ -26,14 +26,14 @@ export async function logout() {
     const response = await fetchWithAuth(`${backendURL}/api/logout`);
     if (response.ok) {
       localStorage.clear();
-      successNotification("Logout Successful.");
+      console.log("Logout Successful.");
       window.location.pathname = "/";
     } else {
       const json = await response.json();
-      errorNotification(`Logout failed: ${json.message}`, 10);
+      console.error(`Logout failed: ${json.message}`, 10);
     }
   } catch (error) {
-    errorNotification("An error occurred during logout: " + error.message);
+    console.error("An error occurred during logout: " + error.message);
   }
 }
 

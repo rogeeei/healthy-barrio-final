@@ -181,9 +181,9 @@ table th {
   background-color: #f8f9fa;
   z-index: 1;
 }
-/* .admin {
+.admin {
   width: 1250px;
-} */
+}
 #mytable {
   border: 1px solid black;
   border-collapse: collapse;

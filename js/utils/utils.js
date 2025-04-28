@@ -4,7 +4,7 @@ import { setRouter } from "../router/router.js";
 setRouter();
 
 // Backend URL
-const backendURL = "https://capstone-system-production-7c08.up.railway.app";
+const backendURL = "https://capstone-system-production-7c08.up.railway.app/";
 
 // Function to handle response
 async function handleResponse(response) {
@@ -23,7 +23,6 @@ async function handleResponse(response) {
 // Logout function
 export async function logout() {
   try {
-    
     const response = await fetchWithAuth(`${backendURL}/api/logout`);
     if (response.ok) {
       localStorage.clear();

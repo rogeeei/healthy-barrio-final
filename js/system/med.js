@@ -13,29 +13,6 @@ if (btn_logout) {
   btn_logout.addEventListener("click", logout);
 }
 
-// Function to show the modal
-function showModal(medicineId) {
-  const modalElement = document.getElementById("update_medicine_modal");
-
-  // Initialize the Bootstrap modal
-  const updateMedicineModal = new bootstrap.Modal(modalElement);
-
-  // Set the medicine ID in the hidden input field for the modal form
-  document.getElementById("update_medicine_id").value = medicineId;
-
-  // Show the modal using Bootstrap's JS method
-  updateMedicineModal.show();
-
-  // Ensure the first input field is focused (if necessary)
-  document.getElementById("update_quantity").focus();
-
-  // Remove the backdrop in case it covers the modal (optional)
-  const backdrop = document.querySelector(".modal-backdrop");
-  if (backdrop) {
-    backdrop.parentNode.removeChild(backdrop);
-  }
-}
-
 // Fetch and display medicine data
 async function getMedicine(query = "") {
   const token = localStorage.getItem("token");
@@ -264,13 +241,6 @@ document.querySelectorAll(".sort-button").forEach((button) => {
   });
 });
 
-// Clear update form fields after update
-function clearForm() {
-  document.getElementById("update_medicine_id").value = "";
-  document.getElementById("update_quantity").value = "";
-  document.getElementById("update_date_acquired").value = "";
-}
-
 // Debounce function for search input (optional, improves performance)
 function debounce(func, delay) {
   let timer;
@@ -318,7 +288,34 @@ document.addEventListener("DOMContentLoaded", () => {
     searchInput.addEventListener("input", debouncedFilter);
   }
 });
+// Function to show the modal
+function showModal(medicineId) {
+  const modalElement = document.getElementById("update_medicine_modal");
 
+  // Initialize the Bootstrap modal
+  const updateMedicineModal = new bootstrap.Modal(modalElement);
+
+  // Set the medicine ID in the hidden input field for the modal form
+  document.getElementById("update_medicine_id").value = medicineId;
+
+  // Show the modal using Bootstrap's JS method
+  updateMedicineModal.show();
+
+  // Ensure the first input field is focused (if necessary)
+  document.getElementById("update_quantity").focus();
+
+  // Remove the backdrop in case it covers the modal (optional)
+  const backdrop = document.querySelector(".modal-backdrop");
+  if (backdrop) {
+    backdrop.parentNode.removeChild(backdrop);
+  }
+}
+// Clear update form fields after update
+function clearForm() {
+  document.getElementById("update_medicine_id").value = "";
+  document.getElementById("update_quantity").value = "";
+  document.getElementById("update_date_acquired").value = "";
+}
 // Handle the update medicine form submission
 document.addEventListener("DOMContentLoaded", function () {
   const updateForm = document.getElementById("form_update_medicine");

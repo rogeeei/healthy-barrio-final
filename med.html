@@ -99,7 +99,7 @@
                 <div class="modal-content">
                   <div class="modal-header">
                     <h5 class="modal-title" id="update_medicine_modal_label">
-                      Update Medicine
+                      Add New Stock Entry
                     </h5>
                     <button
                       type="button"
@@ -115,6 +115,7 @@
                         name="medicine_id"
                         id="update_medicine_id"
                       />
+
                       <div class="mb-3 form-floating">
                         <input
                           class="form-control"
@@ -126,6 +127,7 @@
                         />
                         <label for="update_quantity">Quantity</label>
                       </div>
+
                       <div class="mb-3 form-floating">
                         <input
                           class="form-control"
@@ -136,7 +138,34 @@
                         />
                         <label for="update_date_acquired">Acquired Date</label>
                       </div>
+
+                      <div class="mb-3 form-floating">
+                        <input
+                          class="form-control"
+                          type="date"
+                          name="expiration_date"
+                          id="update_expiration_date"
+                          required
+                        />
+                        <label for="update_expiration_date"
+                          >Expiration Date</label
+                        >
+                      </div>
+
+                      <div class="mb-3 form-floating">
+                        <input
+                          class="form-control"
+                          type="text"
+                          name="batch_no"
+                          id="update_batch_no"
+                          placeholder="Batch Number"
+                        />
+                        <label for="update_batch_no"
+                          >Batch Number (optional)</label
+                        >
+                      </div>
                     </div>
+
                     <div class="modal-footer">
                       <button
                         type="button"
@@ -145,7 +174,7 @@
                       >
                         Close
                       </button>
-                      <button type="submit" class="btn_save">Save</button>
+                      <button type="submit" class="btn btn_save">Save</button>
                     </div>
                   </form>
                 </div>

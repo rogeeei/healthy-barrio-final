@@ -7,16 +7,25 @@ import {
 
 showNavAdminPages();
 
-// Logout Button
 const btn_logout = document.getElementById("btn_logout");
 if (btn_logout) {
   btn_logout.addEventListener("click", logout);
 }
 
-/** ✅ Fetch and Load Barangay Report */
-async function fetchBarangayReport() {
+let originalMedicineData = []; // Stores all medicine availment data
+
+/** ✅ Fetch and Load Barangay Report with optional from/to date filtering */
+async function fetchBarangayReport(fromDate = "", toDate = "") {
   try {
-    const response = await fetch(`${backendURL}/api/citizen-report`, {
+    // Build URL with optional query params
+    let url = new URL(`${backendURL}/api/citizen-report`);
+
+    if (fromDate && toDate) {
+      url.searchParams.append("from", fromDate);
+      url.searchParams.append("to", toDate);
+    }
+
+    const response = await fetch(url.toString(), {
       credentials: "include",
       headers: {
         Accept: "application/json",
@@ -44,24 +53,45 @@ async function fetchBarangayReport() {
 document.addEventListener("DOMContentLoaded", () => {
   fetchBarangayReport();
 
-  const medicineCard = document.getElementById("medicine_availment_card");
+  const medicineCard = document.getElementById("medicineChart");
   if (medicineCard) {
-    medicineCard.style.cursor = "pointer"; // optional: show pointer cursor
+    medicineCard.style.cursor = "pointer";
     medicineCard.addEventListener("click", () => {
+      document.getElementById("fromDate").value = "";
+      document.getElementById("toDate").value = "";
+      renderChart("medicineChart", "Medicine Availment", originalMedicineData);
       window.location.href = "medicine_availment.html";
     });
   }
-  // ✅ Add event listener for Service Availment card
-  const serviceCard = document.getElementById("service_availment_card");
+
+  const serviceCard = document.getElementById("serviceChart");
   if (serviceCard) {
-    serviceCard.style.cursor = "pointer"; // optional: show pointer cursor
+    serviceCard.style.cursor = "pointer";
     serviceCard.addEventListener("click", () => {
       window.location.href = "service_availment.html";
     });
   }
+
+  // 🔍 Date filter logic
+  document.getElementById("filterBtn")?.addEventListener("click", () => {
+    const fromDate = document.getElementById("fromDate").value;
+    const toDate = document.getElementById("toDate").value;
+
+    if (!fromDate || !toDate) {
+      errorNotification("Please select both From and To dates.");
+      return;
+    }
+
+    fetchBarangayReport(fromDate, toDate); // Fetch with date filter
+  });
+
+  document.getElementById("reset")?.addEventListener("click", () => {
+    document.getElementById("fromDate").value = "";
+    document.getElementById("toDate").value = "";
+    fetchBarangayReport(); // Fetch full report again with no filter
+  });
 });
 
-/** ✅ Display Report Data */
 function displayReport(data) {
   document.getElementById("totalPopulation").textContent =
     data.totalPopulation || 0;
@@ -70,7 +100,6 @@ function displayReport(data) {
   document.getElementById("femaleCount").textContent =
     data.genderDistribution?.Female || 0;
 
-  // ✅ BMI Classification
   document.getElementById("underweightCount").textContent =
     data.bmiData?.Underweight || 0;
   document.getElementById("normalCount").textContent =
@@ -80,7 +109,8 @@ function displayReport(data) {
   document.getElementById("obeseCount").textContent = data.bmiData?.Obese || 0;
 
   renderBmiChart(data.bmiData || {});
-  renderChart("medicineChart", "Medicine Availment", data.medicineData || []);
+  originalMedicineData = data.medicineData || [];
+  renderChart("medicineChart", "Medicine Availment", originalMedicineData);
   renderChart("serviceChart", "Service Availment", data.serviceData || []);
 }
 
@@ -133,7 +163,7 @@ function renderChart(canvasId, label, dataset) {
             weight: "bold",
             size: 14,
           },
-          formatter: () => null, // Hide values in slices
+          formatter: () => null,
         },
         tooltip: {
           callbacks: {
@@ -150,7 +180,6 @@ function renderChart(canvasId, label, dataset) {
   });
 }
 
-/** ✅ Render BMI Chart */
 function renderBmiChart(bmiData) {
   console.log("📊 Debugging - BMI Data for Chart:", bmiData);
 
@@ -173,9 +202,8 @@ function renderBmiChart(bmiData) {
     window.bmiChartInstance.destroy();
   }
 
-  // 🔄 Define fixed order
   const labels = ["Underweight", "Normal", "Overweight", "Obese"];
-  const values = labels.map((label) => bmiData[label] || 0); // default to 0 if missing
+  const values = labels.map((label) => bmiData[label] || 0);
 
   window.bmiChartInstance = new Chart(ctx, {
     type: "bar",
@@ -221,6 +249,11 @@ downloadBtn.addEventListener("click", async () => {
   originalButton.style.display = "none";
 
   const printable = reportElement.cloneNode(true);
+  const dateFilterSection = printable.querySelector(".mt-3.text-center");
+  if (dateFilterSection) {
+    dateFilterSection.remove(); // Remove the From/To filter UI
+  }
+
   printable.style.width = "100%";
   printable.style.padding = "20px";
   printable.style.backgroundColor = "white";

@@ -1,20 +1,29 @@
 import { backendURL, showNavAdminPages, logout } from "../utils/utils.js";
 
 showNavAdminPages();
+
 // Logout Button
 const btn_logout = document.getElementById("btn_logout");
 if (btn_logout) {
   btn_logout.addEventListener("click", logout);
 }
-document.addEventListener("DOMContentLoaded", () => {
+let medicineChartInstance = null;
+
+document.addEventListener("DOMContentLoaded", async () => {
+  await fetchUserProvinces();
   fetchServiceAvailmentStats();
   fetchDemographicSummary();
+  loadBmiSummary();
+  loadOverallMedicineAvailed();
 });
-document
-  .getElementById("service_availment_card")
-  ?.addEventListener("click", () => {
-    window.location.href = "super_serv.html"; // ✅ Update to the correct target page
-  });
+
+document.getElementById("serviceChart")?.addEventListener("click", () => {
+  window.location.href = "super_serv.html";
+});
+
+document.getElementById("medicineChart")?.addEventListener("click", () => {
+  window.location.href = "superadmin_med-avail.html";
+});
 
 /** ✅ Fetch and Populate Province Dropdown */
 async function fetchUserProvinces() {
@@ -27,21 +36,18 @@ async function fetchUserProvinces() {
       },
     });
 
-    if (!response.ok) {
+    if (!response.ok)
       throw new Error(`HTTP ${response.status} - Unable to fetch provinces.`);
-    }
 
     const data = await response.json();
-
     const dropdownMenu = document.getElementById("provinceDropdown");
-    dropdownMenu.innerHTML = ""; // Clear previous entries
+    dropdownMenu.innerHTML = "";
 
-    if (!data.success || !data.provinces || data.provinces.length === 0) {
+    if (!data.success || !data.provinces?.length) {
       dropdownMenu.innerHTML = `<li><span class="dropdown-item disabled">No provinces available</span></li>`;
       return;
     }
 
-    // Populate the dropdown with provinces
     data.provinces.forEach((province) => {
       const listItem = document.createElement("li");
       listItem.innerHTML = `<a class="dropdown-item" href="#">${province}</a>`;
@@ -54,20 +60,12 @@ async function fetchUserProvinces() {
   }
 }
 
-/** ✅ Handle Province Selection and Redirect */
 function selectProvince(province) {
   document.getElementById("provinceDropdownButton").textContent = province;
-
-  // ✅ Redirect to province report page
   window.location.href = `province_report.html?province=${encodeURIComponent(
     province
   )}`;
 }
-
-/** ✅ Fetch Data on Page Load */
-document.addEventListener("DOMContentLoaded", async () => {
-  await fetchUserProvinces();
-});
 
 async function fetchDemographicSummary() {
   try {
@@ -79,36 +77,21 @@ async function fetchDemographicSummary() {
       },
     });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
+    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
     const data = await response.json();
 
-    // Ensure the structure of the received data
-    if (
-      data &&
-      data.ageGroups &&
-      data.genderDistribution &&
-      data.totalPopulation
-    ) {
-      // ✅ Update Total Population
+    if (data?.ageGroups && data.genderDistribution && data.totalPopulation) {
       const totalPopulationElement = document.getElementById("totalPopulation");
-      if (totalPopulationElement) {
+      if (totalPopulationElement)
         totalPopulationElement.textContent = data.totalPopulation;
-      } else {
-        console.warn("Element #totalPopulation not found.");
-      }
 
-      // ✅ Update Male & Female Count
       const maleCountElement = document.getElementById("maleCount");
       const femaleCountElement = document.getElementById("femaleCount");
 
       if (maleCountElement && femaleCountElement) {
         maleCountElement.textContent = data.genderDistribution.Male || 0;
         femaleCountElement.textContent = data.genderDistribution.Female || 0;
-      } else {
-        console.warn("One or more gender count elements not found.");
       }
     } else {
       throw new Error("Invalid data structure received.");
@@ -125,10 +108,26 @@ async function fetchDemographicSummary() {
   }
 }
 
-// ✅ Fetch Service Availment Data from Backend
-async function fetchServiceAvailmentStats() {
+const fromInput = document.getElementById("from");
+const toInput = document.getElementById("to");
+const filterBtn = document.getElementById("filter");
+const resetBtn = document.getElementById("resetbtn");
+const loadingSpinner = document.getElementById("loadingSpinner");
+const messageBox = document.getElementById("messageBox");
+let serviceChartInstance = null;
+
+async function fetchServiceAvailmentStats(fromDate = "", toDate = "") {
   try {
-    const response = await fetch(`${backendURL}/api/service-availment-stats`, {
+    loadingSpinner.style.display = "block";
+    messageBox.textContent = ""; // Clear previous messages
+
+    const queryParams = new URLSearchParams();
+    if (fromDate) queryParams.append("from", fromDate);
+    if (toDate) queryParams.append("to", toDate);
+
+    const url = `${backendURL}/api/service-availment-stats?${queryParams.toString()}`;
+
+    const response = await fetch(url, {
       credentials: "include",
       headers: {
         Accept: "application/json",
@@ -136,49 +135,63 @@ async function fetchServiceAvailmentStats() {
       },
     });
 
-    if (!response.ok) {
-      throw new Error(`Failed to fetch service availment data`);
+    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+
+    const data = await response.json();
+
+    const canvas = document.getElementById("serviceChart");
+    const ctx = canvas?.getContext("2d");
+
+    // Clear previous chart if any
+    if (serviceChartInstance) {
+      serviceChartInstance.destroy();
+      serviceChartInstance = null;
     }
 
-    const serviceData = await response.json();
-    renderServiceAvailmentChart(serviceData);
+    // Handle case where there is no data
+    if (data.success && Array.isArray(data.data) && data.data.length > 0) {
+      renderServiceAvailmentChart(data.data);
+    } else {
+      messageBox.textContent =
+        "No service availment data available for the selected dates.";
+      renderEmptyChart();
+    }
   } catch (error) {
-    console.error("Error fetching service availment stats:", error);
+    console.error("Error:", error);
+    messageBox.textContent = "No data available.";
+  } finally {
+    loadingSpinner.style.display = "none";
   }
 }
 
-// ✅ Render Bar Chart for Service Availment
 function renderServiceAvailmentChart(serviceData) {
-  const ctx = document.getElementById("serviceChart").getContext("2d");
+  const canvas = document.getElementById("serviceChart");
+  if (!canvas) return;
 
-  if (!ctx) {
-    console.error("Canvas element with ID 'serviceChart' not found.");
-    return;
-  }
+  const ctx = canvas.getContext("2d");
 
-  // Extracting service names and citizen counts
-  const labels = serviceData.map((service) => service.name);
-  const data = serviceData.map((service) => service.citizen_count);
+  const labels = serviceData.map((s) => s.name);
+  const data = serviceData.map((s) => s.citizen_count);
 
-  new Chart(ctx, {
+  serviceChartInstance = new Chart(ctx, {
     type: "pie",
     data: {
-      labels: labels,
+      labels,
       datasets: [
         {
           label: "Citizens Who Availed the Service",
-          data: data,
+          data,
           backgroundColor: [
-            "#063E4F", // Deep Teal
-            "#F4A261", // Warm Muted Orange
-            "#E76F51", // Earthy Red
-            "#2A9D8F", // Soft Cyan-Teal
-            "#264653", // Deep Slate Blue
-            "#F4E285", // Soft Pastel Yellow
-            "#D9BF77", // Muted Gold
-            "#A8DADC", // Light Aqua
-            "#457B9D", // Cool Blue
-            "#8D99AE", // Soft Gray-Blue
+            "#063E4F",
+            "#F4A261",
+            "#E76F51",
+            "#2A9D8F",
+            "#264653",
+            "#F4E285",
+            "#D9BF77",
+            "#A8DADC",
+            "#457B9D",
+            "#8D99AE",
           ],
           borderColor: "#333",
           borderWidth: 1,
@@ -188,12 +201,6 @@ function renderServiceAvailmentChart(serviceData) {
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      scales: {
-        y: {
-          beginAtZero: true,
-          title: { display: true, text: "Number of Citizens" },
-        },
-      },
       plugins: {
         legend: { display: false },
         tooltip: {
@@ -207,7 +214,64 @@ function renderServiceAvailmentChart(serviceData) {
   });
 }
 
-// Function to fetch BMI data and render chart
+// Function to render an empty chart when no data is available
+function renderEmptyChart() {
+  const canvas = document.getElementById("serviceChart");
+  if (!canvas) return;
+
+  const ctx = canvas.getContext("2d");
+
+  serviceChartInstance = new Chart(ctx, {
+    type: "pie",
+    data: {
+      labels: ["No Data Available"],
+      datasets: [
+        {
+          data: [1],
+          backgroundColor: ["#D3D3D3"],
+          borderColor: "#333",
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: () => "No data available",
+          },
+        },
+      },
+    },
+  });
+}
+
+// Event listeners
+filterBtn.addEventListener("click", () => {
+  const fromDate = fromInput.value;
+  const toDate = toInput.value;
+
+  // Optional: validate date range
+  if (fromDate && toDate && new Date(fromDate) > new Date(toDate)) {
+    messageBox.textContent = "'From' date must be earlier than 'To' date.";
+    return;
+  }
+
+  fetchServiceAvailmentStats(fromDate, toDate);
+});
+
+resetBtn.addEventListener("click", () => {
+  fromInput.value = "";
+  toInput.value = "";
+  fetchServiceAvailmentStats(); // Unfiltered
+});
+
+// Initial chart load
+fetchServiceAvailmentStats();
+
 async function loadBmiSummary() {
   try {
     const response = await fetch(`${backendURL}/api/bmi`, {
@@ -218,9 +282,8 @@ async function loadBmiSummary() {
       },
     });
 
-    if (!response.ok) {
-      throw new Error(`⚠️ Failed to fetch BMI data (HTTP ${response.status})`);
-    }
+    if (!response.ok)
+      throw new Error(`Failed to fetch BMI data (HTTP ${response.status})`);
 
     const responseData = await response.json();
 
@@ -240,45 +303,32 @@ async function loadBmiSummary() {
   }
 }
 
-//  Function to render the BMI summary section
 function renderBmiSummary(bmiData) {
-  const underweightCount = document.getElementById("underweightCount");
-  const normalCount = document.getElementById("normalCount");
-  const overweightCount = document.getElementById("overweightCount");
-  const obeseCount = document.getElementById("obeseCount");
-
-  if (!underweightCount || !normalCount || !overweightCount || !obeseCount) {
-    console.error("🚨 One or more BMI classification elements not found!");
-    return;
-  }
-
-  // ✅ Update classification values
-  underweightCount.textContent = bmiData["Underweight"] || 0;
-  normalCount.textContent = bmiData["Normal Weight"] || 0;
-  overweightCount.textContent = bmiData["Overweight"] || 0;
-  obeseCount.textContent = bmiData["Obese"] || 0;
+  document.getElementById("underweightCount").textContent =
+    bmiData["Underweight"] || 0;
+  document.getElementById("normalCount").textContent =
+    bmiData["Normal Weight"] || 0;
+  document.getElementById("overweightCount").textContent =
+    bmiData["Overweight"] || 0;
+  document.getElementById("obeseCount").textContent = bmiData["Obese"] || 0;
 }
 
-// Function to render BMI Bar Chart
 function renderBmiChart(bmiData) {
-  const ctx = document.getElementById("bmiChart").getContext("2d");
+  const canvas = document.getElementById("bmiChart");
+  if (!canvas) return;
 
-  if (!ctx) {
-    console.error("🚨 Chart canvas #bmiChart not found!");
-    return;
-  }
-
+  const ctx = canvas.getContext("2d");
   const labels = Object.keys(bmiData);
   const data = Object.values(bmiData);
 
   new Chart(ctx, {
     type: "bar",
     data: {
-      labels: labels,
+      labels,
       datasets: [
         {
           label: "Number of Citizens",
-          data: data,
+          data,
           backgroundColor: ["#1E90FF", "#32CD32", "#FFD700", "#FF4500"],
         },
       ],
@@ -306,16 +356,13 @@ function renderBmiChart(bmiData) {
   });
 }
 
-// Call function to fetch and display data
-loadBmiSummary();
-
-document.addEventListener("DOMContentLoaded", () => {
-  loadOverallMedicineAvailed();
-});
-
-async function loadOverallMedicineAvailed() {
+async function loadOverallMedicineAvailed(from = null, to = null) {
   try {
-    const response = await fetch(`${backendURL}/api/overall/medicine`, {
+    let url = `${backendURL}/api/overall/medicine`;
+    if (from && to)
+      url += `?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`;
+
+    const response = await fetch(url, {
       credentials: "include",
       headers: {
         Accept: "application/json",
@@ -323,46 +370,47 @@ async function loadOverallMedicineAvailed() {
       },
     });
 
-    if (!response.ok) {
+    if (!response.ok)
       throw new Error("Failed to fetch overall medicine availed data");
-    }
 
-    const medicineData = await response.json();
+    const responseData = await response.json();
+    const medicineData = responseData.data;
 
-    // ✅ Check if there's valid data
-    if (!medicineData || medicineData.length === 0) {
-      console.warn("🚨 No overall medicine data available.");
-      document.getElementById(
-        "medicineChart"
-      ).parentElement.innerHTML += `<p class='text-muted text-center'>No data available</p>`;
+    const container = document.getElementById("medicineChart")?.parentElement;
+    if (!medicineData?.length) {
+      if (container) {
+        container.innerHTML += `<p class='text-muted text-center'>No data available</p>`;
+      }
       return;
     }
 
     const ctx = document.getElementById("medicineChart")?.getContext("2d");
-    if (!ctx) {
-      console.error("🚨 Canvas #medicineChart not found!");
-      return;
+    if (!ctx) return;
+
+    // 🔥 Destroy existing chart instance before creating new one
+    if (medicineChartInstance) {
+      medicineChartInstance.destroy();
     }
 
-    // ✅ Extract labels and values from the response, converting `total_availed` to numbers
-    const labels = medicineData.map((item) => item.name); // Medicine names
-    const data = medicineData.map((item) => Number(item.total_availed)); // Convert to number
+    const labels = medicineData.map((item) => item.name);
+    const data = medicineData.map((item) => Number(item.total_availed));
 
-    new Chart(ctx, {
-      type: "pie", // Change to "bar" if needed
+    // 🎯 Create new chart and store instance
+    medicineChartInstance = new Chart(ctx, {
+      type: "pie",
       data: {
-        labels: labels,
+        labels,
         datasets: [
           {
             label: "Total Medicines Availed",
-            data: data,
+            data,
             backgroundColor: [
-              "#063E4F", // Deep Teal
-              "#F4A261", // Warm Muted Orange
-              "#E76F51", // Earthy Red
-              "#2A9D8F", // Soft Cyan-Teal
-              "#264653", // Deep Slate Blue
-              "#F4E285", // Soft Pastel Yellow
+              "#063E4F",
+              "#F4A261",
+              "#E76F51",
+              "#2A9D8F",
+              "#264653",
+              "#F4E285",
             ],
             borderColor: "#fff",
             borderWidth: 1,
@@ -387,13 +435,37 @@ async function loadOverallMedicineAvailed() {
     console.error("Error fetching overall medicine data:", error);
   }
 }
-document.getElementById("medicineAvail")?.addEventListener("click", () => {
-  window.location.href = "superadmin_med-avail.html"; // Redirect to the correct page
+
+document.addEventListener("DOMContentLoaded", () => {
+  const filterBtn = document.getElementById("filterBtn");
+  const resetBtn = document.getElementById("reset");
+
+  filterBtn.addEventListener("click", () => {
+    const fromDate = document.getElementById("fromDate").value;
+    const toDate = document.getElementById("toDate").value;
+
+    // ✅ Only call the function if both dates are selected
+    if (fromDate && toDate) {
+      loadOverallMedicineAvailed(fromDate, toDate);
+    } else {
+      alert("Please select both FROM and TO dates.");
+    }
+  });
+
+  resetBtn.addEventListener("click", () => {
+    // Clear the date inputs
+    document.getElementById("fromDate").value = "";
+    document.getElementById("toDate").value = "";
+
+    // Reload all data without filters
+    loadOverallMedicineAvailed();
+  });
 });
 
+// ✅ PDF Download Button
 const downloadBtn = document.getElementById("download-pdf");
 
-downloadBtn.addEventListener("click", async () => {
+downloadBtn?.addEventListener("click", async () => {
   const reportElement = document.getElementById("dashboard_content");
   const originalButton = downloadBtn;
 
@@ -408,9 +480,7 @@ downloadBtn.addEventListener("click", async () => {
   printable.style.display = "block";
 
   const clonedSummary = printable.querySelector("#summaryReport");
-  if (clonedSummary) {
-    clonedSummary.style.fontSize = "12px";
-  }
+  if (clonedSummary) clonedSummary.style.fontSize = "12px";
 
   const cards = printable.querySelectorAll(".row.g-3.mt-2 .card");
   cards.forEach((card) => {
@@ -420,7 +490,6 @@ downloadBtn.addEventListener("click", async () => {
 
     const h6 = card.querySelector("h6");
     const h4 = card.querySelector("h4");
-
     if (h6) h6.style.fontSize = "0.8rem";
     if (h4) h4.style.fontSize = "1rem";
   });
@@ -447,6 +516,9 @@ downloadBtn.addEventListener("click", async () => {
   container.appendChild(printable);
   document.body.appendChild(container);
 
+  // Minor delay to ensure full render
+  await new Promise((resolve) => setTimeout(resolve, 500));
+
   const opt = {
     margin: 0.5,
     filename: `Barangay_Report_${new Date().toISOString().slice(0, 10)}.pdf`,
@@ -456,7 +528,6 @@ downloadBtn.addEventListener("click", async () => {
   };
 
   await html2pdf().set(opt).from(container).save();
-
   document.body.removeChild(container);
   originalButton.style.display = "inline-block";
 });

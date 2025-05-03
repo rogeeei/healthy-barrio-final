@@ -201,10 +201,28 @@
               id="medicine_availment_card"
             >
               <h5 class="fw-bold text-center">Medicine Availment</h5>
+              <!-- Date Range Filter Section -->
+              <div class="mt-3 text-center">
+                <label for="fromDate" class="me-2">From:</label>
+                <input
+                  type="date"
+                  id="fromDate"
+                  class="form-control d-inline-block w-auto mb-2"
+                />
+                <label for="toDate" class="me-2">To:</label>
+                <input
+                  type="date"
+                  id="toDate"
+                  class="form-control d-inline-block w-auto mb-2"
+                />
+                <button class="btn" id="filterBtn">Filter</button>
+                <button class="btn" id="reset">Reset</button>
+              </div>
               <div class="chart-container">
                 <canvas id="medicineChart"></canvas>
               </div>
             </div>
+
             <div
               class="card mt-3 p-3 shadow-sm flex-fill"
               id="service_availment_card"

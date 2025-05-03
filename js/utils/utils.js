@@ -4,8 +4,9 @@ import { setRouter } from "../router/router.js";
 setRouter();
 
 // Backend URL
-const backendURL = "https://capstone-system-production-9294.up.railway.app";
+// const backendURL = "https://capstone-system-production-9294.up.railway.app";
 
+const backendURL = "http://capstone-system.test";
 // Function to handle response
 async function handleResponse(response) {
   if (response.ok) {
@@ -71,6 +72,16 @@ export async function fetchWithAuth(url, options = {}) {
     console.error("Error with fetch request:", error.message);
     throw error;
   }
+}
+
+function getUpdatedMedicineIds() {
+  return new Set(JSON.parse(localStorage.getItem("updatedMedicines") || "[]"));
+}
+
+function markMedicineAsUpdated(id) {
+  const updated = getUpdatedMedicineIds();
+  updated.add(id);
+  localStorage.setItem("updatedMedicines", JSON.stringify([...updated]));
 }
 
 // Show Admin Pages Navigation

@@ -13,6 +13,9 @@ if (btn_logout) {
   btn_logout.addEventListener("click", logout);
 }
 
+// Track medicines that were updated to prevent re-highlighting
+const updatedMedicines = new Set();
+
 // Fetch and display medicine data
 async function getMedicine(query = "") {
   const token = localStorage.getItem("token");
@@ -31,82 +34,204 @@ async function getMedicine(query = "") {
         Accept: "application/json",
         Authorization: `Bearer ${token}`,
       },
-      redirect: "follow",
     });
 
-    if (response.ok) {
-      const json = await response.json();
-
-      if (json && json.length > 0) {
-        let lowStockNotified = false; // Prevent duplicate notifications
-
-        let tableContent = json
-          .map((medicine) => {
-            const isLowStock = medicine.quantity < 10;
-            if (isLowStock && !lowStockNotified) {
-              errorNotification(
-                `Medicine "${medicine.name}" is running low on stock.`
-              );
-              lowStockNotified = true;
-            }
-
-            return `  
-      <tr data-id="${medicine.medicine_id}" class="${
-              isLowStock ? "table-danger" : ""
-            }">
-        <td>${medicine.medicine_id}</td>
-        <td>${medicine.name}</td>
-        <td>${medicine.quantity}</td>
-        <td>${medicine.expiration_date}</td>
-        <td>${medicine.date_acquired}</td>
-        <td>
-          <button class="btn btn-sm update-btn" data-id="${
-            medicine.medicine_id
-          }">
-            Update 
-          </button>
-        </td>
-      </tr>`;
-          })
-          .join("");
-
-        tableBody.innerHTML = tableContent;
-
-        // Attach event listeners for each row to show details modal
-        const rows = document.querySelectorAll("#medicine_table tbody tr");
-        rows.forEach((row) => {
-          row.addEventListener("click", (event) => {
-            // Only trigger the details modal if the click isn't on the update button
-            if (!event.target.classList.contains("update-btn")) {
-              const medicineId = row.getAttribute("data-id");
-              showMedicineDetailsModal(medicineId); // Show the medicine details modal
-            }
-          });
-        });
-
-        // Attach event listeners for each update button
-        const updateButtons = document.querySelectorAll(".update-btn");
-        updateButtons.forEach((button) => {
-          button.addEventListener("click", (event) => {
-            event.stopPropagation(); // Prevent row click from triggering
-            const medicineId = event.target.getAttribute("data-id");
-            showModal(medicineId); // This shows the update modal
-          });
-        });
-      } else {
-        tableBody.innerHTML =
-          '<tr><td colspan="8">No medicine data available.</td></tr>';
-      }
-    } else {
+    if (!response.ok) {
       tableBody.innerHTML =
         '<tr><td colspan="8">Failed to load data.</td></tr>';
       errorNotification("Failed to fetch medicine data.");
+      return;
     }
-  } catch (error) {
+
+    const json = await response.json();
+    if (!json.length) {
+      tableBody.innerHTML =
+        '<tr><td colspan="8">No medicine data available.</td></tr>';
+      return;
+    }
+
+    // Flag for the specific notification (low stock or near expiration)
+    let lowStockNotified = false;
+    let expirationNotified = false;
+
+    const tableContent = json
+      .filter((m) => m.quantity > 0)
+      .map((m) => {
+        const low = m.quantity < 10 && !updatedMedicines.has(m.medicine_id);
+
+        // Check if expiration date is near (within 7 days)
+        const expirationDate = new Date(m.expiration_date);
+        const today = new Date();
+        const timeDiff = expirationDate - today;
+        const daysToExpire = timeDiff / (1000 * 3600 * 24); // Convert ms to days
+
+        // Highlight in red if quantity is low or expiration is near (within 7 days)
+        const isExpirationNear = daysToExpire <= 7;
+
+        // Notify when stock is low
+        if (low && !lowStockNotified) {
+          errorNotification(`Medicine "${m.name}" is running low on stock.`);
+          lowStockNotified = true;
+        }
+
+        // Notify when expiration is near
+        if (isExpirationNear && !expirationNotified) {
+          errorNotification(`Medicine "${m.name}" is nearing expiration.`);
+          expirationNotified = true;
+        }
+
+        return `
+      <tr data-id="${m.medicine_id}" class="${
+          low || isExpirationNear ? "table-danger" : ""
+        }">
+        <td>${m.medicine_id}</td>
+        <td>${m.name}</td>
+        <td>${m.quantity}</td>
+        <td>${m.expiration_date}</td>
+        <td>${m.date_acquired}</td>
+        <td>
+          <button class="btn btn-sm update-btn" data-id="${m.medicine_id}">
+            Update
+          </button>
+        </td>
+      </tr>`;
+      })
+      .join("");
+
+    tableBody.innerHTML = tableContent;
+
+    // Remove red from duplicates (old batch rows)
+    const seen = new Set();
+    document.querySelectorAll("#medicine_table tbody tr").forEach((row) => {
+      const id = row.getAttribute("data-id");
+      if (seen.has(id)) {
+        row.classList.remove("table-danger");
+      } else {
+        seen.add(id);
+      }
+    });
+
+    // Attach row-click and update-button listeners
+    document.querySelectorAll("#medicine_table tbody tr").forEach((row) => {
+      row.addEventListener("click", (e) => {
+        if (!e.target.classList.contains("update-btn")) {
+          showMedicineDetailsModal(row.dataset.id);
+        }
+      });
+    });
+
+    document.querySelectorAll(".update-btn").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        showModal(btn.dataset.id);
+      });
+    });
+  } catch (err) {
     tableBody.innerHTML = '<tr><td colspan="8">Error loading data.</td></tr>';
-    errorNotification("An error occurred: " + error.message);
+    errorNotification("An error occurred: " + err.message);
   }
 }
+
+// Handle the update medicine form submission
+document.addEventListener("DOMContentLoaded", function () {
+  const updateForm = document.getElementById("form_update_medicine");
+  if (updateForm) {
+    updateForm.addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      const medicineIdInput = document.getElementById("update_medicine_id");
+      const quantityInput = document.getElementById("update_quantity");
+      const dateAcquiredInput = document.getElementById("update_date_acquired");
+      const expiredDateInput = document.getElementById(
+        "update_expiration_date"
+      );
+      const batchNumberInput = document.getElementById("update_batch_no");
+      const saveButton = document.querySelector(".btn_save");
+
+      if (!medicineIdInput || !quantityInput || !dateAcquiredInput) {
+        errorNotification("Some form elements are missing.");
+        return;
+      }
+
+      const medicineId = medicineIdInput.value;
+      const quantity = quantityInput.value;
+      const dateAcquired = dateAcquiredInput.value;
+      const expiredDate = expiredDateInput.value;
+      const batchNumber = batchNumberInput.value;
+
+      if (
+        !medicineId ||
+        !quantity ||
+        !dateAcquired ||
+        !expiredDate ||
+        !batchNumber
+      ) {
+        errorNotification("All fields are required.");
+        return;
+      }
+
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.log("Unauthorized: Missing authentication token.");
+        return;
+      }
+
+      try {
+        saveButton.innerHTML =
+          'Saving... <span class="spinner-border spinner-border-sm"></span>';
+        saveButton.disabled = true;
+
+        const response = await fetch(
+          `${backendURL}/api/medicine/${medicineId}/update-stock`,
+          {
+            credentials: "include",
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              quantity: parseInt(quantity, 10),
+              date_acquired: dateAcquired,
+              expiration_date: expiredDate,
+              batch_no: batchNumber,
+            }),
+          }
+        );
+
+        const result = await response.json();
+
+        if (response.ok) {
+          // Track this medicine as updated so it doesn't get red highlight again
+          updatedMedicines.add(medicineId);
+
+          // Refresh medicine data to reflect changes
+          await getMedicine();
+
+          // Close the modal
+          const closeButton = document.querySelector(
+            '[data-bs-dismiss="modal"]'
+          );
+          if (closeButton) {
+            closeButton.click();
+          }
+
+          // Clear the update form
+          clearForm();
+        } else {
+          errorNotification(
+            result.message || "Failed to update medicine stock."
+          );
+        }
+      } catch (error) {
+        errorNotification("An error occurred: " + error.message);
+      } finally {
+        saveButton.innerHTML = "Save";
+        saveButton.disabled = false;
+      }
+    });
+  }
+});
 
 // Function to show the Medicine Details Modal
 function showMedicineDetailsModal(medicineId) {
@@ -137,6 +262,8 @@ function showMedicineDetailsModal(medicineId) {
       document.getElementById("medicine_usage_description").textContent =
         medicine.usage_description;
       document.getElementById("medicine_unit").textContent = medicine.unit;
+      document.getElementById("medicine_batch_no").textContent =
+        medicine.batch_no;
       document.getElementById("medicine_quantity").textContent =
         medicine.quantity;
       document.getElementById("medicine_status").textContent =
@@ -316,88 +443,3 @@ function clearForm() {
   document.getElementById("update_quantity").value = "";
   document.getElementById("update_date_acquired").value = "";
 }
-// Handle the update medicine form submission
-document.addEventListener("DOMContentLoaded", function () {
-  const updateForm = document.getElementById("form_update_medicine");
-  if (updateForm) {
-    updateForm.addEventListener("submit", async function (event) {
-      event.preventDefault();
-
-      const medicineIdInput = document.getElementById("update_medicine_id");
-      const quantityInput = document.getElementById("update_quantity");
-      const dateAcquiredInput = document.getElementById("update_date_acquired");
-      const saveButton = document.querySelector(".btn_save");
-
-      if (!medicineIdInput || !quantityInput || !dateAcquiredInput) {
-        errorNotification("Some form elements are missing.");
-        return;
-      }
-
-      const medicineId = medicineIdInput.value;
-      const quantity = quantityInput.value;
-      const dateAcquired = dateAcquiredInput.value;
-
-      if (!medicineId || !quantity || !dateAcquired) {
-        errorNotification("All fields are required.");
-        return;
-      }
-
-      const token = localStorage.getItem("token");
-      if (!token) {
-        errorNotification("Unauthorized: Missing authentication token.");
-        return;
-      }
-
-      try {
-        // Show loading state on the save button
-        saveButton.innerHTML =
-          'Saving... <span class="spinner-border spinner-border-sm"></span>';
-        saveButton.disabled = true;
-
-        const response = await fetch(
-          `${backendURL}/api/medicine/${medicineId}/update-stock`,
-          {
-            credentials: "include",
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({
-              quantity: parseInt(quantity, 10),
-              date_acquired: dateAcquired,
-            }),
-          }
-        );
-
-        const result = await response.json();
-
-        if (response.ok) {
-          // Refresh medicine data to reflect changes
-          getMedicine();
-
-          // Close the modal (simulate click on button with data-bs-dismiss="modal")
-          const closeButton = document.querySelector(
-            '[data-bs-dismiss="modal"]'
-          );
-          if (closeButton) {
-            closeButton.click();
-          }
-
-          // Clear the update form
-          clearForm();
-        } else {
-          errorNotification(
-            result.message || "Failed to update medicine stock."
-          );
-        }
-      } catch (error) {
-        errorNotification("An error occurred: " + error.message);
-      } finally {
-        // Reset the save button state
-        saveButton.innerHTML = "Save";
-        saveButton.disabled = false;
-      }
-    });
-  }
-});

@@ -81,6 +81,7 @@ function displayMedicineReports(data) {
   <td style="text-align: center; font-family: 'Helvetica', 'Arial', sans-serif !important">${medicine.name}</td>
   <td style="text-align: center; font-family: 'Helvetica', 'Arial', sans-serif !important">${medicine.total_quantity}</td>
   <td style="text-align: center; font-family: 'Helvetica', 'Arial', sans-serif !important">${medicine.unit}</td>
+  <td style="text-align: center; font-family: 'Helvetica', 'Arial', sans-serif !important">${medicine.expiration_date}</td>
   <td style="text-align: center; font-family: 'Helvetica', 'Arial', sans-serif !important">${barangay}</td>
   <td style="text-align: center; font-family: 'Helvetica', 'Arial', sans-serif !important">${municipality}</td>
   <td style="text-align: center; font-family: 'Helvetica', 'Arial', sans-serif !important">${province}</td>

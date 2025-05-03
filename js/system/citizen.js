@@ -311,10 +311,10 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("transactionModal")
           )?.hide();
         } else {
-          errorNotification(jsonResponse.message);
+          console.log(jsonResponse.message);
         }
       } catch (error) {
-        errorNotification("An error occurred: " + error.message);
+        console.log("An error occurred: " + error.message);
       } finally {
         submitButton.disabled = false;
         submitButton.innerHTML = `Submit`;

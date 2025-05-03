@@ -323,3 +323,11 @@ body {
   margin-right: auto; /* Automatically set the right margin */
   width: fit-content; /* Ensure it takes the width of the content */
 }
+
+#medicine_availment_card button,
+#medicineAvail button,
+#filter,
+#resetbtn {
+  background-color: #063e4f;
+  color: #e0f7fa;
+}
